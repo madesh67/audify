@@ -18,7 +18,6 @@ import {
   Star,
   Truck,
   Undo2,
-  Volume2,
   Zap,
 } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
@@ -40,8 +39,6 @@ export default function ProductDetailView({
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(
     product.variants[0]
   );
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [soundPlaying, setSoundPlaying] = useState(false);
   const [activeEqPreset, setActiveEqPreset] = useState<"neutral" | "warm" | "spatial">("neutral");
 
   // Global Cart State from Context
@@ -57,30 +54,9 @@ export default function ProductDetailView({
   } = useCart();
   const [isAdded, setIsAdded] = useState(false);
 
-  // Image Gallery Thumbnails: Main Variant Image + Architectural Details
-  const galleryImages = [
-    { label: "Front Profile", src: selectedVariant.image },
-    { label: "Acoustic Anatomy", src: "/images/headset-frame-382-crop.png" },
-    { label: "Studio Silhouette", src: "/images/headset-transparent.png" },
-  ];
-
   const handleVariantChange = (variant: ProductVariant) => {
     soundEngine.playClick(900);
     setSelectedVariant(variant);
-    setActiveImageIndex(0);
-  };
-
-  const handlePlayAudioSample = () => {
-    if (soundPlaying) return;
-    setSoundPlaying(true);
-    soundEngine.playTone(528, "sine", 0.8, 0.08);
-    setTimeout(() => {
-      soundEngine.playTone(660, "sine", 0.6, 0.06);
-    }, 200);
-    setTimeout(() => {
-      soundEngine.playTone(792, "sine", 0.9, 0.05);
-      setSoundPlaying(false);
-    }, 450);
   };
 
   const handleEqPresetChange = (preset: "neutral" | "warm" | "spatial") => {
@@ -145,8 +121,8 @@ export default function ProductDetailView({
 
         {/* STAGE 1: Editorial Split Hero (Media Showcase Left, Configurator & Purchase Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column (lg:col-span-7): Hardware Soundstage Gallery */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Left Column (lg:col-span-7): Hardware Soundstage Showcase */}
+          <div className="lg:col-span-7">
             {/* Double-Bezel Hardware Container */}
             <div className="relative rounded-[2.5rem] p-2 bg-neutral-100/70 border border-neutral-200/80 shadow-[0_24px_50px_rgba(0,0,0,0.04)]">
               {/* Inner Concentric Core */}
@@ -162,7 +138,7 @@ export default function ProductDetailView({
                 {/* Main Product Image with subtle scale */}
                 <div className="relative w-full h-full flex items-center justify-center">
                   <Image
-                    src={galleryImages[activeImageIndex].src}
+                    src={selectedVariant.image}
                     alt={`${product.name} - ${selectedVariant.name}`}
                     fill
                     unoptimized
@@ -170,58 +146,7 @@ export default function ProductDetailView({
                     className="object-contain p-4 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
                   />
                 </div>
-
-                {/* Floating Acoustic Tone Preview Pill */}
-                <button
-                  onClick={handlePlayAudioSample}
-                  className={`absolute top-6 left-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[11px] font-mono transition-all duration-300 cursor-pointer shadow-xs ${
-                    soundPlaying
-                      ? "bg-neutral-950 text-white border-neutral-950 animate-pulse"
-                      : "bg-white/90 backdrop-blur-md border-neutral-200 text-neutral-800 hover:bg-white"
-                  }`}
-                  aria-label="Play acoustic tone test"
-                >
-                  <Volume2 className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>{soundPlaying ? "Auditing 528Hz Harmonic..." : "Acoustic Sample"}</span>
-                </button>
-
-                {/* Batch Certification Badge */}
-                <div className="absolute bottom-6 left-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-md border border-neutral-200 text-[10px] font-mono text-neutral-500">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  <span>INDIVIDUAL LAB CALIBRATION</span>
-                </div>
               </div>
-            </div>
-
-            {/* Thumbnail Gallery Switcher Strip */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-4">
-              {galleryImages.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    soundEngine.playClick(700);
-                    setActiveImageIndex(idx);
-                  }}
-                  className={`group relative rounded-2xl p-1 bg-neutral-100/70 border transition-all duration-300 cursor-pointer text-left ${
-                    activeImageIndex === idx
-                      ? "border-neutral-950 shadow-sm"
-                      : "border-neutral-200 hover:border-neutral-300"
-                  }`}
-                >
-                  <div className="relative aspect-[4/3] w-full rounded-xl bg-white border border-neutral-100 flex items-center justify-center p-2 overflow-hidden">
-                    <Image
-                      src={img.src}
-                      alt={img.label}
-                      fill
-                      unoptimized
-                      className="object-contain p-1 group-hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="p-2 text-[10px] font-mono text-neutral-600 truncate">
-                    {img.label}
-                  </div>
-                </button>
-              ))}
             </div>
           </div>
 
