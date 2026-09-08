@@ -25,7 +25,6 @@ import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
 import CartDrawer from "@/components/products/CartDrawer";
 import ProductCard from "@/components/products/ProductCard";
-import ProductQuickView from "@/components/products/ProductQuickView";
 import { useCart } from "@/context/CartContext";
 
 interface ProductDetailViewProps {
@@ -57,11 +56,6 @@ export default function ProductDetailView({
     setIsDrawerOpen: setIsCartOpen,
   } = useCart();
   const [isAdded, setIsAdded] = useState(false);
-
-  // Quick View for related items
-  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
-  const [quickViewVariant, setQuickViewVariant] = useState<ProductVariant | undefined>();
-  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   // Image Gallery Thumbnails: Main Variant Image + Architectural Details
   const galleryImages = [
@@ -658,11 +652,6 @@ export default function ProductDetailView({
                 <ProductCard
                   key={rel.id}
                   product={rel}
-                  onQuickView={(p, v) => {
-                    setQuickViewProduct(p);
-                    setQuickViewVariant(v);
-                    setIsQuickViewOpen(true);
-                  }}
                   onAddToCart={(p, v) => {
                     soundEngine.playChime();
                     addToCart(p, v, 1);
@@ -683,19 +672,6 @@ export default function ProductDetailView({
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onClearCart={clearCart}
-      />
-
-      {/* Quick View Modal for Related Items */}
-      <ProductQuickView
-        product={quickViewProduct}
-        initialVariant={quickViewVariant}
-        isOpen={isQuickViewOpen}
-        onClose={() => setIsQuickViewOpen(false)}
-        onAddToCart={(p, v) => {
-          soundEngine.playChime();
-          addToCart(p, v, 1);
-          setIsCartOpen(true);
-        }}
       />
     </div>
   );

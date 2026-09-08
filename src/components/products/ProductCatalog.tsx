@@ -4,7 +4,6 @@ import React, { useState, useMemo } from "react";
 import { PRODUCTS, Product, ProductVariant } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import ProductFilterBar from "@/components/products/ProductFilterBar";
-import ProductQuickView from "@/components/products/ProductQuickView";
 import CartDrawer from "@/components/products/CartDrawer";
 import { ShieldCheck, ShoppingBag, Sparkles, Truck, Undo2 } from "lucide-react";
 import { soundEngine } from "@/utils/sound";
@@ -14,11 +13,6 @@ export default function ProductCatalog() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
-
-  // Modal State
-  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
-  const [quickViewVariant, setQuickViewVariant] = useState<ProductVariant | undefined>();
-  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   // Global Cart State
   const {
@@ -62,13 +56,6 @@ export default function ProductCatalog() {
       return 0;
     });
   }, [selectedCategory, searchQuery, sortBy]);
-
-  // Quick View Handler
-  const handleQuickView = (product: Product, variant: ProductVariant) => {
-    setQuickViewProduct(product);
-    setQuickViewVariant(variant);
-    setIsQuickViewOpen(true);
-  };
 
   return (
     <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-24 sm:pt-28 md:pt-32 pb-24">
@@ -172,7 +159,6 @@ export default function ProductCatalog() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  onQuickView={handleQuickView}
                   onAddToCart={handleAddToCart}
                 />
               ))}
@@ -180,15 +166,6 @@ export default function ProductCatalog() {
           )}
         </div>
       </div>
-
-      {/* Slide-Over Quick View Modal */}
-      <ProductQuickView
-        product={quickViewProduct}
-        initialVariant={quickViewVariant}
-        isOpen={isQuickViewOpen}
-        onClose={() => setIsQuickViewOpen(false)}
-        onAddToCart={handleAddToCart}
-      />
 
       {/* Cart / Reservation Drawer */}
       <CartDrawer
