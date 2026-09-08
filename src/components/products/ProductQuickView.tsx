@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Check, Package, Sparkles, Star, X } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
@@ -199,6 +200,21 @@ export default function ProductQuickView({
                   </ul>
                 </div>
               )}
+
+              {/* Link to Full PDP */}
+              <div className="pt-2">
+                <Link
+                  href={`/products/${product.slug}`}
+                  onClick={() => {
+                    soundEngine.playClick(800);
+                    onClose();
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-neutral-600 hover:text-neutral-950 transition-colors"
+                >
+                  <span>Explore Complete Engineering Anatomy</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
 
               {/* Purchase Footer */}
               <div className="pt-4 border-t border-neutral-100 flex items-center justify-between gap-4">

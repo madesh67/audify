@@ -89,6 +89,35 @@ class SoundEngine {
     }
   }
 
+  public playTone(
+    freq = 528,
+    type: OscillatorType = "sine",
+    duration = 0.5,
+    volume = 0.05
+  ) {
+    try {
+      this.initCtx();
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+      gain.gain.setValueAtTime(volume, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        this.ctx.currentTime + duration
+      );
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + duration);
+    } catch {
+      // Ignore
+    }
+  }
+
   public playSubtleSweep() {
     if (!this.enabled) return;
     try {

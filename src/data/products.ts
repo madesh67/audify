@@ -463,3 +463,16 @@ export const CATEGORIES = [
     count: PRODUCTS.filter((p) => p.category === "accessories").length,
   },
 ] as const;
+
+export function getProductBySlug(slug: string): Product | undefined {
+  return PRODUCTS.find((p) => p.slug === slug);
+}
+
+export function getRelatedProducts(currentId: string, limit = 3): Product[] {
+  const current = PRODUCTS.find((p) => p.id === currentId);
+  if (!current) return PRODUCTS.slice(0, limit);
+
+  // Prioritize other categories or same category accessories
+  return PRODUCTS.filter((p) => p.id !== currentId).slice(0, limit);
+}
+

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Check, Eye, Sparkles, Star } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
@@ -133,9 +134,15 @@ export default function ProductCard({
             <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400">
               {product.series}
             </div>
-            <h3 className="text-xl font-bold tracking-tight text-neutral-950">
-              {product.name}
-            </h3>
+            <Link
+              href={`/products/${product.slug}`}
+              onClick={() => soundEngine.playClick(800)}
+              className="block group-hover:text-neutral-700 transition-colors"
+            >
+              <h3 className="text-xl font-bold tracking-tight text-neutral-950">
+                {product.name}
+              </h3>
+            </Link>
           </div>
 
           {/* Tagline / Subtitle */}
