@@ -5,23 +5,32 @@ import { PRODUCTS, Product, ProductVariant } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import ProductFilterBar from "@/components/products/ProductFilterBar";
 import ProductQuickView from "@/components/products/ProductQuickView";
-import CartDrawer, { CartItem } from "@/components/products/CartDrawer";
+import CartDrawer from "@/components/products/CartDrawer";
 import { ShieldCheck, ShoppingBag, Sparkles, Truck, Undo2 } from "lucide-react";
 import { soundEngine } from "@/utils/sound";
+import { useCart } from "@/context/CartContext";
 
 export default function ProductCatalog() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
 
-  // Modal & Drawer State
+  // Modal State
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [quickViewVariant, setQuickViewVariant] = useState<ProductVariant | undefined>();
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
-  // Cart State
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  // Global Cart State
+  const {
+    items: cartItems,
+    totalCount: totalCartCount,
+    addToCart: handleAddToCart,
+    updateQuantity: handleUpdateQuantity,
+    removeItem: handleRemoveItem,
+    clearCart,
+    isDrawerOpen: isCartOpen,
+    setIsDrawerOpen: setIsCartOpen,
+  } = useCart();
 
   // Filter & Sort Logic
   const filteredProducts = useMemo(() => {
@@ -60,60 +69,6 @@ export default function ProductCatalog() {
     setQuickViewVariant(variant);
     setIsQuickViewOpen(true);
   };
-
-  // Add To Cart Handler
-  const handleAddToCart = (product: Product, variant: ProductVariant) => {
-    setCartItems((prev) => {
-      const existingIdx = prev.findIndex(
-        (item) =>
-          item.product.id === product.id &&
-          item.variant.colorKey === variant.colorKey
-      );
-
-      if (existingIdx > -1) {
-        const next = [...prev];
-        next[existingIdx] = {
-          ...next[existingIdx],
-          quantity: next[existingIdx].quantity + 1,
-        };
-        return next;
-      } else {
-        return [...prev, { product, variant, quantity: 1 }];
-      }
-    });
-  };
-
-  const handleUpdateQuantity = (
-    productId: string,
-    variantKey: string,
-    delta: number
-  ) => {
-    setCartItems((prev) => {
-      return prev
-        .map((item) => {
-          if (
-            item.product.id === productId &&
-            item.variant.colorKey === variantKey
-          ) {
-            const nextQty = item.quantity + delta;
-            return nextQty > 0 ? { ...item, quantity: nextQty } : null;
-          }
-          return item;
-        })
-        .filter(Boolean) as CartItem[];
-    });
-  };
-
-  const handleRemoveItem = (productId: string, variantKey: string) => {
-    setCartItems((prev) =>
-      prev.filter(
-        (item) =>
-          !(item.product.id === productId && item.variant.colorKey === variantKey)
-      )
-    );
-  };
-
-  const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-24 sm:pt-28 md:pt-32 pb-24">
@@ -242,7 +197,7 @@ export default function ProductCatalog() {
         items={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
-        onClearCart={() => setCartItems([])}
+        onClearCart={clearCart}
       />
     </div>
   );

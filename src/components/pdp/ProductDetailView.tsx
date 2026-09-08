@@ -23,9 +23,10 @@ import {
 } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
-import CartDrawer, { CartItem } from "@/components/products/CartDrawer";
+import CartDrawer from "@/components/products/CartDrawer";
 import ProductCard from "@/components/products/ProductCard";
 import ProductQuickView from "@/components/products/ProductQuickView";
+import { useCart } from "@/context/CartContext";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -44,9 +45,17 @@ export default function ProductDetailView({
   const [soundPlaying, setSoundPlaying] = useState(false);
   const [activeEqPreset, setActiveEqPreset] = useState<"neutral" | "warm" | "spatial">("neutral");
 
-  // Cart & Drawer State
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  // Global Cart State from Context
+  const {
+    items: cartItems,
+    totalCount: totalCartCount,
+    addToCart,
+    updateQuantity: handleUpdateQuantity,
+    removeItem: handleRemoveItem,
+    clearCart,
+    isDrawerOpen: isCartOpen,
+    setIsDrawerOpen: setIsCartOpen,
+  } = useCart();
   const [isAdded, setIsAdded] = useState(false);
 
   // Quick View for related items
@@ -90,60 +99,12 @@ export default function ProductDetailView({
   const handleAddToCart = () => {
     soundEngine.playChime();
     setIsAdded(true);
-    setCartItems((prev) => {
-      const existingIdx = prev.findIndex(
-        (item) =>
-          item.product.id === product.id &&
-          item.variant.colorKey === selectedVariant.colorKey
-      );
-      if (existingIdx > -1) {
-        const next = [...prev];
-        next[existingIdx] = {
-          ...next[existingIdx],
-          quantity: next[existingIdx].quantity + 1,
-        };
-        return next;
-      }
-      return [...prev, { product, variant: selectedVariant, quantity: 1 }];
-    });
-
+    addToCart(product, selectedVariant, 1);
     setTimeout(() => {
       setIsAdded(false);
       setIsCartOpen(true);
-    }, 600);
+    }, 400);
   };
-
-  const handleUpdateQuantity = (
-    productId: string,
-    variantKey: string,
-    delta: number
-  ) => {
-    setCartItems((prev) =>
-      prev
-        .map((item) => {
-          if (
-            item.product.id === productId &&
-            item.variant.colorKey === variantKey
-          ) {
-            const nextQty = item.quantity + delta;
-            return nextQty > 0 ? { ...item, quantity: nextQty } : null;
-          }
-          return item;
-        })
-        .filter(Boolean) as CartItem[]
-    );
-  };
-
-  const handleRemoveItem = (productId: string, variantKey: string) => {
-    setCartItems((prev) =>
-      prev.filter(
-        (item) =>
-          !(item.product.id === productId && item.variant.colorKey === variantKey)
-      )
-    );
-  };
-
-  const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-24 sm:pt-28 md:pt-32 pb-24 select-none">
@@ -704,7 +665,7 @@ export default function ProductDetailView({
                   }}
                   onAddToCart={(p, v) => {
                     soundEngine.playChime();
-                    setCartItems((prev) => [...prev, { product: p, variant: v, quantity: 1 }]);
+                    addToCart(p, v, 1);
                     setIsCartOpen(true);
                   }}
                 />
@@ -721,7 +682,7 @@ export default function ProductDetailView({
         items={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
-        onClearCart={() => setCartItems([])}
+        onClearCart={clearCart}
       />
 
       {/* Quick View Modal for Related Items */}
@@ -732,7 +693,7 @@ export default function ProductDetailView({
         onClose={() => setIsQuickViewOpen(false)}
         onAddToCart={(p, v) => {
           soundEngine.playChime();
-          setCartItems((prev) => [...prev, { product: p, variant: v, quantity: 1 }]);
+          addToCart(p, v, 1);
           setIsCartOpen(true);
         }}
       />

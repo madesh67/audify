@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import SmoothScroll from "@/components/layout/SmoothScroll";
+import { CartProvider } from "@/context/CartContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -77,7 +78,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} antialiased`}
     >
       <body className="min-h-screen bg-[#FEFEFE] text-neutral-950 selection:bg-neutral-950 selection:text-white">
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <CartProvider>{children}</CartProvider>
+        </SmoothScroll>
       </body>
     </html>
   );

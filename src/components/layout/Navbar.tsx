@@ -7,10 +7,12 @@ import { soundEngine } from "@/utils/sound";
 import { ArrowUpRight } from "lucide-react";
 import AudifyLogo from "@/components/common/AudifyLogo";
 import { useLenis } from "@/components/layout/SmoothScroll";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const pathname = usePathname();
   const { scrollTo } = useLenis();
+  const { totalCount } = useCart();
   const isHome = pathname === "/";
   const [isScrolled, setIsScrolled] = React.useState(false);
 
@@ -111,6 +113,25 @@ export default function Navbar() {
               About Us
             </Link>
           )}
+
+          {/* Cart Nav Link */}
+          <Link
+            href="/cart"
+            onClick={() => soundEngine.playClick(600)}
+            className={`inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] transition-colors cursor-pointer ${
+              pathname === "/cart"
+                ? "text-neutral-950 underline underline-offset-4"
+                : "text-neutral-800 hover:text-neutral-950"
+            }`}
+            aria-label={`Cart with ${totalCount} items`}
+          >
+            <span>Cart</span>
+            {totalCount > 0 && (
+              <span className="w-4.5 h-4.5 rounded-full bg-neutral-950 text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-xs">
+                {totalCount}
+              </span>
+            )}
+          </Link>
 
           {/* Buy Ultra / Catalog Primary Action Button */}
           <Link
