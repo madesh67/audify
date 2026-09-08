@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Check, Sparkles, Volume2, VolumeX, X } from "lucide-react";
 import confetti from "canvas-confetti";
 import { soundEngine } from "@/utils/sound";
 import AudifyLogo from "@/components/common/AudifyLogo";
 
-export default function Footer() {
+export default function Footer({ showCta = true }: { showCta?: boolean }) {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
@@ -33,62 +34,69 @@ export default function Footer() {
   return (
     <footer
       id="footer"
-      className="relative w-full bg-[#FEFEFE] text-neutral-950 pt-16 sm:pt-20 lg:pt-24 pb-12 overflow-hidden select-none"
+      className={`relative w-full bg-[#FEFEFE] text-neutral-950 ${
+        showCta ? "pt-16 sm:pt-20 lg:pt-24" : "pt-8"
+      } pb-12 overflow-hidden select-none`}
     >
       {/* Final Section ("OWN AUDIFY" CTA): Headset on Left, Descriptions on Right */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
-        <div
-          id="buy-now-cta"
-          className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16 items-center min-h-[75vh] sm:min-h-[80vh] lg:min-h-[85vh] py-16 sm:py-20 lg:py-24"
-        >
-          {/* Left Column: Transparent Headset Visual */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-start items-center">
-            <div className="relative w-[280px] sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[480px] aspect-[560/696] flex items-center justify-center">
-              <Image
-                src="/images/headset.png"
-                alt="Audify Flagship Acoustic Headset"
-                fill
-                unoptimized
-                className="object-contain drop-shadow-[0_28px_50px_rgba(0,0,0,0.12)] pointer-events-none select-none"
-                priority
-              />
+      {showCta && (
+        <>
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
+            <div
+              id="buy-now-cta"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16 items-center min-h-[75vh] sm:min-h-[80vh] lg:min-h-[85vh] py-16 sm:py-20 lg:py-24"
+            >
+              {/* Left Column: Transparent Headset Visual */}
+              <div className="lg:col-span-6 flex justify-center lg:justify-start items-center">
+                <div className="relative w-[280px] sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[480px] aspect-[560/696] flex items-center justify-center">
+                  <Image
+                    src="/images/headset.png"
+                    alt="Audify Flagship Acoustic Headset"
+                    fill
+                    unoptimized
+                    className="object-contain drop-shadow-[0_28px_50px_rgba(0,0,0,0.12)] pointer-events-none select-none"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* Right Column: Descriptions, Title & Action */}
+              <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-5 sm:space-y-6 lg:pl-6 xl:pl-8">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-[10px] font-mono tracking-[0.25em] uppercase text-neutral-600">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>DIRECT FROM AUDIO LABS</span>
+                </div>
+
+                <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] uppercase text-neutral-950 leading-[0.92]">
+                  OWN AUDIFY
+                </h2>
+
+                <p className="text-sm sm:text-base md:text-lg text-neutral-600 max-w-lg font-normal leading-relaxed">
+                  Engineered in limited production runs. 3-year warranty and 30-day trial included.
+                </p>
+
+                <div className="pt-3 sm:pt-4">
+                  <Link
+                    href="/products"
+                    onClick={() => soundEngine.playChime()}
+                    className="group relative inline-flex items-center gap-6 sm:gap-7 px-9 sm:px-11 py-4.5 sm:py-5 rounded-full bg-neutral-950 text-white font-black text-base sm:text-lg uppercase tracking-tight shadow-[0_18px_40px_rgba(0,0,0,0.16)] hover:bg-neutral-800 cursor-pointer"
+                    aria-label="Shop Now"
+                  >
+                    <span>SHOP NOW</span>
+                    {/* Nested Trailing Icon without scale or translate animation */}
+                    <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-neutral-950 flex items-center justify-center shadow-xs">
+                      <ArrowUpRight className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
+                    </span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Descriptions, Title & Action */}
-          <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-5 sm:space-y-6 lg:pl-6 xl:pl-8">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-[10px] font-mono tracking-[0.25em] uppercase text-neutral-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>DIRECT FROM AUDIO LABS</span>
-            </div>
-
-            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] uppercase text-neutral-950 leading-[0.92]">
-              OWN AUDIFY
-            </h2>
-
-            <p className="text-sm sm:text-base md:text-lg text-neutral-600 max-w-lg font-normal leading-relaxed">
-              Engineered in limited production runs. 3-year warranty and 30-day trial included.
-            </p>
-
-            <div className="pt-3 sm:pt-4">
-              <button
-                onClick={handleOrderClick}
-                className="group relative inline-flex items-center gap-6 sm:gap-7 px-9 sm:px-11 py-4.5 sm:py-5 rounded-full bg-neutral-950 text-white font-black text-base sm:text-lg uppercase tracking-tight shadow-[0_18px_40px_rgba(0,0,0,0.16)] hover:bg-neutral-800 cursor-pointer"
-                aria-label="Shop Now"
-              >
-                <span>SHOP NOW</span>
-                {/* Nested Trailing Icon without scale or translate animation */}
-                <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-neutral-950 flex items-center justify-center shadow-xs">
-                  <ArrowUpRight className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Full-width Divider between Final Section and Footer — Stretched Fully Edge-to-Edge */}
-      <div className="w-full border-t border-neutral-200/70" />
+          {/* Full-width Divider between Final Section and Footer — Stretched Fully Edge-to-Edge */}
+          <div className="w-full border-t border-neutral-200/70" />
+        </>
+      )}
 
       {/* Footer Content */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
