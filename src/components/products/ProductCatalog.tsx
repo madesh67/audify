@@ -4,7 +4,6 @@ import React, { useState, useMemo } from "react";
 import { PRODUCTS, Product, ProductVariant } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import ProductFilterBar from "@/components/products/ProductFilterBar";
-import CartDrawer from "@/components/products/CartDrawer";
 import { soundEngine } from "@/utils/sound";
 import { useCart } from "@/context/CartContext";
 
@@ -114,16 +113,6 @@ export default function ProductCatalog() {
           )}
         </div>
       </div>
-
-      {/* Cart / Reservation Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onClearCart={clearCart}
-      />
     </div>
   );
 }

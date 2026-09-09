@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
-import CartDrawer from "@/components/products/CartDrawer";
 import ProductCard from "@/components/products/ProductCard";
 import { useCart } from "@/context/CartContext";
 
@@ -404,16 +403,6 @@ export default function ProductDetailView({
           </div>
         )}
       </div>
-
-      {/* Cart Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onClearCart={clearCart}
-      />
     </div>
   );
 }

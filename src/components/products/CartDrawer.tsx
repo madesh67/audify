@@ -85,10 +85,10 @@ export default function CartDrawer({
             </div>
             <div>
               <h3 className="text-base font-bold text-neutral-950 tracking-tight">
-                Reservation Bag
+                Cart
               </h3>
               <div className="text-[10px] font-mono uppercase text-neutral-400">
-                {totalItemCount} {totalItemCount === 1 ? "Instrument" : "Instruments"} Allocated
+                {totalItemCount} {totalItemCount === 1 ? "Item" : "Items"}
               </div>
             </div>
           </div>
@@ -133,10 +133,10 @@ export default function CartDrawer({
               <ShoppingBag className="w-12 h-12 stroke-[1.2] text-neutral-300" />
               <div className="space-y-1">
                 <h4 className="text-sm font-semibold text-neutral-800">
-                  Your reservation bag is empty
+                  Your cart is empty
                 </h4>
                 <p className="text-xs text-neutral-500 max-w-xs leading-relaxed">
-                  Explore our precision acoustic catalog and allocate reference headphones, DACs, or accessories.
+                  Explore our audio instruments and add reference headphones, DACs, or accessories.
                 </p>
               </div>
               <button
