@@ -139,12 +139,6 @@ export default function CartDrawer({
                   Explore our audio instruments and add reference headphones, DACs, or accessories.
                 </p>
               </div>
-              <button
-                onClick={onClose}
-                className="mt-2 px-5 py-2.5 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-[0.98] text-neutral-900 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
-              >
-                Browse Catalog
-              </button>
             </div>
           ) : (
             items.map((item) => (
