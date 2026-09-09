@@ -115,14 +115,6 @@ export default function ProductDetailView({
             <div className="relative rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 shadow-[0_20px_40px_rgba(0,0,0,0.03)]">
               {/* Inner Concentric Core */}
               <div className="relative aspect-[4/3.2] w-full rounded-[calc(2rem-0.375rem)] bg-white border border-neutral-100 flex items-center justify-center p-6 sm:p-8 overflow-hidden">
-                {/* Ambient Radial Backlight matched to active colorway */}
-                <div
-                  className="absolute inset-0 opacity-20 pointer-events-none transition-colors duration-700 blur-3xl"
-                  style={{
-                    background: `radial-gradient(circle at center, ${selectedVariant.hex} 0%, transparent 70%)`,
-                  }}
-                />
-
                 {/* Main Product Image with subtle scale */}
                 <div className="relative w-full h-full flex items-center justify-center">
                   <Image
