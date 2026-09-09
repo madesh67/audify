@@ -58,27 +58,18 @@ export default function ProductDetailView({
     <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-24 sm:pt-28 md:pt-32 pb-24 select-none">
       {/* Container aligned strictly with homepage standard: max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
-        {/* Top Header: Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs font-mono text-neutral-500 overflow-x-auto pb-4 border-b border-neutral-200/60">
-          <Link
-            href="/"
-            className="hover:text-neutral-950 transition-colors flex items-center gap-1"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Audify</span>
-          </Link>
-          <ChevronRight className="w-3 h-3 text-neutral-300" />
+        {/* Top Navigation: Products Button */}
+        <div className="flex items-center pb-3.5 border-b border-neutral-200/60">
           <Link
             href="/products"
-            className="hover:text-neutral-950 transition-colors"
+            onClick={() => soundEngine.playClick(700)}
+            className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200/80 active:scale-[0.97] text-neutral-900 hover:text-neutral-950 text-xs font-mono font-medium transition-all duration-200 cursor-pointer shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+            aria-label="Back to products"
           >
-            Products
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
+            <span>Products</span>
           </Link>
-          <ChevronRight className="w-3 h-3 text-neutral-300" />
-          <span className="text-neutral-950 font-semibold truncate max-w-[200px] sm:max-w-none">
-            {product.name}
-          </span>
-        </nav>
+        </div>
 
         {/* Product Details & Subsequent Sections */}
         <div className="mt-6 sm:mt-8 space-y-16 sm:space-y-24">
