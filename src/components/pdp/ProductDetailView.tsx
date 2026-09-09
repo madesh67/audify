@@ -108,13 +108,13 @@ export default function ProductDetailView({
         </div>
 
         {/* STAGE 1: Clean Editorial Hero (Showcase Media Left, Buy Box Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column (lg:col-span-7): Hardware Showcase */}
-          <div className="lg:col-span-7 space-y-4">
-            {/* Double-Bezel Hardware Container */}
-            <div className="relative rounded-[2.5rem] p-2 bg-neutral-100/70 border border-neutral-200/80 shadow-[0_24px_50px_rgba(0,0,0,0.04)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column (lg:col-span-6): Hardware Showcase */}
+          <div className="lg:col-span-6">
+            {/* Double-Bezel Hardware Container — Sized to fit right side details */}
+            <div className="relative rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 shadow-[0_20px_40px_rgba(0,0,0,0.03)]">
               {/* Inner Concentric Core */}
-              <div className="relative aspect-[4/3.5] sm:aspect-square w-full rounded-[calc(2.5rem-0.5rem)] bg-white border border-neutral-100 flex items-center justify-center p-8 sm:p-12 overflow-hidden">
+              <div className="relative aspect-[4/3.2] w-full rounded-[calc(2rem-0.375rem)] bg-white border border-neutral-100 flex items-center justify-center p-6 sm:p-8 overflow-hidden">
                 {/* Ambient Radial Backlight matched to active colorway */}
                 <div
                   className="absolute inset-0 opacity-20 pointer-events-none transition-colors duration-700 blur-3xl"
@@ -131,54 +131,24 @@ export default function ProductDetailView({
                     fill
                     unoptimized
                     priority
-                    className="object-contain p-4 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                    className="object-contain p-2 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
                   />
                 </div>
               </div>
             </div>
-
-            {/* Thumbnail Variant Selector under main image */}
-            {product.variants.length > 1 && (
-              <div className="flex items-center justify-center gap-3 pt-1">
-                {product.variants.map((v) => {
-                  const isSelected = v.colorKey === selectedVariant.colorKey;
-                  return (
-                    <button
-                      key={v.colorKey}
-                      type="button"
-                      onClick={() => handleVariantChange(v)}
-                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl p-2 bg-white border transition-all duration-200 cursor-pointer overflow-hidden ${
-                        isSelected
-                          ? "border-neutral-950 shadow-sm ring-1 ring-neutral-950"
-                          : "border-neutral-200 hover:border-neutral-400 opacity-70 hover:opacity-100"
-                      }`}
-                      aria-label={`View ${v.name}`}
-                    >
-                      <Image
-                        src={v.image}
-                        alt={v.name}
-                        fill
-                        unoptimized
-                        className="object-contain p-1.5"
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
           </div>
 
-          {/* Right Column (lg:col-span-5): Clean Buy Box */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Right Column (lg:col-span-6): Clean Buy Box */}
+          <div className="lg:col-span-6 space-y-5">
             {/* Product Title */}
             <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-950 leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-950 leading-tight">
                 {product.name}
               </h1>
             </div>
 
             {/* Clean Price Area: Only Price Displayed */}
-            <div className="flex items-baseline gap-2 pt-1 pb-1">
+            <div className="flex items-baseline gap-2 pt-0.5 pb-0.5">
               <span className="text-3xl sm:text-4xl font-light tracking-tight text-neutral-950">
                 ${product.price}
               </span>
@@ -197,19 +167,16 @@ export default function ProductDetailView({
               {product.description}
             </p>
 
-            {/* Finish & Colorway Selector */}
+            {/* Headset Color Preview Box Selector */}
             {product.variants.length > 1 && (
-              <div className="space-y-3 pt-2">
+              <div className="space-y-2.5 pt-1">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-mono uppercase tracking-wider text-neutral-400 text-[11px]">
-                    Finish
-                  </span>
-                  <span className="font-semibold text-neutral-950">
-                    {selectedVariant.name}
+                    Color: <span className="font-semibold text-neutral-950 normal-case">{selectedVariant.name}</span>
                   </span>
                 </div>
 
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex items-center gap-3">
                   {product.variants.map((v) => {
                     const isSelected = v.colorKey === selectedVariant.colorKey;
                     return (
@@ -217,17 +184,21 @@ export default function ProductDetailView({
                         key={v.colorKey}
                         type="button"
                         onClick={() => handleVariantChange(v)}
-                        className={`flex items-center gap-2.5 px-3.5 py-2 rounded-xl border text-xs font-medium transition-all duration-200 cursor-pointer ${
+                        className={`group relative w-16 h-16 sm:w-18 sm:h-18 rounded-2xl p-2 border transition-all duration-200 cursor-pointer overflow-hidden ${
                           isSelected
-                            ? "border-neutral-950 bg-white text-neutral-950 shadow-xs ring-1 ring-neutral-950"
-                            : "border-neutral-200 bg-neutral-50/80 text-neutral-700 hover:bg-white hover:border-neutral-300"
+                            ? "border-neutral-950 bg-white shadow-xs ring-2 ring-neutral-950 ring-offset-1"
+                            : "border-neutral-200 bg-neutral-50/80 hover:border-neutral-400 hover:bg-white opacity-70 hover:opacity-100"
                         }`}
+                        aria-label={`Select ${v.name}`}
+                        title={v.name}
                       >
-                        <span
-                          className="w-3.5 h-3.5 rounded-full border border-black/10 shrink-0 shadow-xs"
-                          style={{ backgroundColor: v.hex }}
+                        <Image
+                          src={v.image}
+                          alt={v.name}
+                          fill
+                          unoptimized
+                          className="object-contain p-1.5 transition-transform duration-200 group-hover:scale-105"
                         />
-                        <span>{v.name}</span>
                       </button>
                     );
                   })}
