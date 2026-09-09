@@ -5,20 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
-  ArrowUpRight,
   Check,
   ChevronRight,
-  Headphones,
-  Music2,
+  Minus,
   Package,
-  Radio,
+  Plus,
   ShieldCheck,
   ShoppingBag,
-  Sparkles,
-  Star,
   Truck,
   Undo2,
-  Zap,
 } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
@@ -39,7 +34,8 @@ export default function ProductDetailView({
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(
     product.variants[0]
   );
-  const [activeEqPreset, setActiveEqPreset] = useState<"neutral" | "warm" | "spatial">("neutral");
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
 
   // Global Cart State from Context
   const {
@@ -52,24 +48,16 @@ export default function ProductDetailView({
     isDrawerOpen: isCartOpen,
     setIsDrawerOpen: setIsCartOpen,
   } = useCart();
-  const [isAdded, setIsAdded] = useState(false);
 
   const handleVariantChange = (variant: ProductVariant) => {
     soundEngine.playClick(900);
     setSelectedVariant(variant);
   };
 
-  const handleEqPresetChange = (preset: "neutral" | "warm" | "spatial") => {
-    setActiveEqPreset(preset);
-    if (preset === "neutral") soundEngine.playClick(600);
-    if (preset === "warm") soundEngine.playClick(440);
-    if (preset === "spatial") soundEngine.playClick(880);
-  };
-
   const handleAddToCart = () => {
     soundEngine.playChime();
     setIsAdded(true);
-    addToCart(product, selectedVariant, 1);
+    addToCart(product, selectedVariant, quantity);
     setTimeout(() => {
       setIsAdded(false);
       setIsCartOpen(true);
@@ -119,10 +107,10 @@ export default function ProductDetailView({
           </button>
         </div>
 
-        {/* STAGE 1: Editorial Split Hero (Media Showcase Left, Configurator & Purchase Right) */}
+        {/* STAGE 1: Clean Editorial Hero (Showcase Media Left, Buy Box Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column (lg:col-span-7): Hardware Soundstage Showcase */}
-          <div className="lg:col-span-7">
+          {/* Left Column (lg:col-span-7): Hardware Showcase */}
+          <div className="lg:col-span-7 space-y-4">
             {/* Double-Bezel Hardware Container */}
             <div className="relative rounded-[2.5rem] p-2 bg-neutral-100/70 border border-neutral-200/80 shadow-[0_24px_50px_rgba(0,0,0,0.04)]">
               {/* Inner Concentric Core */}
@@ -148,97 +136,98 @@ export default function ProductDetailView({
                 </div>
               </div>
             </div>
+
+            {/* Thumbnail Variant Selector under main image */}
+            {product.variants.length > 1 && (
+              <div className="flex items-center justify-center gap-3 pt-1">
+                {product.variants.map((v) => {
+                  const isSelected = v.colorKey === selectedVariant.colorKey;
+                  return (
+                    <button
+                      key={v.colorKey}
+                      type="button"
+                      onClick={() => handleVariantChange(v)}
+                      className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl p-2 bg-white border transition-all duration-200 cursor-pointer overflow-hidden ${
+                        isSelected
+                          ? "border-neutral-950 shadow-sm ring-1 ring-neutral-950"
+                          : "border-neutral-200 hover:border-neutral-400 opacity-70 hover:opacity-100"
+                      }`}
+                      aria-label={`View ${v.name}`}
+                    >
+                      <Image
+                        src={v.image}
+                        alt={v.name}
+                        fill
+                        unoptimized
+                        className="object-contain p-1.5"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
-          {/* Right Column (lg:col-span-5): Specifications, Finish Customizer & Reservation */}
+          {/* Right Column (lg:col-span-5): Clean Buy Box */}
           <div className="lg:col-span-5 space-y-6">
-            {/* Eyebrow & Verified Rating */}
-            <div className="flex items-center justify-between gap-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 text-[10px] font-mono uppercase tracking-widest text-neutral-600">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span>{product.badge}</span>
-              </div>
-
-              <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-500">
-                <div className="flex items-center text-amber-400">
-                  <Star className="w-3.5 h-3.5 fill-current" />
-                </div>
-                <span className="font-semibold text-neutral-950">{product.rating}</span>
-                <span>•</span>
-                <span>{product.reviewCount} purist reviews</span>
-              </div>
-            </div>
-
-            {/* Product Title & Tagline */}
-            <div className="space-y-2">
-              <div className="text-xs font-mono uppercase tracking-[0.2em] text-neutral-400">
-                {product.series}
-              </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-neutral-950 leading-[1.05]">
+            {/* Product Title */}
+            <div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-950 leading-tight">
                 {product.name}
               </h1>
-              <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal">
-                {product.tagline}
-              </p>
             </div>
 
-            {/* Price & Installment Calculator */}
-            <div className="p-4 rounded-2xl bg-neutral-50 border border-neutral-200/80 space-y-1">
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl sm:text-4xl font-light tracking-tight text-neutral-950">
-                  ${product.price}
+            {/* Clean Price Area: Only Price Displayed */}
+            <div className="flex items-baseline gap-2 pt-1 pb-1">
+              <span className="text-3xl sm:text-4xl font-light tracking-tight text-neutral-950">
+                ${product.price}
+              </span>
+              {product.originalPrice && (
+                <span className="text-base text-neutral-400 line-through">
+                  ${product.originalPrice}
                 </span>
-                {product.originalPrice && (
-                  <span className="text-sm text-neutral-400 line-through">
-                    ${product.originalPrice}
-                  </span>
-                )}
-                <span className="text-xs font-mono text-neutral-400 uppercase">
-                  USD (Tax Included)
-                </span>
-              </div>
-              <p className="text-[11px] font-mono text-neutral-500">
-                Or 4 interest-free payments of ${(product.price / 4).toFixed(2)} with Klarna / Affirm.
-              </p>
+              )}
+              <span className="text-xs font-mono text-neutral-400 uppercase">
+                USD
+              </span>
             </div>
+
+            {/* Product Overview / Description */}
+            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal">
+              {product.description}
+            </p>
 
             {/* Finish & Colorway Selector */}
-            {product.variants.length > 0 && (
+            {product.variants.length > 1 && (
               <div className="space-y-3 pt-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-mono uppercase tracking-widest text-neutral-400 text-[10px]">
-                    Select Chassis Finish
+                  <span className="font-mono uppercase tracking-wider text-neutral-400 text-[11px]">
+                    Finish
                   </span>
                   <span className="font-semibold text-neutral-950">
                     {selectedVariant.name}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="flex flex-wrap gap-2.5">
                   {product.variants.map((v) => {
                     const isSelected = v.colorKey === selectedVariant.colorKey;
                     return (
                       <button
                         key={v.colorKey}
+                        type="button"
                         onClick={() => handleVariantChange(v)}
-                        className={`p-3 rounded-xl border text-left flex items-center gap-3 transition-all duration-200 cursor-pointer ${
+                        className={`flex items-center gap-2.5 px-3.5 py-2 rounded-xl border text-xs font-medium transition-all duration-200 cursor-pointer ${
                           isSelected
-                            ? "border-neutral-950 bg-white shadow-xs ring-1 ring-neutral-950"
-                            : "border-neutral-200 bg-neutral-50 hover:bg-white hover:border-neutral-300"
+                            ? "border-neutral-950 bg-white text-neutral-950 shadow-xs ring-1 ring-neutral-950"
+                            : "border-neutral-200 bg-neutral-50/80 text-neutral-700 hover:bg-white hover:border-neutral-300"
                         }`}
                       >
                         <span
-                          className="w-5 h-5 rounded-full border border-black/10 shrink-0 shadow-xs"
+                          className="w-3.5 h-3.5 rounded-full border border-black/10 shrink-0 shadow-xs"
                           style={{ backgroundColor: v.hex }}
                         />
-                        <div className="min-w-0">
-                          <div className="text-xs font-bold text-neutral-950 truncate">
-                            {v.name}
-                          </div>
-                          <div className="text-[10px] font-mono text-neutral-400 truncate">
-                            {v.finishDescription.slice(0, 30)}...
-                          </div>
-                        </div>
+                        <span>{v.name}</span>
                       </button>
                     );
                   })}
@@ -246,336 +235,193 @@ export default function ProductDetailView({
               </div>
             )}
 
-            {/* Key Technical Highlights Grid */}
-            <div className="grid grid-cols-2 gap-2.5 pt-2">
-              {product.keyHighlights.map((highlight, idx) => (
+            {/* Quantity Selector & Add to Cart Button */}
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center gap-3">
+                {/* Quantity Controls */}
+                <div className="flex items-center rounded-full border border-neutral-200 bg-neutral-50/80 p-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundEngine.playClick(500);
+                      setQuantity(Math.max(1, quantity - 1));
+                    }}
+                    disabled={quantity <= 1}
+                    aria-label="Decrease quantity"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:bg-white hover:text-neutral-950 transition-colors disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    <Minus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="w-9 text-center font-mono text-xs font-semibold text-neutral-950">
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundEngine.playClick(600);
+                      setQuantity(Math.min(10, quantity + 1));
+                    }}
+                    disabled={quantity >= 10}
+                    aria-label="Increase quantity"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-neutral-600 hover:bg-white hover:text-neutral-950 transition-colors disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Primary Add to Cart Action */}
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  className={`flex-1 inline-flex items-center justify-center gap-2.5 rounded-full py-3.5 px-6 font-semibold text-sm tracking-tight transition-all duration-200 shadow-sm cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
+                    isAdded
+                      ? "bg-emerald-600 hover:bg-emerald-500 text-white"
+                      : "bg-neutral-950 hover:bg-neutral-800 text-white"
+                  }`}
+                  aria-label={`Add ${product.name} to cart`}
+                >
+                  {isAdded ? (
+                    <>
+                      <Check className="w-4 h-4 stroke-[2.5]" />
+                      <span>Added to Cart</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag className="w-4 h-4 stroke-[2]" />
+                      <span>Add to Cart</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Assurance Ribbon */}
+              <div className="pt-3 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-xs text-neutral-500 font-mono">
+                <div className="flex items-center gap-1.5">
+                  <Truck className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>Free 2-Day Air</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>3-Year Warranty</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Undo2 className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>30-Day Trial</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* STAGE 2: Technical Specifications Sheet */}
+        {product.specs.length > 0 && (
+          <div className="space-y-6 pt-6 border-t border-neutral-200/70">
+            <div className="space-y-1">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950">
+                Technical Specifications
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 font-mono">
+                Detailed acoustic architecture and hardware parameters
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-neutral-200/80 overflow-hidden divide-y divide-neutral-200/70 text-xs sm:text-sm shadow-2xs">
+              {product.specs.map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-xl bg-neutral-50/70 border border-neutral-100 flex items-start gap-2"
+                  className="grid grid-cols-1 sm:grid-cols-12 py-3.5 px-5 bg-white hover:bg-neutral-50/70 transition-colors"
                 >
-                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                  <span className="text-[11px] font-mono text-neutral-700 leading-tight">
-                    {highlight}
+                  <span className="sm:col-span-4 font-mono text-xs text-neutral-500 uppercase tracking-wider">
+                    {item.label}
+                  </span>
+                  <span className="sm:col-span-8 font-sans font-medium text-neutral-950 mt-1 sm:mt-0">
+                    {item.value}
                   </span>
                 </div>
               ))}
             </div>
+          </div>
+        )}
 
-            {/* Primary Action Buttons */}
-            <div className="space-y-3 pt-4">
-              <button
-                onClick={handleAddToCart}
-                className={`w-full group inline-flex items-center justify-center gap-3 rounded-full py-4 px-8 font-bold text-base tracking-tight transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
-                  isAdded
-                    ? "bg-emerald-600 hover:bg-emerald-500 text-white"
-                    : "bg-neutral-950 hover:bg-neutral-800 text-white"
-                }`}
-                aria-label={`Add ${product.name} to cart`}
-              >
-                {isAdded ? (
-                  <>
-                    <Check className="w-5 h-5 stroke-[2.5]" />
-                    <span>Added to Cart</span>
-                  </>
-                ) : (
-                  <>
-                    <ShoppingBag className="w-5 h-5 stroke-[2]" />
-                    <span>Add to Cart — ${product.price} USD</span>
-                  </>
-                )}
-              </button>
-
-              <div className="text-center text-[11px] font-mono text-neutral-400">
-                {product.leadTime}
-              </div>
+        {/* STAGE 3: Included in the Box */}
+        {product.boxContents.length > 0 && (
+          <div className="space-y-6 pt-6 border-t border-neutral-200/70">
+            <div className="space-y-1">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950">
+                What's in the Box
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-500 font-mono">
+                Complete packaging and certified accessories
+              </p>
             </div>
 
-            {/* Trust & Guarantee Ribbon */}
-            <div className="pt-4 border-t border-neutral-200/60 grid grid-cols-3 gap-2 text-center font-mono text-[10px] text-neutral-500">
-              <div className="p-2 rounded-lg bg-neutral-50 border border-neutral-100">
-                <Truck className="w-3.5 h-3.5 mx-auto text-neutral-400 mb-1" />
-                <span>Free 2-Day Air</span>
-              </div>
-              <div className="p-2 rounded-lg bg-neutral-50 border border-neutral-100">
-                <ShieldCheck className="w-3.5 h-3.5 mx-auto text-neutral-400 mb-1" />
-                <span>3-Year Warranty</span>
-              </div>
-              <div className="p-2 rounded-lg bg-neutral-50 border border-neutral-100">
-                <Undo2 className="w-3.5 h-3.5 mx-auto text-neutral-400 mb-1" />
-                <span>30-Day Trial</span>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+              {product.boxContents.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-2xl bg-neutral-50/80 border border-neutral-200/70 flex items-center gap-3.5 text-xs text-neutral-800"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-white border border-neutral-200 flex items-center justify-center text-neutral-900 shrink-0 shadow-2xs">
+                    <Package className="w-4 h-4 text-neutral-700" />
+                  </div>
+                  <span className="font-medium">{item}</span>
+                </div>
+              ))}
             </div>
+          </div>
+        )}
+
+        {/* STAGE 4: Delivery & Warranty Guarantees */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-neutral-200/70">
+          <div className="p-6 rounded-2xl bg-white border border-neutral-200/80 space-y-2 shadow-2xs">
+            <div className="w-8 h-8 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-950">
+              <Truck className="w-4 h-4" />
+            </div>
+            <h4 className="text-sm font-bold text-neutral-950">Free Expedited Shipping</h4>
+            <p className="text-xs text-neutral-500 leading-relaxed">
+              Complimentary 2-day air delivery with real-time tracking on every domestic and international order.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white border border-neutral-200/80 space-y-2 shadow-2xs">
+            <div className="w-8 h-8 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-950">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
+            <h4 className="text-sm font-bold text-neutral-950">3-Year Factory Warranty</h4>
+            <p className="text-xs text-neutral-500 leading-relaxed">
+              Comprehensive hardware warranty and driver support directly handled by our engineering team.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white border border-neutral-200/80 space-y-2 shadow-2xs">
+            <div className="w-8 h-8 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-950">
+              <Undo2 className="w-4 h-4" />
+            </div>
+            <h4 className="text-sm font-bold text-neutral-950">30-Day In-Home Trial</h4>
+            <p className="text-xs text-neutral-500 leading-relaxed">
+              Audition the instruments on your own source gear. Zero hassle returns with prepaid return shipping.
+            </p>
           </div>
         </div>
 
-        {/* STAGE 2: Deep Architectural Deep-Dive (Asymmetrical Bento Grid) */}
-        <div className="space-y-8 pt-8">
-          <div className="space-y-2">
-            <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-neutral-400">
-              ENGINEERING ANATOMY
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-950 uppercase">
-              The Architecture of Sound
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* Bento Card 1: Transducer Acoustic Chamber (Col-span 7) */}
-            <div className="md:col-span-7 rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80">
-              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-8 space-y-4 h-full flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-900">
-                    <Music2 className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-xl font-bold text-neutral-950">
-                    40mm Bio-Cellulose Acoustic Chamber
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    Unlike standard mylar diaphragms which flex unpredictably at high volumes, bio-cellulose crystallizes naturally into an ultra-rigid matrix. Yields zero cone breakup, instantaneous transient recovery, and deep sub-bass down to 5Hz.
-                  </p>
-                </div>
-
-                <div className="pt-6 border-t border-neutral-100 grid grid-cols-3 gap-4 font-mono text-xs">
-                  <div>
-                    <div className="text-[10px] text-neutral-400 uppercase">SUB-BASS</div>
-                    <div className="text-base font-semibold text-neutral-950">5 Hz</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-neutral-400 uppercase">HIGH AIR</div>
-                    <div className="text-base font-semibold text-neutral-950">45 kHz</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-neutral-400 uppercase">THD NOISE</div>
-                    <div className="text-base font-semibold text-neutral-950">&lt; 0.05%</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bento Card 2: Grade-5 Cryogenic Titanium (Col-span 5) */}
-            <div className="md:col-span-5 rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80">
-              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-8 space-y-4 h-full flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-900">
-                    <Zap className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-xl font-bold text-neutral-950">
-                    Cryogenic Grade-5 Titanium
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    Forged with an aerospace-grade alloy treated at sub-zero temperatures. Weighs only 268 grams while resisting over 250 kilograms of torsional flex without bending or fatigue.
-                  </p>
-                </div>
-
-                <div className="pt-6 border-t border-neutral-100 font-mono text-xs">
-                  <div className="text-[10px] text-neutral-400 uppercase">NET CHASSIS WEIGHT</div>
-                  <div className="text-2xl font-light text-neutral-950">
-                    268<span className="text-xs text-neutral-400 ml-1">grams</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bento Card 3: Hybrid Active Noise Cancellation (Col-span 5) */}
-            <div className="md:col-span-5 rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80">
-              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-8 space-y-4 h-full flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-900">
-                    <Radio className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-xl font-bold text-neutral-950">
-                    -42dB Hybrid DSP Isolation
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    Six calibrated beamforming microphones sample exterior ambient sound 50,000 times per second, synthesizing inverse waveforms before soundwaves reach your eardrum.
-                  </p>
-                </div>
-
-                <div className="pt-6 border-t border-neutral-100 font-mono text-xs">
-                  <div className="text-[10px] text-neutral-400 uppercase">AMBIENT ATTENUATION</div>
-                  <div className="text-2xl font-light text-neutral-950">
-                    -42<span className="text-xs text-neutral-400 ml-1">decibels</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bento Card 4: 65-Hour Battery Architecture (Col-span 7) */}
-            <div className="md:col-span-7 rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80">
-              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-8 space-y-4 h-full flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-900">
-                    <Headphones className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-xl font-bold text-neutral-950">
-                    65-Hour Continuous Lithium Cell
-                  </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
-                    Travel from London to Tokyo and back twice on a single charge cycle. Smart power management draws near-zero standby current when removed from your head.
-                  </p>
-                </div>
-
-                <div className="pt-6 border-t border-neutral-100 grid grid-cols-2 gap-4 font-mono text-xs">
-                  <div>
-                    <div className="text-[10px] text-neutral-400 uppercase">FULL PLAYBACK</div>
-                    <div className="text-base font-semibold text-neutral-950">65 Hours</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-neutral-400 uppercase">FAST RECHARGE</div>
-                    <div className="text-base font-semibold text-neutral-950">15 min = 8 hrs</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* STAGE 3: Interactive Acoustic Curve Simulator */}
-        <div className="rounded-[2.5rem] p-2 bg-neutral-100/70 border border-neutral-200/80">
-          <div className="rounded-[calc(2.5rem-0.5rem)] bg-white p-8 sm:p-12 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div className="space-y-1">
-                <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-neutral-400">
-                  ACOUSTIC CALIBRATION PROFILE
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-neutral-950">
-                  Target Frequency Response Curve
-                </h3>
-              </div>
-
-              {/* EQ Preset Switcher */}
-              <div className="flex items-center gap-2 bg-neutral-100 p-1 rounded-full">
-                {(["neutral", "warm", "spatial"] as const).map((preset) => (
-                  <button
-                    key={preset}
-                    onClick={() => handleEqPresetChange(preset)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-mono capitalize transition-all cursor-pointer ${
-                      activeEqPreset === preset
-                        ? "bg-neutral-950 text-white font-semibold shadow-xs"
-                        : "text-neutral-600 hover:text-neutral-950"
-                    }`}
-                  >
-                    {preset === "neutral" ? "Studio Neutral" : preset === "warm" ? "Audiophile Warmth" : "Spatial Air"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Visual SVG Curve Graph */}
-            <div className="relative w-full h-44 sm:h-56 bg-neutral-50 rounded-2xl border border-neutral-200/70 p-6 flex flex-col justify-between overflow-hidden">
-              {/* Frequency grid guidelines */}
-              <div className="absolute inset-x-6 inset-y-6 flex justify-between border-b border-neutral-200 pointer-events-none opacity-40">
-                <span className="border-r border-neutral-200 h-full" />
-                <span className="border-r border-neutral-200 h-full" />
-                <span className="border-r border-neutral-200 h-full" />
-                <span className="border-r border-neutral-200 h-full" />
-              </div>
-
-              <svg className="w-full h-full overflow-visible" viewBox="0 0 800 160">
-                {/* Reference Baseline */}
-                <line x1="0" y1="80" x2="800" y2="80" stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4 4" />
-
-                {/* Dynamic Curve Path */}
-                <path
-                  d={
-                    activeEqPreset === "neutral"
-                      ? "M 0 85 C 150 82, 250 80, 400 80 C 550 80, 680 78, 800 75"
-                      : activeEqPreset === "warm"
-                      ? "M 0 60 C 120 62, 240 76, 400 80 C 560 84, 680 86, 800 82"
-                      : "M 0 90 C 120 86, 260 82, 400 78 C 550 72, 680 50, 800 45"
-                  }
-                  fill="none"
-                  stroke="#0a0a0a"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  className="transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
-                />
-              </svg>
-
-              {/* Axis Labels */}
-              <div className="flex justify-between font-mono text-[10px] text-neutral-400 pt-2 border-t border-neutral-200">
-                <span>20 Hz (Sub-Bass)</span>
-                <span>250 Hz (Low Mid)</span>
-                <span>1 kHz (Presence)</span>
-                <span>6 kHz (Treble)</span>
-                <span>20 kHz (Air)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* STAGE 4: What's in the Box Checklist */}
-        <div className="space-y-6">
-          <div className="space-y-1">
-            <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-neutral-400">
-              UNBOXING ARTIFACTS
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-neutral-950">
-              Included in the Studio Box
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {product.boxContents.map((item, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-2xl bg-neutral-50 border border-neutral-200/70 flex items-center gap-3 font-mono text-xs text-neutral-800"
-              >
-                <div className="w-8 h-8 rounded-full bg-white border border-neutral-200 flex items-center justify-center text-neutral-900 shrink-0 shadow-xs">
-                  <Package className="w-4 h-4" />
-                </div>
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* STAGE 5: Technical Engineering Table */}
-        <div className="space-y-6">
-          <div className="space-y-1">
-            <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-neutral-400">
-              COMPLETE SPECIFICATIONS
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-neutral-950">
-              Laboratory Measurement Sheet
-            </h3>
-          </div>
-
-          <div className="rounded-2xl border border-neutral-200 overflow-hidden divide-y divide-neutral-200/70 text-xs sm:text-sm">
-            {product.specs.map((item, idx) => (
-              <div
-                key={idx}
-                className="grid grid-cols-1 sm:grid-cols-12 py-3.5 px-5 bg-white hover:bg-neutral-50/80 transition-colors"
-              >
-                <span className="sm:col-span-4 font-mono text-xs text-neutral-500 uppercase tracking-wider">
-                  {item.label}
-                </span>
-                <span className="sm:col-span-8 font-sans font-medium text-neutral-950 mt-1 sm:mt-0">
-                  {item.value}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* STAGE 6: Related Instruments & Bespoke Pairings */}
+        {/* STAGE 5: Related Instruments */}
         {relatedProducts.length > 0 && (
-          <div className="space-y-8 pt-8 border-t border-neutral-200/70">
+          <div className="space-y-6 pt-6 border-t border-neutral-200/70">
             <div className="flex items-end justify-between">
               <div className="space-y-1">
-                <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-neutral-400">
-                  RECOMMENDED PAIRINGS
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-neutral-950">
-                  Complete Your Acoustic Ecosystem
-                </h3>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950">
+                  Related Instruments
+                </h2>
+                <p className="text-xs sm:text-sm text-neutral-500 font-mono">
+                  Complementary hardware and acoustic accessories
+                </p>
               </div>
               <Link
                 href="/products"
-                className="text-xs font-mono font-semibold uppercase tracking-wider text-neutral-900 hover:text-neutral-500 flex items-center gap-1"
+                className="text-xs font-mono font-semibold uppercase tracking-wider text-neutral-900 hover:text-neutral-500 flex items-center gap-1 transition-colors"
               >
                 <span>View All</span>
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
