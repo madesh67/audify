@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Check, Minus, Plus, ShoppingBag, Sparkles, Trash2, X } from "lucide-react";
+import { ArrowUpRight, Check, Minus, Plus, ShoppingCart, Sparkles, Trash2, X } from "lucide-react";
 import confetti from "canvas-confetti";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
@@ -81,7 +81,7 @@ export default function CartDrawer({
         <div className="p-6 border-b border-neutral-100 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center">
-              <ShoppingBag className="w-4 h-4 text-neutral-800" />
+              <ShoppingCart className="w-4 h-4 text-neutral-800" />
             </div>
             <div>
               <h3 className="text-base font-bold text-neutral-950 tracking-tight">
@@ -130,7 +130,7 @@ export default function CartDrawer({
             </div>
           ) : items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-neutral-400">
-              <ShoppingBag className="w-12 h-12 stroke-[1.2] text-neutral-300" />
+              <ShoppingCart className="w-12 h-12 stroke-[1.2] text-neutral-300" />
               <div className="space-y-1">
                 <h4 className="text-sm font-semibold text-neutral-800">
                   Your cart is empty
@@ -263,7 +263,7 @@ export default function CartDrawer({
                 </>
               ) : (
                 <>
-                  <ShoppingBag className="w-4 h-4 text-neutral-300" />
+                  <ShoppingCart className="w-4 h-4 text-neutral-300" />
                   <span>Confirm Order — ${total} USD</span>
                 </>
               )}

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import {
   X,
-  User,
+  CircleUserRound,
   ShieldCheck,
   Package,
   Sparkles,
@@ -83,7 +83,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
         <div className="p-6 sm:p-7 border-b border-neutral-100 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-900 border border-neutral-200/60">
-              <User className="w-4.5 h-4.5" strokeWidth={1.8} />
+              <CircleUserRound className="w-5 h-5" strokeWidth={1.8} />
             </div>
             <div>
               <h3

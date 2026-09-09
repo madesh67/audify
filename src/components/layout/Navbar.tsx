@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, User } from "lucide-react";
+import { ShoppingCart, CircleUserRound } from "lucide-react";
 import { soundEngine } from "@/utils/sound";
 import AudifyLogo from "@/components/common/AudifyLogo";
 import { useLenis } from "@/components/layout/SmoothScroll";
@@ -131,7 +131,7 @@ export default function Navbar() {
               aria-label="Account"
               title="Account"
             >
-              <User className="w-5 h-5" strokeWidth={1.8} />
+              <CircleUserRound className="w-5 h-5" strokeWidth={1.8} />
             </button>
 
             {/* Cart Logo Button */}
@@ -142,7 +142,7 @@ export default function Navbar() {
               aria-label={`Open Cart (${totalCount} items)`}
               title="Cart"
             >
-              <ShoppingBag className="w-5 h-5" strokeWidth={1.8} />
+              <ShoppingCart className="w-5 h-5" strokeWidth={1.8} />
               {totalCount > 0 && (
                 <span className="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-neutral-950 text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-xs">
                   {totalCount}
