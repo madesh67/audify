@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Check, Plus } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
@@ -17,10 +17,17 @@ export default function ProductCard({
   product,
   onAddToCart,
 }: ProductCardProps) {
+  const router = useRouter();
   const defaultVariant = product.variants[0];
   const [isAdded, setIsAdded] = useState(false);
 
-  const handleAdd = () => {
+  const handleCardClick = () => {
+    soundEngine.playClick(800);
+    router.push(`/products/${product.slug}`);
+  };
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevents navigating to PDP
     soundEngine.playChime();
     setIsAdded(true);
     onAddToCart(product, defaultVariant);
@@ -28,16 +35,23 @@ export default function ProductCard({
   };
 
   return (
-    <div className="group relative rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 hover:border-neutral-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col">
+    <div
+      onClick={handleCardClick}
+      role="link"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleCardClick();
+        }
+      }}
+      className="group relative rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 hover:border-neutral-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col cursor-pointer select-none"
+    >
       {/* Inner Core: Concentric Rounded White Container */}
       <div className="rounded-[calc(2rem-0.375rem)] bg-white p-6 flex flex-col justify-between flex-1 border border-neutral-100/50">
         <div>
           {/* 1. Product Picture */}
-          <Link
-            href={`/products/${product.slug}`}
-            onClick={() => soundEngine.playClick(800)}
-            className="relative aspect-square w-full rounded-2xl bg-neutral-50/70 border border-neutral-100 flex items-center justify-center p-6 overflow-hidden mb-5 group-hover:bg-neutral-50 transition-colors block cursor-pointer"
-          >
+          <div className="relative aspect-square w-full rounded-2xl bg-neutral-50/70 border border-neutral-100 flex items-center justify-center p-6 overflow-hidden mb-5 group-hover:bg-neutral-50 transition-colors">
             <Image
               src={defaultVariant.image}
               alt={product.name}
@@ -45,19 +59,13 @@ export default function ProductCard({
               unoptimized
               className="object-contain p-3 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105 select-none"
             />
-          </Link>
+          </div>
 
           {/* 2. Product Name */}
           <div className="mb-4">
-            <Link
-              href={`/products/${product.slug}`}
-              onClick={() => soundEngine.playClick(800)}
-              className="block group/title"
-            >
-              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-neutral-950 group-hover/title:text-neutral-700 transition-colors">
-                {product.name}
-              </h3>
-            </Link>
+            <h3 className="text-lg sm:text-xl font-bold tracking-tight text-neutral-950 group-hover:text-neutral-700 transition-colors">
+              {product.name}
+            </h3>
           </div>
         </div>
 
@@ -73,6 +81,7 @@ export default function ProductCard({
           </div>
 
           <button
+            type="button"
             onClick={handleAdd}
             className={`group/btn relative rounded-full py-2.5 pl-4 sm:pl-5 pr-2 flex items-center gap-2.5 font-semibold text-xs tracking-tight transition-all duration-300 shadow-sm cursor-pointer ${
               isAdded

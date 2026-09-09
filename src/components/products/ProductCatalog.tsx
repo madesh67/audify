@@ -5,7 +5,6 @@ import { PRODUCTS, Product, ProductVariant } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import ProductFilterBar from "@/components/products/ProductFilterBar";
 import CartDrawer from "@/components/products/CartDrawer";
-import { ShieldCheck, ShoppingBag, Sparkles, Truck, Undo2 } from "lucide-react";
 import { soundEngine } from "@/utils/sound";
 import { useCart } from "@/context/CartContext";
 
@@ -62,61 +61,10 @@ export default function ProductCatalog() {
       {/* Main Container snapped to strict design system guide rails: max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
         {/* Page Hero Header */}
-        <div className="space-y-6 pb-12 sm:pb-16 border-b border-neutral-200/70">
-          {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100 border border-neutral-200/80 text-[10px] font-mono tracking-[0.25em] uppercase text-neutral-600">
-            <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
-            <span>DIRECT ACOUSTIC REGISTRY</span>
-          </div>
-
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-            <div className="space-y-3 max-w-2xl">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] uppercase text-neutral-950 leading-[0.95]">
-                PRECISION SOUND INSTRUMENTS
-              </h1>
-              <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal">
-                Engineered from cryogenic Grade-5 titanium, planar magnetic transducers, and discrete balanced amplification for purists and studio masters.
-              </p>
-            </div>
-
-            {/* Bag Button Bar */}
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => {
-                  soundEngine.playClick(800);
-                  setIsCartOpen(true);
-                }}
-                className="group relative inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-neutral-950 text-white font-bold text-xs uppercase tracking-wider hover:bg-neutral-800 transition-all shadow-md cursor-pointer shrink-0"
-                aria-label="Open reservation bag"
-              >
-                <ShoppingBag className="w-4 h-4 text-white" />
-                <span>Reservation Bag</span>
-                <span className="w-5 h-5 rounded-full bg-white text-neutral-950 text-[11px] font-mono flex items-center justify-center font-bold">
-                  {totalCartCount}
-                </span>
-              </button>
-            </div>
-          </div>
-
-          {/* Value Guarantee Badges Ribbon */}
-          <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs text-neutral-600">
-            <div className="flex items-center gap-2">
-              <Truck className="w-4 h-4 text-neutral-400 shrink-0" />
-              <span className="text-[11px]">Complimentary 2-Day Air</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-neutral-400 shrink-0" />
-              <span className="text-[11px]">3-Year Global Warranty</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Undo2 className="w-4 h-4 text-neutral-400 shrink-0" />
-              <span className="text-[11px]">30-Day Studio Trial</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-neutral-400 shrink-0" />
-              <span className="text-[11px]">Laboratory Calibrated</span>
-            </div>
-          </div>
+        <div className="pb-8 sm:pb-10 border-b border-neutral-200/70">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-[-0.04em] uppercase text-neutral-950">
+            All Products
+          </h1>
         </div>
 
         {/* Filter Bar Controls */}
