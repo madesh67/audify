@@ -102,7 +102,7 @@ export default function CartPageView() {
             href="/products"
             className="hover:text-neutral-950 transition-colors"
           >
-            Catalog
+            Products
           </Link>
           <ChevronRight className="w-3 h-3 text-neutral-300" />
           <span className="text-neutral-950 font-semibold">Reservation Bag</span>
@@ -191,7 +191,7 @@ export default function CartPageView() {
                 href="/products"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-neutral-950 text-white font-semibold text-xs uppercase tracking-wider hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 shadow-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
               >
-                <span>Discover Catalog</span>
+                <span>Discover Products</span>
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>

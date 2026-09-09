@@ -4,7 +4,7 @@ import ProductCatalog from "@/components/products/ProductCatalog";
 import Footer from "@/components/sections/Footer";
 
 export const metadata: Metadata = {
-  title: "Acoustic Instruments & Catalog — Audify",
+  title: "Acoustic Instruments & Products — Audify",
   description:
     "Explore Audify's complete lineup of flagship over-ear headphones, planar magnetic studio reference monitors, cryogenic balanced DAC amplifiers, and bespoke acoustic accessories.",
 };
@@ -15,7 +15,7 @@ export default function ProductsPage() {
       {/* Floating Top Navigation */}
       <Navbar />
 
-      {/* Main Product Catalog */}
+      {/* Main Products Collection */}
       <ProductCatalog />
 
       {/* Standardized Footer without repeating the giant hero CTA */}
