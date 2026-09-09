@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, Check, Minus, Plus, ShoppingCart, Sparkles, Trash2, X } from "lucide-react";
 import confetti from "canvas-confetti";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
+import { useLenis } from "@/components/layout/SmoothScroll";
 
 export interface CartItem {
   product: Product;
@@ -30,16 +32,78 @@ export default function CartDrawer({
   onRemoveItem,
   onClearCart,
 }: CartDrawerProps) {
+  const [isMounted, setIsMounted] = useState(isOpen);
+  const [isVisible, setIsVisible] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
 
-  if (!isOpen) return null;
+  const touchStartX = useRef<number | null>(null);
+  const touchDeltaX = useRef<number>(0);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const { lenis } = useLenis();
+
+  // Handle mounting and smooth entrance / exit transitions
+  useEffect(() => {
+    let animTimer: NodeJS.Timeout;
+    if (isOpen) {
+      setIsMounted(true);
+      // Double-tick guarantees DOM attachment and layout paint before transition starts
+      const frame = requestAnimationFrame(() => {
+        const frame2 = requestAnimationFrame(() => {
+          setIsVisible(true);
+        });
+        return () => cancelAnimationFrame(frame2);
+      });
+      return () => cancelAnimationFrame(frame);
+    } else {
+      setIsVisible(false);
+      // Retain mounting until exit slide transition completes
+      animTimer = setTimeout(() => {
+        setIsMounted(false);
+        setOrderComplete(false);
+      }, 350);
+      return () => clearTimeout(animTimer);
+    }
+  }, [isOpen]);
+
+  // Lock body scroll and pause Lenis while drawer is open
+  useEffect(() => {
+    if (isMounted) {
+      document.body.style.overflow = "hidden";
+      lenis?.stop();
+    } else {
+      document.body.style.overflow = "";
+      lenis?.start();
+    }
+    return () => {
+      document.body.style.overflow = "";
+      lenis?.start();
+    };
+  }, [isMounted, lenis]);
+
+  // Handle ESC key dismiss
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isVisible) {
+        handleClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isVisible]);
+
+  if (!isMounted) return null;
 
   const total = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
   const totalItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const handleClose = () => {
+    soundEngine.playClick(500);
+    onClose();
+  };
 
   const handleCheckout = () => {
     soundEngine.playChime();
@@ -64,21 +128,80 @@ export default function CartDrawer({
 
   const handleResetOrder = () => {
     setOrderComplete(false);
-    onClose();
+    handleClose();
+  };
+
+  // Touch Swipe to Dismiss (Physical touch gestures)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - touchStartX.current;
+    if (diff > 0) {
+      touchDeltaX.current = diff;
+      if (drawerRef.current) {
+        drawerRef.current.style.transform = `translateX(${diff}px)`;
+        drawerRef.current.style.transition = "none";
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (drawerRef.current) {
+      drawerRef.current.style.transform = "";
+      drawerRef.current.style.transition = "";
+    }
+    if (touchDeltaX.current > 75) {
+      handleClose();
+    }
+    touchStartX.current = null;
+    touchDeltaX.current = 0;
   };
 
   return (
-    <div className="fixed inset-0 z-[120] flex justify-end select-none animate-fade-in">
-      {/* Backdrop */}
+    <div
+      className={`fixed inset-0 z-[120] flex justify-end select-none transition-all duration-300 ${
+        isVisible ? "pointer-events-auto" : "pointer-events-none"
+      }`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Shopping Cart Drawer"
+    >
+      {/* Backdrop: Smooth opacity & blur transition */}
       <div
-        className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
-        onClick={onClose}
+        className={`fixed inset-0 bg-neutral-950/40 backdrop-blur-xs transition-opacity duration-350 ease-out ${
+          isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={handleClose}
+        aria-hidden="true"
       />
 
       {/* Slide-over Drawer Panel */}
-      <div className="relative w-full max-w-md h-full bg-white shadow-2xl z-10 flex flex-col justify-between border-l border-neutral-200">
+      <div
+        ref={drawerRef}
+        data-lenis-prevent
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className={`relative w-full max-w-md h-full bg-white shadow-[-28px_0_70px_-15px_rgba(0,0,0,0.2),-8px_0_25px_-5px_rgba(0,0,0,0.06)] z-10 flex flex-col justify-between border-l border-neutral-200/80 transform will-change-transform ${
+          isVisible
+            ? "translate-x-0 duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)] ease-drawer-in"
+            : "translate-x-full duration-[320ms] ease-[cubic-bezier(0.32,0,0.67,0)] ease-drawer-out"
+        }`}
+      >
+        {/* Mobile touch drag affordance bar */}
+        <div className="sm:hidden w-12 h-1 rounded-full bg-neutral-200 self-center mt-2.5 mb-[-6px]" />
+
         {/* Top Header */}
-        <div className="p-6 border-b border-neutral-100 flex items-center justify-between">
+        <div
+          className={`p-6 border-b border-neutral-100 flex items-center justify-between transition-all duration-350 ease-out ${
+            isVisible ? "opacity-100 translate-y-0 delay-75" : "opacity-0 -translate-y-2"
+          }`}
+        >
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center">
               <ShoppingCart className="w-4 h-4 text-neutral-800" />
@@ -93,13 +216,25 @@ export default function CartDrawer({
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-500 hover:text-neutral-950 flex items-center justify-center transition-colors cursor-pointer"
-            aria-label="Close cart"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/cart"
+              onClick={handleClose}
+              className="group/link px-3 py-1.5 rounded-full text-xs font-mono text-neutral-500 hover:text-neutral-950 hover:bg-neutral-100 flex items-center gap-1 transition-colors cursor-pointer"
+              aria-label="View full cart details"
+            >
+              <span>Full View</span>
+              <ArrowUpRight className="w-3 h-3 transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+            </Link>
+
+            <button
+              onClick={handleClose}
+              className="group w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-500 hover:text-neutral-950 flex items-center justify-center transition-all duration-200 active:scale-90 cursor-pointer"
+              aria-label="Close cart"
+            >
+              <X className="w-4 h-4 transition-transform duration-200 group-hover:rotate-90" />
+            </button>
+          </div>
         </div>
 
         {/* Middle Content: Items List or Order Complete */}
@@ -123,14 +258,20 @@ export default function CartDrawer({
               </div>
               <button
                 onClick={handleResetOrder}
-                className="mt-6 px-6 py-3 rounded-full bg-neutral-950 text-white text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 cursor-pointer"
+                className="mt-6 px-6 py-3 rounded-full bg-neutral-950 text-white text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 cursor-pointer"
               >
                 Continue Exploring
               </button>
             </div>
           ) : items.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-neutral-400">
-              <ShoppingCart className="w-12 h-12 stroke-[1.2] text-neutral-300" />
+            <div
+              className={`h-full flex flex-col items-center justify-center text-center p-6 space-y-4 text-neutral-400 transition-all duration-350 ease-out ${
+                isVisible ? "opacity-100 scale-100 delay-100" : "opacity-0 scale-95"
+              }`}
+            >
+              <div className="w-16 h-16 rounded-full bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-400">
+                <ShoppingCart className="w-7 h-7 stroke-[1.4] text-neutral-300" />
+              </div>
               <div className="space-y-1">
                 <h4 className="text-sm font-semibold text-neutral-800">
                   Your cart is empty
@@ -141,10 +282,15 @@ export default function CartDrawer({
               </div>
             </div>
           ) : (
-            items.map((item) => (
+            items.map((item, index) => (
               <div
                 key={`${item.product.id}-${item.variant.colorKey}`}
-                className="p-4 rounded-2xl bg-neutral-50 border border-neutral-100 flex gap-4 items-center"
+                style={{
+                  transitionDelay: isVisible ? `${100 + index * 40}ms` : "0ms",
+                }}
+                className={`p-4 rounded-2xl bg-neutral-50 border border-neutral-100/90 flex gap-4 items-center transition-all duration-350 ease-out hover:border-neutral-200 hover:shadow-2xs ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+                }`}
               >
                 {/* Variant Image */}
                 <div className="relative w-16 h-16 rounded-xl bg-white border border-neutral-200/60 shrink-0 p-1 flex items-center justify-center overflow-hidden">
@@ -223,7 +369,11 @@ export default function CartDrawer({
 
         {/* Bottom Checkout Box */}
         {!orderComplete && items.length > 0 && (
-          <div className="p-6 border-t border-neutral-100 bg-neutral-50/50 space-y-4">
+          <div
+            className={`p-6 border-t border-neutral-100 bg-neutral-50/60 space-y-4 transition-all duration-350 ease-out ${
+              isVisible ? "opacity-100 translate-y-0 delay-150" : "opacity-0 translate-y-3"
+            }`}
+          >
             <div className="space-y-2 text-xs">
               <div className="flex justify-between text-neutral-500 font-mono text-[11px]">
                 <span>Worldwide Courier</span>
