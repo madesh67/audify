@@ -37,16 +37,7 @@ export default function ProductDetailView({
   const [isAdded, setIsAdded] = useState(false);
 
   // Global Cart State from Context
-  const {
-    items: cartItems,
-    totalCount: totalCartCount,
-    addToCart,
-    updateQuantity: handleUpdateQuantity,
-    removeItem: handleRemoveItem,
-    clearCart,
-    isDrawerOpen: isCartOpen,
-    setIsDrawerOpen: setIsCartOpen,
-  } = useCart();
+  const { addToCart, setIsDrawerOpen: setIsCartOpen } = useCart();
 
   const handleVariantChange = (variant: ProductVariant) => {
     soundEngine.playClick(900);
@@ -66,48 +57,33 @@ export default function ProductDetailView({
   return (
     <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-24 sm:pt-28 md:pt-32 pb-24 select-none">
       {/* Container aligned strictly with homepage standard: max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 space-y-16 sm:space-y-24">
-        {/* Top Header: Breadcrumbs & Reservation Bag Trigger */}
-        <div className="flex items-center justify-between gap-4 pb-4 border-b border-neutral-200/60">
-          <nav className="flex items-center gap-2 text-xs font-mono text-neutral-500 overflow-x-auto">
-            <Link
-              href="/"
-              className="hover:text-neutral-950 transition-colors flex items-center gap-1"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Audify</span>
-            </Link>
-            <ChevronRight className="w-3 h-3 text-neutral-300" />
-            <Link
-              href="/products"
-              className="hover:text-neutral-950 transition-colors"
-            >
-              Catalog
-            </Link>
-            <ChevronRight className="w-3 h-3 text-neutral-300" />
-            <span className="text-neutral-950 font-semibold truncate max-w-[200px] sm:max-w-none">
-              {product.name}
-            </span>
-          </nav>
-
-          <button
-            onClick={() => {
-              soundEngine.playClick(800);
-              setIsCartOpen(true);
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200/80 active:scale-[0.97] text-neutral-950 text-xs font-mono transition-all duration-200 cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
-            aria-label="Open cart"
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
+        {/* Top Header: Breadcrumb Navigation */}
+        <nav className="flex items-center gap-2 text-xs font-mono text-neutral-500 overflow-x-auto pb-4 border-b border-neutral-200/60">
+          <Link
+            href="/"
+            className="hover:text-neutral-950 transition-colors flex items-center gap-1"
           >
-            <ShoppingBag className="w-3.5 h-3.5" />
-            <span>Bag</span>
-            <span className="w-4.5 h-4.5 rounded-full bg-neutral-950 text-white text-[10px] font-bold flex items-center justify-center">
-              {totalCartCount}
-            </span>
-          </button>
-        </div>
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Audify</span>
+          </Link>
+          <ChevronRight className="w-3 h-3 text-neutral-300" />
+          <Link
+            href="/products"
+            className="hover:text-neutral-950 transition-colors"
+          >
+            Catalog
+          </Link>
+          <ChevronRight className="w-3 h-3 text-neutral-300" />
+          <span className="text-neutral-950 font-semibold truncate max-w-[200px] sm:max-w-none">
+            {product.name}
+          </span>
+        </nav>
 
-        {/* STAGE 1: Clean Editorial Hero (Showcase Media Left, Buy Box Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Product Details & Subsequent Sections */}
+        <div className="mt-6 sm:mt-8 space-y-16 sm:space-y-24">
+          {/* STAGE 1: Clean Editorial Hero (Showcase Media Left, Buy Box Right) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column (lg:col-span-6): Hardware Showcase */}
           <div className="lg:col-span-6">
             {/* Double-Bezel Hardware Container — Sized to fit right side details */}
@@ -402,6 +378,7 @@ export default function ProductDetailView({
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
