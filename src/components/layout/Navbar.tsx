@@ -14,25 +14,9 @@ export default function Navbar() {
   const { scrollTo } = useLenis();
   const { totalCount } = useCart();
   const isHome = pathname === "/";
-  const [isScrolled, setIsScrolled] = React.useState(false);
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 24);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 pointer-events-none select-none ${
-        isScrolled
-          ? "py-3.5 bg-[#FEFEFE]/85 backdrop-blur-md border-b border-neutral-200/60 shadow-xs"
-          : "py-5 sm:py-6 md:py-8 bg-transparent"
-      }`}
-    >
+    <header className="fixed top-0 inset-x-0 z-50 py-3.5 bg-[#FEFEFE]/85 backdrop-blur-md border-b border-neutral-200/60 shadow-xs pointer-events-none select-none">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex items-center justify-between w-full">
         {/* Top-Left: Audify Brand Logo (Spectrogram Monogram + Wordmark) */}
         <div className="flex items-center pointer-events-auto">
