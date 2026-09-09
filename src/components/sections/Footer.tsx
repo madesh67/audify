@@ -79,14 +79,11 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
                   <Link
                     href="/products"
                     onClick={() => soundEngine.playChime()}
-                    className="group relative inline-flex items-center gap-6 sm:gap-7 px-9 sm:px-11 py-4.5 sm:py-5 rounded-full bg-neutral-950 text-white font-black text-base sm:text-lg uppercase tracking-tight shadow-[0_18px_40px_rgba(0,0,0,0.16)] hover:bg-neutral-800 cursor-pointer"
+                    className="group inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-4.5 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 font-bold text-sm sm:text-base uppercase tracking-wider shadow-md hover:shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
                     aria-label="Shop Now"
                   >
-                    <span>SHOP NOW</span>
-                    {/* Nested Trailing Icon without scale or translate animation */}
-                    <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-neutral-950 flex items-center justify-center shadow-xs">
-                      <ArrowUpRight className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
-                    </span>
+                    <span>Shop Now</span>
+                    <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </Link>
                 </div>
               </div>
@@ -141,7 +138,7 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
                   />
                   <button
                     type="submit"
-                    className="px-5 py-2.5 rounded-full bg-neutral-950 text-white font-semibold text-xs tracking-wider uppercase hover:bg-neutral-800 shrink-0 shadow-sm"
+                    className="px-5 py-2.5 rounded-full bg-neutral-950 text-white font-semibold text-xs tracking-wider uppercase hover:bg-neutral-800 active:scale-[0.98] shrink-0 shadow-xs cursor-pointer transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
                   >
                     Join
                   </button>

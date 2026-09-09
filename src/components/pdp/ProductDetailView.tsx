@@ -108,8 +108,8 @@ export default function ProductDetailView({
               soundEngine.playClick(800);
               setIsCartOpen(true);
             }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200/80 text-neutral-950 text-xs font-mono transition-colors cursor-pointer shrink-0"
-            aria-label="Open reservation bag"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200/80 active:scale-[0.97] text-neutral-950 text-xs font-mono transition-all duration-200 cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+            aria-label="Open cart"
           >
             <ShoppingBag className="w-3.5 h-3.5" />
             <span>Bag</span>
@@ -265,17 +265,24 @@ export default function ProductDetailView({
             <div className="space-y-3 pt-4">
               <button
                 onClick={handleAddToCart}
-                className="w-full group relative rounded-full py-4.5 px-8 bg-neutral-950 hover:bg-neutral-800 text-white flex items-center justify-between font-bold text-base sm:text-lg tracking-tight transition-all duration-300 shadow-xl cursor-pointer"
-                aria-label={`Reserve ${product.name}`}
+                className={`w-full group inline-flex items-center justify-center gap-3 rounded-full py-4 px-8 font-bold text-base tracking-tight transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
+                  isAdded
+                    ? "bg-emerald-600 hover:bg-emerald-500 text-white"
+                    : "bg-neutral-950 hover:bg-neutral-800 text-white"
+                }`}
+                aria-label={`Add ${product.name} to cart`}
               >
-                <span>{isAdded ? "Allocated to Bag" : `Reserve Instrument — $${product.price}`}</span>
-                <span className="w-10 h-10 rounded-full bg-white text-neutral-950 flex items-center justify-center shadow-xs group-hover:translate-x-0.5 transition-transform">
-                  {isAdded ? (
+                {isAdded ? (
+                  <>
                     <Check className="w-5 h-5 stroke-[2.5]" />
-                  ) : (
-                    <ArrowUpRight className="w-5 h-5 stroke-[2.5]" />
-                  )}
-                </span>
+                    <span>Added to Cart</span>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingBag className="w-5 h-5 stroke-[2]" />
+                    <span>Add to Cart — ${product.price} USD</span>
+                  </>
+                )}
               </button>
 
               <div className="text-center text-[11px] font-mono text-neutral-400">

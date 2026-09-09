@@ -96,7 +96,7 @@ export default function ProductCatalog() {
                   setSelectedCategory("all");
                   setSearchQuery("");
                 }}
-                className="px-5 py-2.5 rounded-full bg-neutral-950 text-white text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 cursor-pointer"
+                className="px-5 py-2.5 rounded-full bg-neutral-950 text-white text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
               >
                 Reset All Filters
               </button>

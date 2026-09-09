@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Check, Package, Sparkles, Star, X } from "lucide-react";
+import { ArrowUpRight, Check, Package, Plus, Sparkles, Star, X } from "lucide-react";
 import { Product, ProductVariant } from "@/data/products";
 import { soundEngine } from "@/utils/sound";
 
@@ -230,30 +230,23 @@ export default function ProductQuickView({
 
                 <button
                   onClick={handleAdd}
-                  className={`group relative rounded-full py-3.5 pl-6 pr-3 flex items-center gap-4 font-bold text-sm tracking-tight transition-all duration-300 shadow-md cursor-pointer ${
+                  className={`group inline-flex items-center justify-center gap-2.5 rounded-full py-3 px-6 font-semibold text-sm tracking-tight transition-all duration-200 shadow-sm cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
                     isAdded
-                      ? "bg-emerald-600 text-white"
-                      : "bg-neutral-950 text-white hover:bg-neutral-800"
+                      ? "bg-emerald-600 hover:bg-emerald-500 text-white"
+                      : "bg-neutral-950 hover:bg-neutral-800 text-white"
                   }`}
                 >
-                  <span>
-                    {isAdded
-                      ? "Allocated to Bag"
-                      : `Reserve ${selectedVariant.name}`}
-                  </span>
-                  <span
-                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 ${
-                      isAdded
-                        ? "bg-white text-emerald-700"
-                        : "bg-white text-neutral-950 group-hover:translate-x-0.5"
-                    }`}
-                  >
-                    {isAdded ? (
+                  {isAdded ? (
+                    <>
                       <Check className="w-4 h-4 stroke-[2.5]" />
-                    ) : (
-                      <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
-                    )}
-                  </span>
+                      <span>Added to Cart</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4 stroke-[2.5]" />
+                      <span>Add to Cart</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>

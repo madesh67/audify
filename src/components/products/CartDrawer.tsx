@@ -141,7 +141,7 @@ export default function CartDrawer({
               </div>
               <button
                 onClick={onClose}
-                className="mt-2 px-5 py-2.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-medium cursor-pointer"
+                className="mt-2 px-5 py-2.5 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-[0.98] text-neutral-900 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
               >
                 Browse Catalog
               </button>
@@ -254,12 +254,19 @@ export default function CartDrawer({
             <button
               onClick={handleCheckout}
               disabled={isCheckingOut}
-              className="w-full group relative rounded-full py-4 px-6 bg-neutral-950 hover:bg-neutral-800 text-white flex items-center justify-between font-bold text-sm tracking-tight transition-all duration-300 shadow-lg cursor-pointer disabled:opacity-70"
+              className="w-full inline-flex items-center justify-center gap-2.5 rounded-full py-3.5 px-6 bg-neutral-950 hover:bg-neutral-800 active:scale-[0.98] text-white font-bold text-sm tracking-tight transition-all duration-200 shadow-md cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
             >
-              <span>{isCheckingOut ? "Allocating Build..." : "Confirm Immediate Reservation"}</span>
-              <span className="w-8 h-8 rounded-full bg-white text-neutral-950 flex items-center justify-center shadow-xs group-hover:translate-x-0.5 transition-transform">
-                <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
-              </span>
+              {isCheckingOut ? (
+                <>
+                  <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  <span>Allocating Build...</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="w-4 h-4 text-neutral-300" />
+                  <span>Confirm Order — ${total} USD</span>
+                </>
+              )}
             </button>
 
             <div className="text-center text-[10px] font-mono text-neutral-400">

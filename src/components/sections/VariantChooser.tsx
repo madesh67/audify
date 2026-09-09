@@ -258,12 +258,10 @@ export default function VariantChooser({
                   soundEngine.playChime();
                   scrollTo("#buy-now-cta", { duration: 1.4 });
                 }}
-                className="group rounded-full py-2.5 pl-6 pr-2.5 bg-neutral-950 text-white flex items-center justify-between gap-4 font-medium text-xs sm:text-sm tracking-tight hover:bg-neutral-800 shadow-[0_4px_16px_rgba(0,0,0,0.12)] cursor-pointer"
+                className="group inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full bg-neutral-950 text-white font-semibold text-xs sm:text-sm uppercase tracking-wider hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
               >
                 <span>Order {activeVariant.name}</span>
-                <span className="w-8 h-8 rounded-full bg-white text-neutral-950 flex items-center justify-center shadow-xs">
-                  <ArrowUpRight className="w-4 h-4" />
-                </span>
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
             </div>
           </div>
