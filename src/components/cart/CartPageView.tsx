@@ -44,7 +44,7 @@ export default function CartPageView() {
 
   // Recommended instruments for empty state or bottom recommendations
   const recommendedItems = PRODUCTS.filter(
-    (p) => p.category === "speakers" || p.category === "headphones"
+    (p) => p.category === "speakers" || p.category === "earphones"
   ).slice(0, 3);
 
   const handleApplyPromo = (e: React.FormEvent) => {
