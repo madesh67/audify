@@ -96,29 +96,18 @@ export default function Navbar() {
             </Link>
 
             {/* About Us Nav Link */}
-            {isHome ? (
-              <a
-                href="#social-proof"
-                onClick={(e) => {
-                  e.preventDefault();
-                  soundEngine.playClick(600);
-                  scrollTo("#social-proof", { duration: 1.2 });
-                }}
-                className="text-xs sm:text-[13px] font-bold uppercase tracking-[0.14em] text-neutral-700 hover:text-neutral-950 cursor-pointer transition-colors"
-                aria-label="About Us"
-              >
-                About Us
-              </a>
-            ) : (
-              <Link
-                href="/#social-proof"
-                onClick={() => soundEngine.playClick(600)}
-                className="text-xs sm:text-[13px] font-bold uppercase tracking-[0.14em] text-neutral-700 hover:text-neutral-950 cursor-pointer transition-colors"
-                aria-label="About Us"
-              >
-                About Us
-              </Link>
-            )}
+            <Link
+              href="/about"
+              onClick={() => soundEngine.playClick(600)}
+              className={`text-xs sm:text-[13px] font-bold uppercase tracking-[0.14em] transition-colors cursor-pointer ${
+                pathname === "/about"
+                  ? "text-neutral-950 underline underline-offset-4 font-black"
+                  : "text-neutral-700 hover:text-neutral-950"
+              }`}
+              aria-label="About Us"
+            >
+              About Us
+            </Link>
           </nav>
 
           {/* Top-Right: Actions (Account & Cart Logo Button) */}

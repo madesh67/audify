@@ -179,14 +179,14 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
               </div>
               <ul className="space-y-2 text-neutral-600">
                 <li>
-                  <button onClick={toggleSound} className="hover:text-neutral-950 transition-colors flex items-center gap-1.5">
+                  <button onClick={toggleSound} className="hover:text-neutral-950 transition-colors flex items-center gap-1.5 cursor-pointer">
                     {soundActive ? <Volume2 className="w-3.5 h-3.5 text-emerald-600" /> : <VolumeX className="w-3.5 h-3.5 text-neutral-400" />}
                     <span>{soundActive ? "Audio Mute" : "Enable Audio"}</span>
                   </button>
                 </li>
-                <li><a href="#footer" className="hover:text-neutral-950 transition-colors">Mastering Suites</a></li>
+                <li><Link href="/about" className="hover:text-neutral-950 transition-colors">Acoustic Labs (About)</Link></li>
+                <li><Link href="/products" className="hover:text-neutral-950 transition-colors">All Instruments</Link></li>
                 <li><a href="#footer" className="hover:text-neutral-950 transition-colors">Warranty & Service</a></li>
-                <li><a href="#footer" className="hover:text-neutral-950 transition-colors">Sustainability</a></li>
               </ul>
             </div>
           </div>
