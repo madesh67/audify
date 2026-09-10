@@ -106,13 +106,13 @@ export default function VariantChooser({
         </div>
 
         {/* Studio Grid: Headset Showcase on Left, Clean Configurator on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-14 items-center">
           {/* Left Column: Headset Showcase Soundstage Target for 382th Frame Docking */}
           <div className="lg:col-span-6 flex justify-center lg:justify-start items-center">
             <div
               ref={showcaseRef}
               id="variant-showcase-box"
-              className="relative aspect-square w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px] rounded-3xl border border-neutral-200/90 bg-neutral-50/40 shadow-[0_10px_30px_rgba(0,0,0,0.03)] overflow-hidden flex items-center justify-center transition-all duration-700"
+              className="relative aspect-square w-full max-w-[300px] sm:max-w-[340px] md:max-w-[380px] lg:max-w-[440px] xl:max-w-[480px] rounded-3xl border border-neutral-200/90 bg-neutral-50/40 shadow-[0_10px_30px_rgba(0,0,0,0.03)] overflow-hidden flex items-center justify-center transition-all duration-700"
             >
               {/* Subtle inner radial depth */}
               <div
@@ -152,7 +152,7 @@ export default function VariantChooser({
           </div>
 
           {/* Right Column: Essential Details Only */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-6 sm:space-y-7">
+          <div className="lg:col-span-6 flex flex-col justify-center space-y-6 sm:space-y-7 max-w-xl mx-auto lg:max-w-none w-full">
             {/* 3 Clean Finish Switcher Tiles */}
             <div className="space-y-2.5">
               <div className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-neutral-400">

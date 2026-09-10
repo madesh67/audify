@@ -83,7 +83,7 @@ export default function ProductCard({
           <button
             type="button"
             onClick={handleAdd}
-            className={`group/btn inline-flex items-center justify-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-full font-semibold text-xs tracking-tight transition-all duration-200 shadow-xs cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
+            className={`group/btn inline-flex items-center justify-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 min-h-[38px] sm:min-h-[40px] rounded-full font-semibold text-xs tracking-tight transition-all duration-200 shadow-xs cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
               isAdded
                 ? "bg-emerald-600 hover:bg-emerald-500 text-white"
                 : "bg-neutral-950 text-white hover:bg-neutral-800"

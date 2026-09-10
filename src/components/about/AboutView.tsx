@@ -284,11 +284,11 @@ export default function AboutView() {
           </div>
 
           {/* Bento Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
             
             {/* Card 1 */}
             <div className="rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 hover:border-neutral-300 transition-all duration-300 flex flex-col">
-              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-8 flex flex-col justify-between flex-1 border border-neutral-100/60 space-y-6">
+              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-6 sm:p-7 md:p-6 lg:p-8 flex flex-col justify-between flex-1 border border-neutral-100/60 space-y-6">
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-neutral-900">
                     <Microscope className="w-6 h-6" />
@@ -304,7 +304,7 @@ export default function AboutView() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-[11px] font-mono text-neutral-500">
+                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-neutral-500">
                   <span>DRIVER TOLERANCE</span>
                   <span className="font-semibold text-neutral-950 font-mono">±0.3 dB</span>
                 </div>
@@ -313,7 +313,7 @@ export default function AboutView() {
 
             {/* Card 2 */}
             <div className="rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 hover:border-neutral-300 transition-all duration-300 flex flex-col">
-              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-8 flex flex-col justify-between flex-1 border border-neutral-100/60 space-y-6">
+              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-6 sm:p-7 md:p-6 lg:p-8 flex flex-col justify-between flex-1 border border-neutral-100/60 space-y-6">
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-neutral-900">
                     <ShieldCheck className="w-6 h-6" />
@@ -329,7 +329,7 @@ export default function AboutView() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-[11px] font-mono text-neutral-500">
+                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-neutral-500">
                   <span>CHASSIS RESILIENCE</span>
                   <span className="font-semibold text-neutral-950 font-mono">PVD Titanium</span>
                 </div>
@@ -338,7 +338,7 @@ export default function AboutView() {
 
             {/* Card 3 */}
             <div className="rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 hover:border-neutral-300 transition-all duration-300 flex flex-col">
-              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-8 flex flex-col justify-between flex-1 border border-neutral-100/60 space-y-6">
+              <div className="rounded-[calc(2rem-0.375rem)] bg-white p-6 sm:p-7 md:p-6 lg:p-8 flex flex-col justify-between flex-1 border border-neutral-100/60 space-y-6">
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-neutral-900">
                     <Wrench className="w-6 h-6" />
@@ -354,7 +354,7 @@ export default function AboutView() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-[11px] font-mono text-neutral-500">
+                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-neutral-500">
                   <span>FACTORY WARRANTY</span>
                   <span className="font-semibold text-neutral-950 font-mono">3 Years Full</span>
                 </div>
@@ -502,7 +502,7 @@ export default function AboutView() {
                 </h4>
               </div>
 
-              <div className="space-y-4 text-xs font-mono">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-1 gap-3 sm:gap-4 text-xs font-mono">
                 <div
                   onClick={() => handleCopyLocation("Stockholm Acoustics Lab • Anechoic Test Suite 04")}
                   className="p-3.5 rounded-2xl bg-neutral-50 border border-neutral-200/70 hover:bg-neutral-100 transition-colors cursor-pointer space-y-1"

@@ -296,7 +296,7 @@ export default function SocialReviewCanvas() {
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Side: Section Heading and Small Description only */}
-          <div className="lg:col-span-5 flex flex-col space-y-3 sm:space-y-4 lg:pr-6">
+          <div className="lg:col-span-5 flex flex-col space-y-3 sm:space-y-4 lg:pr-6 max-w-2xl">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-neutral-950 leading-[1.08]">
               Reviews &amp;{" "}
               <span className="font-semibold text-neutral-950">
@@ -311,9 +311,9 @@ export default function SocialReviewCanvas() {
 
           {/* Right Side: Creative Review Canvas with 3 Columns Running in a Diagonal Path */}
           {/* Exactly preserving container width and height */}
-          <div className="lg:col-span-7 relative h-[420px] sm:h-[480px] lg:h-[530px] w-full rounded-3xl border border-transparent bg-transparent p-2 sm:p-4 overflow-hidden">
+          <div className="lg:col-span-7 relative h-[420px] sm:h-[460px] md:h-[500px] lg:h-[530px] w-full rounded-3xl border border-transparent bg-transparent p-2 sm:p-4 overflow-hidden">
             {/* Rotated Diagonal Canvas Wrapper with 3 Columns */}
-            <div className="absolute -inset-14 sm:-inset-16 flex justify-center items-center pointer-events-auto rotate-[9deg] scale-100 sm:scale-105">
+            <div className="absolute -inset-14 sm:-inset-16 md:-inset-20 lg:-inset-16 flex justify-center items-center pointer-events-auto rotate-[9deg] scale-100 sm:scale-105 md:scale-100 lg:scale-105">
               <div className="flex gap-3 sm:gap-3.5 lg:gap-4 justify-center items-center">
                 {/* Column 1: Left Lane (drifts up) */}
                 <div className="animate-marquee-up opacity-60 hover:opacity-100 transition-opacity">

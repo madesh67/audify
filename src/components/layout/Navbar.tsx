@@ -116,7 +116,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={handleAccountClick}
-              className="relative p-2.5 rounded-full text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
+              className="relative w-10 h-10 rounded-full flex items-center justify-center text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
               aria-label="Account"
               title="Account"
             >
@@ -127,7 +127,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={handleCartClick}
-              className="relative p-2.5 rounded-full text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
+              className="relative w-10 h-10 rounded-full flex items-center justify-center text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
               aria-label={`Open Cart (${totalCount} items)`}
               title="Cart"
             >

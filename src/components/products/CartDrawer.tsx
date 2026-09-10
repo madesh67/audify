@@ -330,7 +330,7 @@ export default function CartDrawer({
                       soundEngine.playClick(500);
                       onRemoveItem(item.product.id, item.variant.colorKey);
                     }}
-                    className="text-neutral-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
+                    className="text-neutral-400 hover:text-red-500 transition-colors p-1.5 cursor-pointer"
                     aria-label="Remove item"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -342,7 +342,7 @@ export default function CartDrawer({
                         soundEngine.playClick(600);
                         onUpdateQuantity(item.product.id, item.variant.colorKey, -1);
                       }}
-                      className="hover:text-neutral-950 text-neutral-500 cursor-pointer"
+                      className="hover:text-neutral-950 text-neutral-500 cursor-pointer p-1"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="w-3 h-3" />
@@ -355,7 +355,7 @@ export default function CartDrawer({
                         soundEngine.playClick(800);
                         onUpdateQuantity(item.product.id, item.variant.colorKey, 1);
                       }}
-                      className="hover:text-neutral-950 text-neutral-500 cursor-pointer"
+                      className="hover:text-neutral-950 text-neutral-500 cursor-pointer p-1"
                       aria-label="Increase quantity"
                     >
                       <Plus className="w-3 h-3" />

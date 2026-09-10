@@ -200,7 +200,7 @@ export default function CartPageView() {
           /* Main Cart Grid: Left Ledger (7 cols) + Right Summary Card (5 cols) */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
             {/* Left Ledger Column */}
-            <div className="lg:col-span-7 space-y-4">
+            <div className="lg:col-span-7 space-y-4 max-w-2xl mx-auto lg:max-w-none w-full">
               <div className="flex items-center justify-between pb-2">
                 <h2 className="text-xs font-mono uppercase tracking-widest text-neutral-400">
                   Allocated Items ({totalCount})
@@ -335,7 +335,7 @@ export default function CartPageView() {
             </div>
 
             {/* Right Summary Column */}
-            <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6 max-w-2xl mx-auto lg:max-w-none w-full">
               {/* Double-Bezel Order Receipt Container */}
               <div className="rounded-[2.5rem] p-2 bg-neutral-100/70 border border-neutral-200/80 shadow-xl">
                 <div className="rounded-[calc(2.5rem-0.5rem)] bg-white p-6 sm:p-8 space-y-6">
