@@ -42,9 +42,9 @@ export default function CartPageView() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
 
-  // Recommended accessories for empty state or bottom recommendations
+  // Recommended instruments for empty state or bottom recommendations
   const recommendedItems = PRODUCTS.filter(
-    (p) => p.category === "accessories" || p.category === "hardware"
+    (p) => p.category === "speakers" || p.category === "headphones"
   ).slice(0, 3);
 
   const handleApplyPromo = (e: React.FormEvent) => {

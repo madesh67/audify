@@ -147,7 +147,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     <Package className="w-4 h-4 text-neutral-700" />
                     <div>
                       <div className="text-xs font-bold text-neutral-900">
-                        Audify Ultra 01 — Obsidian
+                        Audify Ultra — Obsidian
                       </div>
                       <div className="text-[10px] text-neutral-500">
                         Order #AUD-48291 • Dispatched (2-Day Air)
