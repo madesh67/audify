@@ -80,12 +80,12 @@ export default function Navbar() {
           </div>
 
           {/* Center: Navigation Links (Shop, About Us) */}
-          <nav className="flex items-center gap-3.5 sm:gap-6 md:gap-9 pointer-events-auto absolute left-1/2 -translate-x-1/2">
+          <nav className="flex items-center gap-3 sm:gap-6 md:gap-9 pointer-events-auto absolute left-1/2 -translate-x-1/2">
             {/* Shop Nav Link */}
             <Link
               href="/products"
               onClick={() => soundEngine.playClick(600)}
-              className={`text-xs sm:text-[13px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
+              className={`text-[11px] sm:text-[13px] font-bold uppercase tracking-[0.10em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
                 pathname === "/products" || pathname.startsWith("/products/")
                   ? "text-neutral-950 underline underline-offset-4 font-black"
                   : "text-neutral-700 hover:text-neutral-950"
@@ -99,7 +99,7 @@ export default function Navbar() {
             <Link
               href="/about"
               onClick={() => soundEngine.playClick(600)}
-              className={`text-xs sm:text-[13px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
+              className={`text-[11px] sm:text-[13px] font-bold uppercase tracking-[0.10em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
                 pathname === "/about"
                   ? "text-neutral-950 underline underline-offset-4 font-black"
                   : "text-neutral-700 hover:text-neutral-950"

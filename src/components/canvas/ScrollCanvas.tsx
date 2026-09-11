@@ -41,12 +41,12 @@ const tabletKeyframes: ScaleKeyframe[] = [
 ];
 
 const mobileKeyframes: ScaleKeyframe[] = [
-  { progress: 0.0, scale: 1.05 },  // Hero landing: balanced mobile presence
-  { progress: 0.03, scale: 1.05 },
-  { progress: 0.08, scale: 0.90 }, // Stages: clearance for exploded parts
-  { progress: 0.54, scale: 0.90 },
-  { progress: 0.66, scale: 0.88 },
-  { progress: 0.73, scale: 0.90 }, // Fully assembled
+  { progress: 0.0, scale: 1.12 },  // Hero landing: bold, majestic mobile presence
+  { progress: 0.03, scale: 1.12 },
+  { progress: 0.08, scale: 0.96 }, // Stages: exploded parts fit with generous padding
+  { progress: 0.54, scale: 0.96 },
+  { progress: 0.66, scale: 0.94 },
+  { progress: 0.73, scale: 1.00 }, // Fully assembled
 ];
 
 function getInterpolatedScale(progress: number, keyframes: ScaleKeyframe[]): number {
@@ -209,14 +209,16 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
     // Aspect ratio containment with portrait compensation
     const imgW = img.naturalWidth || 1920;
     const imgH = img.naturalHeight || 1080;
-    const isPortrait = height > width;
-    const baseScale = isPortrait
-      ? Math.max((width / imgW) * 1.45, (height / imgH) * 0.50)
-      : Math.min(width / imgW, height / imgH);
-
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const isMobile = width < 768 * dpr;
     const isTablet = width >= 768 * dpr && width < 1024 * dpr;
+    const isPortrait = height > width;
+    const baseScale = isPortrait
+      ? isMobile
+        ? Math.max((width / imgW) * 2.25, (height / imgH) * 0.65)
+        : Math.max((width / imgW) * 1.45, (height / imgH) * 0.50)
+      : Math.min(width / imgW, height / imgH);
+
     const keyframes = isMobile
       ? mobileKeyframes
       : isTablet
@@ -226,7 +228,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
 
     const heroScale = baseScale * dynamicMultiplier;
     const heroCenterX = width / 2;
-    const heroCenterY = height / 2;
+    const heroCenterY = isMobile ? height * 0.465 : height / 2;
 
     let finalCenterX = heroCenterX;
     let finalCenterY = heroCenterY;
@@ -671,10 +673,10 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                 sourceSelector="#s1-joint-source"
                 sourceSide="left"
               />
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-12 sm:pt-20 md:pt-0">
                 {/* Eyebrow */}
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s1 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
+                  <div className="reveal-line-s1 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
                     <span>ARCHITECTURE & FITTING</span>
                   </div>
@@ -682,51 +684,51 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
 
                 {/* Masked Headline Lines */}
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s1 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s1 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     <span id="s1-arch-source" className="inline-block">Lightweight Titanium Frame</span>
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s1 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s1 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     & Zero Head Pressure
                   </h2>
                 </div>
 
                 {/* Masked Body Copy */}
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s1 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
+                  <p className="reveal-line-s1 text-[11px] sm:text-xs lg:text-sm text-neutral-500 leading-snug font-normal line-clamp-2 sm:line-clamp-none max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
                     Crafted from ultra-light titanium with a flexible contour that gently hugs your head. It distributes weight so evenly that you can wear it all day long without any pinching or fatigue.
                   </p>
                 </div>
               </div>
 
-              {/* Right Technical Specs: Strict Monospace Floating Column */}
-              <div className="mt-auto md:mt-0 pb-8 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-3.5 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Right Technical Specs: Clean Responsive Column/Grid */}
+              <div className="mt-auto md:mt-0 pb-5 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s1 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
+                  <div className="reveal-line-s1 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
                       FEATHERLIGHT WEIGHT
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      268<span className="text-xs text-neutral-400 font-normal ml-1">g</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                      268<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">g</span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       FEELS VIRTUALLY WEIGHTLESS
                     </div>
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s1 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
-                      AEROSPACE TITANIUM
+                  <div className="reveal-line-s1 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
+                      AEROSPACE ALLOY
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      <span id="s1-joint-source" className="inline-block">
-                        Grade 5<span className="text-xs text-neutral-400 font-normal ml-1">Titanium</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                      <span id="s1-joint-source" className="inline-block whitespace-nowrap">
+                        Grade 5<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">Ti</span>
                       </span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       FLEXES WITHOUT BREAKING
                     </div>
                   </div>
@@ -766,10 +768,10 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               />
 
               {/* Right Editorial Floating Typography (text-left md:text-right) */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-12 sm:pt-20 md:pt-0">
                 {/* Eyebrow */}
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s2 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
+                  <div className="reveal-line-s2 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span>ACOUSTIC CHAMBER</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
                   </div>
@@ -777,51 +779,51 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
 
                 {/* Masked Headline Lines */}
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s2 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s2 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     <span id="s2-cushion-source" className="inline-block">Cloud-Soft</span> Cushions
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s2 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s2 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     & Deep, Punchy Bass
                   </h2>
                 </div>
 
                 {/* Masked Body Copy */}
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s2 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px] md:ml-auto">
+                  <p className="reveal-line-s2 text-[11px] sm:text-xs lg:text-sm text-neutral-500 leading-snug font-normal line-clamp-2 sm:line-clamp-none max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px] md:ml-auto">
                     Plush memory foam pillows gently wrap around your ears in breathable comfort. They create an airtight acoustic seal that keeps deep bass inside and room noise out—never feeling hot or tight.
                   </p>
                 </div>
               </div>
 
-              {/* Left Technical Specs: Strict Monospace Floating Column */}
-              <div className="mt-auto md:mt-0 pb-8 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-3.5 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Left Technical Specs */}
+              <div className="mt-auto md:mt-0 pb-5 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s2 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
+                  <div className="reveal-line-s2 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
                       ACOUSTIC DRIVER
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      <span id="s2-chamber-source" className="inline-block">
-                        40<span className="text-xs text-neutral-400 font-normal ml-1">mm Custom</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                      <span id="s2-chamber-source" className="inline-block whitespace-nowrap">
+                        40<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">mm Custom</span>
                       </span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       BIO-CELLULOSE SOUND CHAMBER
                     </div>
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s2 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
+                  <div className="reveal-line-s2 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
                       ACOUSTIC SEAL
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      Airtight
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono whitespace-nowrap">
+                      Airtight Seal
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       LOCKS IN DEEP RESONANT BASS
                     </div>
                   </div>
@@ -835,57 +837,57 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               className="absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between opacity-0 px-4 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Left Editorial Floating Typography */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-12 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s3 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
+                  <div className="reveal-line-s3 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
                     <span>ACTIVE ISOLATION</span>
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s3 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s3 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     Silence the World Around You
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s3 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s3 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     & Hear Pure Sound
                   </h2>
                 </div>
 
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s3 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
+                  <p className="reveal-line-s3 text-[11px] sm:text-xs lg:text-sm text-neutral-500 leading-snug font-normal line-clamp-2 sm:line-clamp-none max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
                     Instantly mute airplane engines, train noise, and loud chatter with one touch. Six smart microphones listen to outside noise and cancel it in real time, so all you hear is crisp, studio-quality music.
                   </p>
                 </div>
               </div>
 
-              {/* Right Technical Specs: Strict Monospace Floating Column */}
-              <div className="mt-auto md:mt-0 pb-8 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-3.5 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Right Technical Specs */}
+              <div className="mt-auto md:mt-0 pb-5 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s3 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
-                      ACTIVE NOISE CANCELING
+                  <div className="reveal-line-s3 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
+                      ACTIVE CANCELING
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      -42<span className="text-xs text-neutral-400 font-normal ml-1">dB</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                      -42<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">dB</span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       MUTES FLIGHT & COMMUTE NOISE
                     </div>
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s3 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
-                      STUDIO SOUND CLARITY
+                  <div className="reveal-line-s3 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
+                      STUDIO CLARITY
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono whitespace-nowrap">
                       Master HD
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       HEAR EVERY LYRIC & NOTE
                     </div>
                   </div>
@@ -899,57 +901,57 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               className="absolute inset-0 flex flex-col md:flex-row-reverse items-start md:items-center justify-between opacity-0 px-4 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Right Editorial Floating Typography (text-left md:text-right) */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-12 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s4 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
+                  <div className="reveal-line-s4 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span>EXTENDED LIFESPAN</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s4 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s4 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     65-Hour Battery Life
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s4 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s4 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     & 15-Minute Fast Charge
                   </h2>
                 </div>
 
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s4 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px] md:ml-auto">
+                  <p className="reveal-line-s4 text-[11px] sm:text-xs lg:text-sm text-neutral-500 leading-snug font-normal line-clamp-2 sm:line-clamp-none max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px] md:ml-auto">
                     Listen for weeks without plugging in. Enjoy up to 65 hours of non-stop music on a single charge. Running low? A quick 15-minute charge gives you 8 full hours of playback before you leave.
                   </p>
                 </div>
               </div>
 
-              {/* Left Technical Specs: Strict Monospace Floating Column */}
-              <div className="mt-auto md:mt-0 pb-8 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-3.5 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Left Technical Specs */}
+              <div className="mt-auto md:mt-0 pb-5 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s4 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
-                      PLAYTIME PER CHARGE
+                  <div className="reveal-line-s4 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
+                      PLAYTIME
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      65<span className="text-xs text-neutral-400 font-normal ml-1">Hours</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                      65<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">Hours</span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       OVER TWO WEEKS OF MUSIC
                     </div>
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s4 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
-                      EMERGENCY FAST CHARGE
+                  <div className="reveal-line-s4 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
+                      FAST CHARGE
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      15<span className="text-xs text-neutral-400 font-normal ml-1">Minutes</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                      15<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">Minutes</span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       POWERS A FULL 8-HOUR WORKDAY
                     </div>
                   </div>
@@ -963,57 +965,57 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               className="absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between opacity-0 px-4 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Left Editorial Floating Typography */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-12 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s5 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
+                  <div className="reveal-line-s5 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
                     <span>ULTRA-LINK STREAM</span>
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s5 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s5 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     Instant Multi-Device Link
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s5 text-xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
+                  <h2 className="reveal-line-s5 text-lg sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-tight">
                     & Zero Audio Delay
                   </h2>
                 </div>
 
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s5 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
+                  <p className="reveal-line-s5 text-[11px] sm:text-xs lg:text-sm text-neutral-500 leading-snug font-normal line-clamp-2 sm:line-clamp-none max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
                     Stay seamlessly connected to your phone, laptop, and tablet all at once. Take calls and watch movies without reconnecting, while enjoying zero audio delay for gaming and an ultra-steady stream that never drops out.
                   </p>
                 </div>
               </div>
 
-              {/* Right Technical Specs: Strict Monospace Floating Column */}
-              <div className="mt-auto md:mt-0 pb-8 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-3.5 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Right Technical Specs */}
+              <div className="mt-auto md:mt-0 pb-5 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s5 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
-                      MULTI-DEVICE PAIRING
+                  <div className="reveal-line-s5 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
+                      MULTI-DEVICE
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      Instant<span className="text-xs text-neutral-400 font-normal ml-1">Switch</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono whitespace-nowrap">
+                      Instant<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">Switch</span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       SEAMLESS PHONE & LAPTOP LINK
                     </div>
                   </div>
                 </div>
 
                 <div className="overflow-hidden">
-                  <div className="reveal-line-s5 space-y-1 font-mono">
-                    <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
+                  <div className="reveal-line-s5 space-y-0.5 sm:space-y-1 font-mono">
+                    <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
                       LOW-LATENCY AUDIO
                     </div>
-                    <div className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
-                      Zero<span className="text-xs text-neutral-400 font-normal ml-1">Lag</span>
+                    <div className="text-lg sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono whitespace-nowrap">
+                      Zero<span className="text-xs text-neutral-400 font-normal ml-0.5 sm:ml-1">Lag</span>
                     </div>
-                    <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
+                    <div className="hidden sm:block text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
                       PERFECT FOR MOVIES & GAMING
                     </div>
                   </div>
