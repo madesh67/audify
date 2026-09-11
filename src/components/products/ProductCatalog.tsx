@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { PRODUCTS, Product, ProductVariant } from "@/data/products";
+import { PRODUCTS, Product } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import ProductFilterBar from "@/components/products/ProductFilterBar";
-import ProductQuickView from "@/components/products/ProductQuickView";
 import { soundEngine } from "@/utils/sound";
 import { useCart } from "@/context/CartContext";
 
@@ -12,7 +11,6 @@ export default function ProductCatalog() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
-  const [quickViewTarget, setQuickViewTarget] = useState<{ product: Product; variant?: ProductVariant } | null>(null);
 
   // Global Cart State
   const {
@@ -61,25 +59,15 @@ export default function ProductCatalog() {
     <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-24 sm:pt-28 md:pt-32 pb-24">
       {/* Main Container snapped to strict design system guide rails: max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
-        {/* Page Hero Header with tablet-refined proportions */}
-        <div className="pb-6 sm:pb-8 border-b border-neutral-200/70 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 text-[10px] font-mono tracking-widest uppercase text-neutral-600 mb-2.5">
-              <span>Acoustic Instruments</span>
-              <span>•</span>
-              <span>Flagship Lineup</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-[-0.04em] uppercase text-neutral-950">
-              All Products
-            </h1>
-          </div>
-          <p className="text-xs sm:text-sm font-mono text-neutral-500 max-w-xs sm:text-right">
-            Flagship acoustic engineering, beryllium drivers & bespoke titanium hardware.
-          </p>
+        {/* Page Hero Header */}
+        <div className="pb-8 sm:pb-10 border-b border-neutral-200/70">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-[-0.04em] uppercase text-neutral-950">
+            All Products
+          </h1>
         </div>
 
         {/* Filter Bar Controls */}
-        <div className="pt-6 sm:pt-8">
+        <div className="pt-8 sm:pt-10">
           <ProductFilterBar
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
@@ -91,8 +79,8 @@ export default function ProductCatalog() {
           />
         </div>
 
-        {/* Product Grid: 1 col on small phone, 2 cols on tablet, 3 cols on desktop */}
-        <div className="pt-8 sm:pt-10">
+        {/* Product Grid: 1 col mobile, 2 cols tablet, 3 cols desktop */}
+        <div className="pt-10 sm:pt-12">
           {filteredProducts.length === 0 ? (
             <div className="py-20 text-center rounded-3xl bg-neutral-50 border border-neutral-200/80 p-8 space-y-4">
               <div className="text-base font-semibold text-neutral-900">
@@ -113,33 +101,18 @@ export default function ProductCatalog() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   product={product}
                   onAddToCart={handleAddToCart}
-                  onQuickView={(p, v) => setQuickViewTarget({ product: p, variant: v })}
                 />
               ))}
             </div>
           )}
         </div>
       </div>
-
-      {/* Interactive Quick View Modal for Tablet & Desktop */}
-      {quickViewTarget && (
-        <ProductQuickView
-          product={quickViewTarget.product}
-          initialVariant={quickViewTarget.variant}
-          isOpen={!!quickViewTarget}
-          onClose={() => setQuickViewTarget(null)}
-          onAddToCart={(p, v) => {
-            handleAddToCart(p, v);
-            setQuickViewTarget(null);
-          }}
-        />
-      )}
     </div>
   );
 }
