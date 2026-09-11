@@ -43,6 +43,12 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
       return;
     }
 
+    // Ensure all wordmark letters are fully visible immediately if dismissing
+    const validLetters = lettersRef.current.filter(Boolean) as HTMLSpanElement[];
+    if (validLetters.length > 0) {
+      gsap.set(validLetters, { y: 0, opacity: 1 });
+    }
+
     const tl = gsap.timeline({
       onComplete: () => {
         setIsVisible(false);
@@ -54,10 +60,10 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
       tl.to(
         logoContainerRef.current,
         {
-          y: -18,
-          scale: 1.04,
+          y: -16,
+          scale: 1.03,
           opacity: 0,
-          duration: 0.45,
+          duration: 0.40,
           ease: "power2.in",
         },
         0
@@ -68,7 +74,7 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
       containerRef.current,
       {
         clipPath: "inset(0 0 100% 0)",
-        duration: 0.65,
+        duration: 0.55,
         ease: "power4.inOut",
       },
       "-=0.18"
@@ -97,7 +103,7 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
 
       const validLetters = lettersRef.current.filter(Boolean) as HTMLSpanElement[];
       validLetters.forEach((l) => {
-        gsap.set(l, { x: -24, opacity: 0 });
+        gsap.set(l, { y: 8, opacity: 0 });
       });
 
       // 2. Act 1: The Sonic Ping (Symmetrical Equalizer Awakening at y=320)
@@ -171,18 +177,18 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
         );
       }
 
-      // 4. Act 3: Wordmark Unfurl (Energy transfers from Chevron right leg into letters)
+      // 4. Act 3: Wordmark Kinetic Reveal (Smooth harmonic entrance)
       if (validLetters.length > 0) {
         tl.to(
           validLetters,
           {
-            x: 0,
+            y: 0,
             opacity: 1,
-            duration: 0.38,
+            duration: 0.36,
             stagger: 0.04,
-            ease: "power3.out",
+            ease: "power2.out",
           },
-          0.68
+          0.58
         );
       }
 
@@ -209,21 +215,21 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
     return () => ctx.revert();
   }, []);
 
-  // Guarantee minimum duration for logo animation to unfold (~1.6s)
+  // Guarantee minimum duration for logo animation to unfold (~1.4s)
   useEffect(() => {
     const minAnimTimer = setTimeout(() => {
       animationReadyRef.current = true;
       if (assetsReadyRef.current) {
         dismiss();
       }
-    }, 1600);
+    }, 1400);
 
     return () => clearTimeout(minAnimTimer);
   }, [dismiss]);
 
   // Asset readiness trigger
   useEffect(() => {
-    if ((progress.isReady || progress.percentage >= 35) && !hasFinishedRef.current) {
+    if ((progress.isReady || progress.percentage >= 25) && !hasFinishedRef.current) {
       assetsReadyRef.current = true;
       if (animationReadyRef.current) {
         dismiss();
@@ -231,11 +237,11 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
     }
   }, [progress.isReady, progress.percentage, dismiss]);
 
-  // Safety fallback timer: 2.5s max
+  // Safety fallback timer: 2.2s max
   useEffect(() => {
     const safetyTimer = setTimeout(() => {
       dismiss();
-    }, 2500);
+    }, 2200);
     return () => clearTimeout(safetyTimer);
   }, [dismiss]);
 
@@ -307,8 +313,8 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
             ))}
           </svg>
 
-          {/* Masked Slide Reveal for Remaining Letters: U D I F Y */}
-          <div className="overflow-hidden inline-flex items-center">
+          {/* Kinetic Harmonic Reveal for Remaining Letters: U D I F Y */}
+          <div className="inline-flex items-center">
             {REMAINING_LETTERS.map((letter, i) => (
               <span
                 key={i}
@@ -318,7 +324,7 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
                 className="inline-block will-change-transform"
                 style={{
                   opacity: 0,
-                  transform: "translateX(-24px)",
+                  transform: "translateY(8px)",
                 }}
               >
                 {letter}
