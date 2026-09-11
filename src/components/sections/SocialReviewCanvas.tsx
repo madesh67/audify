@@ -287,7 +287,39 @@ function ReviewCard({
   );
 }
 
+// Curated mobile reviews (diverse mix of professions and use cases)
+const mobileReviews: SocialReview[] = [
+  reviewsData[5], // Kai Takahashi (YouTube) - switched from AirPods Max
+  reviewsData[1], // Dr. Aris Thorne (X) - acoustics expert, beryllium diaphragms
+  reviewsData[3], // Chloe Martinez (Instagram) - Obsidian unboxing, luxury feel
+  reviewsData[2], // daily_driver_92 (Reddit) - clean bass, Spotify
+  reviewsData[0], // Liam K. (X) - 8h flight Tokyo, 70% battery
+  reviewsData[8], // Sofia Reyes (X) - WFH, zero clamp headaches, studio mic
+];
+
 export default function SocialReviewCanvas() {
+  const [activeMobileIndex, setActiveMobileIndex] = React.useState(0);
+  const mobileScrollRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollToIndex = (index: number) => {
+    if (!mobileScrollRef.current) return;
+    const container = mobileScrollRef.current;
+    const targetCard = container.children[index] as HTMLElement;
+    if (targetCard) {
+      targetCard.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
+    setActiveMobileIndex(index);
+  };
+
+  const handleMobileScroll = () => {
+    if (!mobileScrollRef.current) return;
+    const container = mobileScrollRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.children[0] ? (container.children[0] as HTMLElement).offsetWidth + 12 : 280;
+    const index = Math.min(mobileReviews.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+    setActiveMobileIndex(index);
+  };
+
   return (
     <section
       id="critical-acclaim"
@@ -316,8 +348,8 @@ export default function SocialReviewCanvas() {
             </div>
           </div>
 
-          {/* Right Side: Creative Review Canvas with Smooth Top/Bottom Gradient Fade */}
-          <div className="md:col-span-7 relative h-[380px] sm:h-[400px] md:h-[420px] lg:h-[530px] w-full rounded-3xl border border-transparent bg-transparent p-2 sm:p-4 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)]">
+          {/* Right Side: Creative Review Canvas (Desktop and Tablet Only - hidden on mobile) */}
+          <div className="hidden md:block md:col-span-7 relative h-[380px] sm:h-[400px] md:h-[420px] lg:h-[530px] w-full rounded-3xl border border-transparent bg-transparent p-2 sm:p-4 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)]">
             {/* Rotated Canvas Wrapper (2 lanes on tablet, 3 lanes on desktop) */}
             <div className="absolute -inset-10 sm:-inset-12 md:-inset-14 lg:-inset-16 flex justify-center items-center pointer-events-auto rotate-0 md:rotate-[5deg] lg:rotate-[9deg] scale-100 lg:scale-105">
               <div className="flex gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4 justify-center items-center">
@@ -342,6 +374,123 @@ export default function SocialReviewCanvas() {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile-Only: Proper Mobile-Responsive Review Carousel (Clean, Stable, Touch-Friendly) */}
+        <div className="block md:hidden mt-8">
+          {/* Horizontal Snap Scroll Container */}
+          <div
+            ref={mobileScrollRef}
+            onScroll={handleMobileScroll}
+            className="flex gap-3.5 overflow-x-auto snap-x snap-mandatory py-2 px-1 -mx-1 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {mobileReviews.map((review) => (
+              <div
+                key={`mobile-rev-${review.id}`}
+                className="w-[82vw] max-w-[310px] shrink-0 snap-center rounded-2xl border border-neutral-200/90 bg-white p-4 sm:p-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)] flex flex-col justify-between"
+              >
+                <div>
+                  {/* Author & Platform Header */}
+                  <div className="flex items-center justify-between gap-2.5 mb-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div
+                        className={`w-9 h-9 rounded-full ${review.avatarBg} flex items-center justify-center font-mono font-semibold text-xs shrink-0 shadow-xs`}
+                      >
+                        {review.avatarText}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1">
+                          <span className="font-semibold text-neutral-950 text-xs sm:text-sm truncate">
+                            {review.name}
+                          </span>
+                          {review.verified && (
+                            <svg
+                              className="w-3.5 h-3.5 fill-sky-500 shrink-0"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                          )}
+                        </div>
+                        <div className="font-mono text-[11px] text-neutral-400 truncate">
+                          {review.handle}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="w-7 h-7 rounded-full bg-neutral-50 border border-neutral-200/70 flex items-center justify-center shrink-0">
+                      <PlatformIcon platform={review.platform} />
+                    </div>
+                  </div>
+
+                  {/* Rating Stars */}
+                  <div className="flex items-center gap-1 mb-2.5 text-amber-500 text-xs tracking-wider">
+                    <span>★★★★★</span>
+                    <span className="font-mono text-[10px] text-neutral-400 font-normal ml-1">
+                      Verified Owner
+                    </span>
+                  </div>
+
+                  {/* Review Body Text */}
+                  <p className="text-neutral-800 text-xs leading-relaxed font-normal mb-4">
+                    &ldquo;{review.text}&rdquo;
+                  </p>
+                </div>
+
+                {/* Footer Timestamp & Metrics */}
+                <div className="pt-2.5 border-t border-neutral-100 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-neutral-400">
+                  <span>{review.timestamp}</span>
+                  <span className="text-neutral-600 font-medium">{review.metrics}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile Navigation Controls: Pagination Dots & Arrows */}
+          <div className="flex items-center justify-between pt-3.5 px-1">
+            {/* Pagination Dots */}
+            <div className="flex items-center gap-1.5">
+              {mobileReviews.map((_, idx) => (
+                <button
+                  key={`dot-${idx}`}
+                  onClick={() => scrollToIndex(idx)}
+                  aria-label={`Go to review ${idx + 1}`}
+                  className={`transition-all duration-300 rounded-full h-1.5 cursor-pointer ${
+                    activeMobileIndex === idx
+                      ? "w-6 bg-neutral-950"
+                      : "w-1.5 bg-neutral-300 hover:bg-neutral-400"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Prev / Next Chevrons & Counter */}
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[11px] text-neutral-400 mr-1">
+                {activeMobileIndex + 1} / {mobileReviews.length}
+              </span>
+              <button
+                onClick={() => scrollToIndex(Math.max(0, activeMobileIndex - 1))}
+                disabled={activeMobileIndex === 0}
+                aria-label="Previous review"
+                className="w-8 h-8 rounded-full border border-neutral-200 bg-white flex items-center justify-center text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed active:bg-neutral-100 cursor-pointer shadow-xs"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => scrollToIndex(Math.min(mobileReviews.length - 1, activeMobileIndex + 1))}
+                disabled={activeMobileIndex === mobileReviews.length - 1}
+                aria-label="Next review"
+                className="w-8 h-8 rounded-full border border-neutral-200 bg-white flex items-center justify-center text-neutral-700 disabled:opacity-30 disabled:cursor-not-allowed active:bg-neutral-100 cursor-pointer shadow-xs"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>

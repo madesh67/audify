@@ -36,7 +36,7 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
       id="footer"
       className={`relative w-full bg-[#FEFEFE] text-neutral-950 ${
         showCta ? "pt-16 sm:pt-20 lg:pt-24" : "pt-8"
-      } pb-12 overflow-hidden select-none`}
+      } pb-20 sm:pb-14 md:pb-16 overflow-hidden select-none`}
     >
       {/* Final Section ("OWN AUDIFY" CTA): Headset on Left, Descriptions on Right */}
       {showCta && (
@@ -147,55 +147,55 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
             </div>
           </div>
 
-          {/* Quick Links Columns */}
-          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 text-xs font-mono">
-            <div className="space-y-3">
-              <div className="text-[10px] text-neutral-400 uppercase tracking-widest">
+          {/* Quick Links Columns - Balanced 3-column layout across all viewports */}
+          <div className="md:col-span-7 grid grid-cols-3 gap-3 sm:gap-8 text-[11px] sm:text-xs font-mono">
+            <div className="space-y-2.5 sm:space-y-3">
+              <div className="text-[10px] text-neutral-400 uppercase tracking-wider sm:tracking-widest font-semibold">
                 ARCHITECTURE
               </div>
-              <ul className="space-y-2 text-neutral-600">
-                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors">Titanium Architecture</a></li>
-                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors">Acoustic Chamber</a></li>
-                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors">Active Isolation</a></li>
-                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors">Ultra-Link Stream</a></li>
+              <ul className="space-y-1.5 sm:space-y-2 text-neutral-600 leading-snug">
+                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors block">Titanium Architecture</a></li>
+                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors block">Acoustic Chamber</a></li>
+                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors block">Active Isolation</a></li>
+                <li><a href="#canvas-scroll" className="hover:text-neutral-950 transition-colors block">Ultra-Link Stream</a></li>
               </ul>
             </div>
 
-            <div className="space-y-3">
-              <div className="text-[10px] text-neutral-400 uppercase tracking-widest">
+            <div className="space-y-2.5 sm:space-y-3">
+              <div className="text-[10px] text-neutral-400 uppercase tracking-wider sm:tracking-widest font-semibold">
                 COLLECTIONS
               </div>
-              <ul className="space-y-2 text-neutral-600">
-                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors">Obsidian Onyx</a></li>
-                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors">Platinum Mercury</a></li>
-                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors">Champagne Dune</a></li>
-                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors">Modular Lambskin</a></li>
+              <ul className="space-y-1.5 sm:space-y-2 text-neutral-600 leading-snug">
+                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors block">Obsidian Onyx</a></li>
+                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors block">Platinum Mercury</a></li>
+                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors block">Champagne Dune</a></li>
+                <li><a href="#variant-chooser" className="hover:text-neutral-950 transition-colors block">Modular Lambskin</a></li>
               </ul>
             </div>
 
-            <div className="space-y-3">
-              <div className="text-[10px] text-neutral-400 uppercase tracking-widest">
+            <div className="space-y-2.5 sm:space-y-3">
+              <div className="text-[10px] text-neutral-400 uppercase tracking-wider sm:tracking-widest font-semibold">
                 EXPERIENCE
               </div>
-              <ul className="space-y-2 text-neutral-600">
+              <ul className="space-y-1.5 sm:space-y-2 text-neutral-600 leading-snug">
                 <li>
-                  <button onClick={toggleSound} className="hover:text-neutral-950 transition-colors flex items-center gap-1.5 cursor-pointer">
-                    {soundActive ? <Volume2 className="w-3.5 h-3.5 text-emerald-600" /> : <VolumeX className="w-3.5 h-3.5 text-neutral-400" />}
+                  <button onClick={toggleSound} className="hover:text-neutral-950 transition-colors flex items-center gap-1.5 cursor-pointer text-left">
+                    {soundActive ? <Volume2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> : <VolumeX className="w-3.5 h-3.5 text-neutral-400 shrink-0" />}
                     <span>{soundActive ? "Audio Mute" : "Enable Audio"}</span>
                   </button>
                 </li>
-                <li><Link href="/about" className="hover:text-neutral-950 transition-colors">Acoustic Labs (About)</Link></li>
-                <li><Link href="/products" className="hover:text-neutral-950 transition-colors">All Instruments</Link></li>
-                <li><a href="#footer" className="hover:text-neutral-950 transition-colors">Warranty & Service</a></li>
+                <li><Link href="/about" className="hover:text-neutral-950 transition-colors block">Acoustic Labs (About)</Link></li>
+                <li><Link href="/products" className="hover:text-neutral-950 transition-colors block">All Instruments</Link></li>
+                <li><a href="#footer" className="hover:text-neutral-950 transition-colors block">Warranty &amp; Service</a></li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* Bottom Micro Row */}
-        <div className="pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row justify-between items-center text-[11px] font-mono text-neutral-400 gap-4 text-center sm:text-left">
+        <div className="pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row justify-between items-center text-[10px] sm:text-[11px] font-mono text-neutral-400 gap-3 sm:gap-4 text-center sm:text-left pb-4 sm:pb-0">
           <div>© {new Date().getFullYear()} AUDIFY ACOUSTIC LABORATORIES. ALL RIGHTS RESERVED.</div>
-          <div className="flex flex-wrap justify-center sm:justify-end items-center gap-3 sm:gap-6">
+          <div className="flex flex-wrap justify-center sm:justify-end items-center gap-x-4 gap-y-1.5 sm:gap-6">
             <span>STOCKHOLM • SAN FRANCISCO • TOKYO</span>
             <span>60FPS KINETIC ENGINE</span>
           </div>
