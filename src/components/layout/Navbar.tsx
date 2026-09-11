@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingCart, CircleUserRound } from "lucide-react";
@@ -13,7 +13,7 @@ import AccountModal from "@/components/layout/AccountModal";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { scrollTo } = useLenis();
+  const { scrollTo, lenis } = useLenis();
   const {
     items,
     totalCount,
@@ -24,7 +24,65 @@ export default function Navbar() {
     setIsDrawerOpen,
   } = useCart();
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
   const isHome = pathname === "/";
+
+  // Hide header when scrolling forward; only open when scrolling back
+  useEffect(() => {
+    if (!isHome) {
+      setIsVisible(true);
+      return;
+    }
+
+    const updateVisibility = (scrollY: number, direction?: number) => {
+      const current = Math.max(0, scrollY);
+      const prev = lastScrollYRef.current;
+      const delta = current - prev;
+      lastScrollYRef.current = current;
+
+      // Always visible at the very top of the page (Hero)
+      if (current <= 25) {
+        setIsVisible(true);
+        return;
+      }
+
+      // Direction tracking: 1 = forward/down, -1 = backward/up
+      if (direction !== undefined && Math.abs(delta) > 2) {
+        if (direction > 0) {
+          setIsVisible(false); // Scroll forward -> close header
+        } else if (direction < 0) {
+          setIsVisible(true); // Scroll back -> open header
+        }
+        return;
+      }
+
+      // Delta threshold fallback
+      if (delta > 4) {
+        setIsVisible(false); // Scroll forward -> close header
+      } else if (delta < -4) {
+        setIsVisible(true); // Scroll back -> open header
+      }
+    };
+
+    if (lenis) {
+      const onLenisScroll = (e: { scroll: number; direction: number }) => {
+        updateVisibility(e.scroll, e.direction);
+      };
+      lenis.on("scroll", onLenisScroll);
+      return () => {
+        lenis.off("scroll", onLenisScroll);
+      };
+    } else {
+      const onNativeScroll = () => {
+        updateVisibility(window.scrollY);
+      };
+      window.addEventListener("scroll", onNativeScroll, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", onNativeScroll);
+      };
+    }
+  }, [isHome, lenis]);
 
   const handleAccountClick = () => {
     soundEngine.playClick(700);
@@ -36,9 +94,17 @@ export default function Navbar() {
     setIsDrawerOpen(true);
   };
 
+  const shouldShowHeader = isVisible || isDrawerOpen || isAccountOpen;
+
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 py-3.5 bg-[#FEFEFE]/85 backdrop-blur-md border-b border-neutral-200/60 shadow-xs pointer-events-none select-none">
+      <header
+        className={`fixed top-0 inset-x-0 z-50 py-3.5 bg-[#FEFEFE]/85 backdrop-blur-md border-b border-neutral-200/60 shadow-xs select-none transition-all duration-300 ease-in-out ${
+          shouldShowHeader
+            ? "translate-y-0 opacity-100 pointer-events-none"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-12 flex items-center justify-between w-full relative">
           {/* Top-Left: Audify Brand Logo (Spectrogram Monogram + Wordmark) */}
           <div className="flex items-center pointer-events-auto">
