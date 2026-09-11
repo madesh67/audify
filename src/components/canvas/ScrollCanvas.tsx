@@ -1046,7 +1046,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
         {/* Layer 4: Stage 6 - Bespoke Finish Configurator Studio (Docking Target for Frame 382 Headset) */}
         <div
           ref={overlayVariantRef}
-          className="absolute inset-0 z-20 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 pt-12 sm:pt-0"
+          className="absolute inset-x-0 top-14 bottom-0 sm:inset-0 z-20 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300"
           style={{ opacity: 0, pointerEvents: "none" }}
         >
           <div className="w-full max-h-full flex flex-col justify-center">

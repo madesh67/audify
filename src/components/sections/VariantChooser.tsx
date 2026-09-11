@@ -63,30 +63,36 @@ const variants: Record<VariantColor, VariantInfo> = {
   },
 };
 
+const variantDisplayData: Record<VariantColor, { name: string; sub: string }> = {
+  obsidian: { name: "Obsidian", sub: "Titanium" },
+  silver: { name: "Silver", sub: "Aluminum" },
+  dune: { name: "Dune", sub: "Bronze" },
+};
+
 export interface VariantChooserProps {
-  onSelectVariant?: (variant: VariantColor) => void;
+  className?: string;
   selectedColor?: VariantColor;
   onColorChange?: (color: VariantColor) => void;
+  onSelectVariant?: (color: VariantColor) => void;
   showcaseRef?: React.RefObject<HTMLDivElement | null>;
   hideObsidianImage?: boolean;
-  className?: string;
 }
 
 export default function VariantChooser({
-  onSelectVariant,
-  selectedColor: externalColor,
+  className = "",
+  selectedColor: controlledColor,
   onColorChange,
+  onSelectVariant,
   showcaseRef,
   hideObsidianImage = false,
-  className = "",
 }: VariantChooserProps) {
   const { scrollTo } = useLenis();
   const [internalColor, setInternalColor] = useState<VariantColor>("obsidian");
-  const selectedColor = externalColor ?? internalColor;
+  const selectedColor = controlledColor ?? internalColor;
   const activeVariant = variants[selectedColor];
 
   const handleSelect = (color: VariantColor) => {
-    soundEngine.playClick(680);
+    soundEngine.playChime();
     setInternalColor(color);
     onColorChange?.(color);
     onSelectVariant?.(color);
@@ -99,20 +105,20 @@ export default function VariantChooser({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
         {/* Section Header: Minimal & Connected to Section 1 */}
-        <div className="flex flex-col items-center text-center mb-2 sm:mb-4 md:mb-5 lg:mb-10">
+        <div className="flex flex-col items-center text-center mb-2.5 sm:mb-4 md:mb-5 lg:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl font-light tracking-tight text-neutral-950 leading-tight">
             Choose Your <span className="font-semibold text-neutral-950">Finish</span>
           </h2>
         </div>
 
         {/* Studio Grid: Headset Showcase on Left (5 cols on md), Configurator on Right (7 cols on md) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-6 md:gap-6 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 sm:gap-6 md:gap-6 lg:gap-14 items-center">
           {/* Left Column: Headset Showcase Soundstage Target for 382th Frame Docking */}
           <div className="md:col-span-5 flex justify-center md:justify-center lg:justify-start items-center">
             <div
               ref={showcaseRef}
               id="variant-showcase-box"
-              className="relative aspect-square w-full max-w-[240px] sm:max-w-[280px] md:max-w-[300px] lg:max-w-[440px] xl:max-w-[480px] rounded-3xl border border-neutral-200/90 bg-neutral-50/40 shadow-[0_10px_30px_rgba(0,0,0,0.03)] overflow-hidden flex items-center justify-center transition-all duration-700"
+              className="relative aspect-square w-full max-w-[250px] sm:max-w-[280px] md:max-w-[300px] lg:max-w-[440px] xl:max-w-[480px] rounded-3xl border border-neutral-200/90 bg-neutral-50/40 shadow-[0_10px_30px_rgba(0,0,0,0.03)] overflow-hidden flex items-center justify-center transition-all duration-700"
             >
               {/* Subtle inner radial depth */}
               <div
@@ -130,7 +136,7 @@ export default function VariantChooser({
                 return (
                   <div
                     key={key}
-                    className={`absolute inset-3 sm:inset-5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                    className={`absolute inset-3.5 sm:inset-5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
                       shouldShow
                         ? "opacity-100 scale-100 blur-0 pointer-events-auto z-10"
                         : "opacity-0 scale-95 blur-sm pointer-events-none z-0"
@@ -152,7 +158,7 @@ export default function VariantChooser({
           </div>
 
           {/* Right Column: Essential Details Only */}
-          <div className="md:col-span-7 flex flex-col justify-center space-y-2.5 sm:space-y-4 md:space-y-3.5 lg:space-y-6 max-w-xl mx-auto md:max-w-none w-full">
+          <div className="md:col-span-7 flex flex-col justify-center space-y-3 sm:space-y-4 md:space-y-3.5 lg:space-y-6 max-w-xl mx-auto md:max-w-none w-full">
             {/* 3 Clean Finish Switcher Tiles */}
             <div className="space-y-1.5 sm:space-y-2.5">
               <div className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-neutral-400">
@@ -163,12 +169,13 @@ export default function VariantChooser({
                 {(Object.keys(variants) as VariantColor[]).map((key) => {
                   const item = variants[key];
                   const isSelected = selectedColor === key;
+                  const display = variantDisplayData[key];
                   return (
                     <button
                       key={key}
                       onClick={() => handleSelect(key)}
                       aria-label={`Select ${item.name}`}
-                      className={`group relative flex flex-col p-2 sm:p-3 md:p-2.5 lg:p-3.5 rounded-2xl border text-left focus:outline-none cursor-pointer transition-all ${
+                      className={`group relative flex flex-col p-2.5 sm:p-3 md:p-2.5 lg:p-3.5 rounded-2xl border text-left focus:outline-none cursor-pointer transition-all ${
                         isSelected
                           ? "bg-neutral-950 text-white border-neutral-950 shadow-md"
                           : "bg-neutral-50/70 hover:bg-neutral-100/80 text-neutral-900 border-neutral-200/80"
@@ -190,19 +197,19 @@ export default function VariantChooser({
                       </span>
 
                       <div
-                        className={`text-[11px] sm:text-sm md:text-xs lg:text-sm font-semibold tracking-tight truncate ${
+                        className={`text-xs sm:text-sm font-semibold tracking-tight ${
                           isSelected ? "text-white" : "text-neutral-950"
                         }`}
                       >
-                        {item.name}
+                        {display.name}
                       </div>
 
                       <div
-                        className={`font-mono text-[9px] sm:text-[10px] mt-0.5 truncate ${
+                        className={`font-mono text-[9px] sm:text-[10px] mt-0.5 ${
                           isSelected ? "text-neutral-400" : "text-neutral-500"
                         }`}
                       >
-                        {item.finish}
+                        {display.sub}
                       </div>
                     </button>
                   );
@@ -211,7 +218,7 @@ export default function VariantChooser({
             </div>
 
             {/* Essential Finish Highlight */}
-            <div className="space-y-0.5 sm:space-y-1">
+            <div className="space-y-1">
               <div className="text-xs sm:text-base md:text-sm lg:text-lg font-medium text-neutral-950 tracking-tight">
                 {activeVariant.tagline}
               </div>
@@ -221,7 +228,7 @@ export default function VariantChooser({
             </div>
 
             {/* Core Material Specs from Section 1 */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-6 pt-2 sm:pt-3 md:pt-3 lg:pt-4 border-t border-neutral-200/60 font-mono">
+            <div className="grid grid-cols-2 gap-3 sm:gap-6 pt-2.5 sm:pt-3 md:pt-3 lg:pt-4 border-t border-neutral-200/60 font-mono">
               <div>
                 <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-neutral-400">
                   CHASSIS ALLOY
@@ -242,7 +249,7 @@ export default function VariantChooser({
             </div>
 
             {/* Clean Price & Primary CTA */}
-            <div className="pt-2 flex flex-row items-center justify-between gap-3 sm:gap-4">
+            <div className="pt-2 sm:pt-2.5 flex flex-row items-center justify-between gap-3 sm:gap-4">
               <div>
                 <div className="text-xl sm:text-3xl font-light tracking-tight text-neutral-950">
                   $499 <span className="text-xs font-mono text-neutral-400 uppercase">USD</span>
