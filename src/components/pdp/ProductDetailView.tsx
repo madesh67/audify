@@ -76,7 +76,7 @@ export default function ProductDetailView({
           {/* STAGE 1: Clean Editorial Hero (Showcase Media Left, Buy Box Right) */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-start">
             {/* Left Column (md:col-span-6): Hardware Showcase */}
-            <div className="md:col-span-6 max-w-xl mx-auto md:max-w-none w-full">
+            <div className="md:col-span-6 max-w-xl mx-auto md:max-w-none w-full space-y-4 sm:space-y-5">
               {/* Double-Bezel Hardware Container */}
               <div className="relative rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 shadow-[0_20px_40px_rgba(0,0,0,0.03)]">
                 {/* Inner Concentric Core */}
@@ -116,6 +116,54 @@ export default function ProductDetailView({
                   </div>
                 </div>
               </div>
+
+              {/* Below Product Showcase Area: Color Variant & Free 2-Day Air */}
+              <div className="space-y-3 pt-0.5">
+                {/* Headset Color Preview Box Selector */}
+                {product.variants.length > 1 && (
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-mono uppercase tracking-wider text-neutral-400 text-[11px]">
+                        Color: <span className="font-semibold text-neutral-950 normal-case">{selectedVariant.name}</span>
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2.5 sm:gap-3">
+                      {product.variants.map((v) => {
+                        const isSelected = v.colorKey === selectedVariant.colorKey;
+                        return (
+                          <button
+                            key={v.colorKey}
+                            type="button"
+                            onClick={() => handleVariantChange(v)}
+                            className={`group relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl p-2 border transition-all duration-200 cursor-pointer overflow-hidden ${
+                              isSelected
+                                ? "border-neutral-950 bg-white shadow-xs ring-2 ring-neutral-950 ring-offset-1"
+                                : "border-neutral-200 bg-neutral-50/80 hover:border-neutral-400 hover:bg-white opacity-70 hover:opacity-100"
+                            }`}
+                            aria-label={`Select ${v.name}`}
+                            title={v.name}
+                          >
+                            <Image
+                              src={v.image}
+                              alt={v.name}
+                              fill
+                              unoptimized
+                              className="object-contain p-1.5 transition-transform duration-200 group-hover:scale-105"
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Free 2-Day Air Text */}
+                <div className="flex items-center gap-1.5 text-xs text-neutral-500 font-mono">
+                  <Truck className="w-3.5 h-3.5 text-neutral-400" />
+                  <span className="whitespace-nowrap">Free 2-Day Air</span>
+                </div>
+              </div>
             </div>
 
             {/* Right Column (md:col-span-6): Clean Buy Box */}
@@ -146,45 +194,6 @@ export default function ProductDetailView({
               <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal">
                 {product.description}
               </p>
-
-              {/* Headset Color Preview Box Selector */}
-              {product.variants.length > 1 && (
-                <div className="space-y-2.5 pt-1">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-mono uppercase tracking-wider text-neutral-400 text-[11px]">
-                      Color: <span className="font-semibold text-neutral-950 normal-case">{selectedVariant.name}</span>
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2.5 sm:gap-3">
-                    {product.variants.map((v) => {
-                      const isSelected = v.colorKey === selectedVariant.colorKey;
-                      return (
-                        <button
-                          key={v.colorKey}
-                          type="button"
-                          onClick={() => handleVariantChange(v)}
-                          className={`group relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl p-2 border transition-all duration-200 cursor-pointer overflow-hidden ${
-                            isSelected
-                              ? "border-neutral-950 bg-white shadow-xs ring-2 ring-neutral-950 ring-offset-1"
-                              : "border-neutral-200 bg-neutral-50/80 hover:border-neutral-400 hover:bg-white opacity-70 hover:opacity-100"
-                          }`}
-                          aria-label={`Select ${v.name}`}
-                          title={v.name}
-                        >
-                          <Image
-                            src={v.image}
-                            alt={v.name}
-                            fill
-                            unoptimized
-                            className="object-contain p-1.5 transition-transform duration-200 group-hover:scale-105"
-                          />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
 
               {/* Quantity Selector & Add to Cart Button */}
               <div className="space-y-4 pt-4">
@@ -246,11 +255,7 @@ export default function ProductDetailView({
                 </div>
 
                 {/* Assurance Ribbon */}
-                <div className="pt-3 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-xs text-neutral-500 font-mono">
-                  <div className="flex items-center gap-1.5">
-                    <Truck className="w-3.5 h-3.5 text-neutral-400" />
-                    <span className="whitespace-nowrap">Free 2-Day Air</span>
-                  </div>
+                <div className="pt-3 border-t border-neutral-100 flex items-center justify-between gap-4 text-xs text-neutral-500 font-mono">
                   <div className="flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-neutral-400" />
                     <span className="whitespace-nowrap">3-Year Warranty</span>
