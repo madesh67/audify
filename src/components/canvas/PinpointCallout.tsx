@@ -90,11 +90,14 @@ const PinpointCallout = forwardRef<PinpointCalloutHandle, PinpointCalloutProps>(
         const baseScale = isPortrait
           ? Math.max((w / 1920) * 1.45, (h / 1080) * 0.50)
           : Math.min(w / 1920, h / 1080);
-        const finalScale = baseScale * scaleMultiplier;
+        const effectiveMultiplier = w >= 768 && w < 1024 ? 0.52 : scaleMultiplier;
+        const finalScale = baseScale * effectiveMultiplier;
         const offsetX = (w - 1920 * finalScale) / 2;
         const offsetY = (h - 1080 * finalScale) / 2;
-        calculatedX2 = offsetX + targetImageX * finalScale;
-        calculatedY2 = offsetY + targetImageY * finalScale;
+        const centerShiftX = 8.5 * finalScale;
+        const centerShiftY = -5.5 * finalScale;
+        calculatedX2 = offsetX + targetImageX * finalScale + centerShiftX;
+        calculatedY2 = offsetY + targetImageY * finalScale + centerShiftY;
       }
 
       if (sourceSelector && typeof document !== "undefined") {
@@ -285,7 +288,7 @@ const PinpointCallout = forwardRef<PinpointCalloutHandle, PinpointCalloutProps>(
     return (
       <svg
         ref={svgRef}
-        className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block overflow-visible select-none z-20"
+        className="absolute inset-0 w-full h-full pointer-events-none hidden md:block overflow-visible select-none z-20"
         style={{ width: "100%", height: "100%", opacity: initialDraw > 0.005 ? 1 : 0 }}
       >
         {/* Origin Anchor Disc at Editorial Text */}

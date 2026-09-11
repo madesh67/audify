@@ -74,9 +74,9 @@ export default function ProductDetailView({
         {/* Product Details & Subsequent Sections */}
         <div className="mt-6 sm:mt-8 space-y-16 sm:space-y-24">
           {/* STAGE 1: Clean Editorial Hero (Showcase Media Left, Buy Box Right) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Column (lg:col-span-6): Hardware Showcase */}
-          <div className="lg:col-span-6 max-w-xl mx-auto lg:max-w-none w-full">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center">
+          {/* Left Column (md:col-span-6): Hardware Showcase */}
+          <div className="md:col-span-6 max-w-xl mx-auto md:max-w-none w-full">
             {/* Double-Bezel Hardware Container — Sized to fit right side details */}
             <div className="relative rounded-[2rem] p-1.5 bg-neutral-100/70 border border-neutral-200/80 shadow-[0_20px_40px_rgba(0,0,0,0.03)]">
               {/* Inner Concentric Core */}
@@ -118,8 +118,8 @@ export default function ProductDetailView({
             </div>
           </div>
 
-          {/* Right Column (lg:col-span-6): Clean Buy Box */}
-          <div className="lg:col-span-6 space-y-5 max-w-xl mx-auto lg:max-w-none w-full">
+          {/* Right Column (md:col-span-6): Clean Buy Box */}
+          <div className="md:col-span-6 space-y-5 max-w-xl mx-auto md:max-w-none w-full">
             {/* Product Title */}
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-950 leading-tight">

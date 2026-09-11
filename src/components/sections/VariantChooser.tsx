@@ -99,20 +99,20 @@ export default function VariantChooser({
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
         {/* Section Header: Minimal & Connected to Section 1 */}
-        <div className="flex flex-col items-center text-center mb-6 sm:mb-8 lg:mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-neutral-950 leading-[1.08]">
+        <div className="flex flex-col items-center text-center mb-4 sm:mb-6 md:mb-6 lg:mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-5xl font-light tracking-tight text-neutral-950 leading-[1.08]">
             Choose Your <span className="font-semibold text-neutral-950">Finish</span>
           </h2>
         </div>
 
         {/* Studio Grid: Headset Showcase on Left, Clean Configurator on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 md:gap-8 lg:gap-14 items-center">
           {/* Left Column: Headset Showcase Soundstage Target for 382th Frame Docking */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-start items-center">
+          <div className="md:col-span-6 flex justify-center md:justify-start items-center">
             <div
               ref={showcaseRef}
               id="variant-showcase-box"
-              className="relative aspect-square w-full max-w-[300px] sm:max-w-[340px] md:max-w-[380px] lg:max-w-[440px] xl:max-w-[480px] rounded-3xl border border-neutral-200/90 bg-neutral-50/40 shadow-[0_10px_30px_rgba(0,0,0,0.03)] overflow-hidden flex items-center justify-center transition-all duration-700"
+              className="relative aspect-square w-full max-w-[280px] sm:max-w-[320px] md:max-w-[340px] lg:max-w-[440px] xl:max-w-[480px] rounded-3xl border border-neutral-200/90 bg-neutral-50/40 shadow-[0_10px_30px_rgba(0,0,0,0.03)] overflow-hidden flex items-center justify-center transition-all duration-700"
             >
               {/* Subtle inner radial depth */}
               <div
@@ -152,9 +152,9 @@ export default function VariantChooser({
           </div>
 
           {/* Right Column: Essential Details Only */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-6 sm:space-y-7 max-w-xl mx-auto lg:max-w-none w-full">
+          <div className="md:col-span-6 flex flex-col justify-center space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-7 max-w-xl mx-auto md:max-w-none w-full">
             {/* 3 Clean Finish Switcher Tiles */}
-            <div className="space-y-2.5">
+            <div className="space-y-2 sm:space-y-2.5">
               <div className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-neutral-400">
                 SELECT COLORWAY
               </div>

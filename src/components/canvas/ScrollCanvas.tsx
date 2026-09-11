@@ -32,12 +32,12 @@ const desktopKeyframes: ScaleKeyframe[] = [
 ];
 
 const tabletKeyframes: ScaleKeyframe[] = [
-  { progress: 0.0, scale: 1.04 },  // Hero landing: balanced tablet presence
+  { progress: 0.0, scale: 1.04 },  // Hero landing: bold balanced scale
   { progress: 0.03, scale: 1.04 },
-  { progress: 0.08, scale: 0.70 }, // Stages: balanced clearance between top narrative & bottom specs
-  { progress: 0.54, scale: 0.70 },
-  { progress: 0.66, scale: 0.76 },
-  { progress: 0.73, scale: 0.82 }, // Fully assembled
+  { progress: 0.08, scale: 0.52 }, // Stages: perfectly scaled to fit 314px center pocket
+  { progress: 0.54, scale: 0.52 },
+  { progress: 0.66, scale: 0.62 },
+  { progress: 0.73, scale: 0.70 }, // Stage 5 assembled
 ];
 
 const mobileKeyframes: ScaleKeyframe[] = [
@@ -215,8 +215,8 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
       : Math.min(width / imgW, height / imgH);
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const isMobile = width < 640 * dpr;
-    const isTablet = width >= 640 * dpr && width < 1024 * dpr;
+    const isMobile = width < 768 * dpr;
+    const isTablet = width >= 768 * dpr && width < 1024 * dpr;
     const keyframes = isMobile
       ? mobileKeyframes
       : isTablet
@@ -312,6 +312,15 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
           stagger: 0.08,
           ease: "power3.out",
           overwrite: "auto",
+          onStart: () => {
+            if (stageNum === 1) {
+              calloutFittingArchRef.current?.updateGeometry();
+              calloutFittingJointRef.current?.updateGeometry();
+            } else if (stageNum === 2) {
+              calloutChamberIsolatorRef.current?.updateGeometry();
+              calloutChamberCushionRef.current?.updateGeometry();
+            }
+          },
           onComplete: () => {
             if (stageNum === 1) {
               calloutFittingArchRef.current?.updateGeometry();
@@ -635,7 +644,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
             {/* Stage 1: Headset Fitting & Precision Chassis (Assembly Phase) */}
             <div
               ref={overlayFittingRef}
-              className="absolute inset-0 flex flex-col lg:flex-row items-start lg:items-center justify-between opacity-0 px-6 sm:px-10 lg:px-12 pointer-events-none transition-opacity duration-300"
+              className="absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between opacity-0 px-6 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Absolute-Positioned SVG Callout Lines with Dynamic DrawSVG */}
               <PinpointCallout
@@ -662,7 +671,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                 sourceSelector="#s1-joint-source"
                 sourceSide="left"
               />
-              <div className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[320px] space-y-3 sm:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-24 md:pt-28 lg:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-16 sm:pt-20 md:pt-0">
                 {/* Eyebrow */}
                 <div className="overflow-hidden">
                   <div className="reveal-line-s1 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
@@ -673,32 +682,32 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
 
                 {/* Masked Headline Lines */}
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s1 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s1 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     <span id="s1-arch-source" className="inline-block">Lightweight Titanium Frame</span>
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s1 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s1 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     & Zero Head Pressure
                   </h2>
                 </div>
 
                 {/* Masked Body Copy */}
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s1 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal max-w-[340px] sm:max-w-[420px] lg:max-w-[380px]">
+                  <p className="reveal-line-s1 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
                     Crafted from ultra-light titanium with a flexible contour that gently hugs your head. It distributes weight so evenly that you can wear it all day long without any pinching or fatigue.
                   </p>
                 </div>
               </div>
 
-              {/* Right Technical Specs: Strict Monospace Floating Column / Tablet Bottom Row */}
-              <div className="mt-auto lg:mt-0 pb-12 sm:pb-16 md:pb-20 lg:pb-0 flex flex-row lg:flex-col gap-6 sm:gap-10 md:gap-12 lg:gap-6 font-mono text-xs max-w-full lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Right Technical Specs: Strict Monospace Floating Column */}
+              <div className="mt-auto md:mt-0 pb-10 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-6 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s1 space-y-1 font-mono">
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       FEATHERLIGHT WEIGHT
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       268<span className="text-xs text-neutral-400 font-normal ml-1">g</span>
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
@@ -712,7 +721,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       AEROSPACE TITANIUM
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       <span id="s1-joint-source" className="inline-block">
                         Grade 5<span className="text-xs text-neutral-400 font-normal ml-1">Titanium</span>
                       </span>
@@ -728,7 +737,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
             {/* Stage 2: Acoustic Chamber Assembly (Assembly Phase) */}
             <div
               ref={overlayChamberRef}
-              className="absolute inset-0 flex flex-col lg:flex-row-reverse items-start lg:items-center justify-between opacity-0 px-6 sm:px-10 lg:px-12 pointer-events-none transition-opacity duration-300"
+              className="absolute inset-0 flex flex-col md:flex-row-reverse items-start md:items-center justify-between opacity-0 px-6 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Absolute-Positioned SVG Callout Lines with Dynamic DrawSVG */}
               <PinpointCallout
@@ -756,8 +765,8 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                 sourceSide="left"
               />
 
-              {/* Right Editorial Floating Typography (text-left lg:text-right) */}
-              <div className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[320px] space-y-3 sm:space-y-4 text-left lg:text-right pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-24 md:pt-28 lg:pt-0">
+              {/* Right Editorial Floating Typography (text-left md:text-right) */}
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-16 sm:pt-20 md:pt-0">
                 {/* Eyebrow */}
                 <div className="overflow-hidden">
                   <div className="reveal-line-s2 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
@@ -768,32 +777,32 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
 
                 {/* Masked Headline Lines */}
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s2 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s2 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     <span id="s2-cushion-source" className="inline-block">Cloud-Soft</span> Cushions
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s2 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s2 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     & Deep, Punchy Bass
                   </h2>
                 </div>
 
                 {/* Masked Body Copy */}
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s2 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal max-w-[340px] sm:max-w-[420px] lg:max-w-[380px] lg:ml-auto">
+                  <p className="reveal-line-s2 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px] md:ml-auto">
                     Plush memory foam pillows gently wrap around your ears in breathable comfort. They create an airtight acoustic seal that keeps deep bass inside and room noise out—never feeling hot or tight.
                   </p>
                 </div>
               </div>
 
-              {/* Left Technical Specs: Strict Monospace Floating Column / Tablet Bottom Row */}
-              <div className="mt-auto lg:mt-0 pb-12 sm:pb-16 md:pb-20 lg:pb-0 flex flex-row lg:flex-col gap-6 sm:gap-10 md:gap-12 lg:gap-6 font-mono text-xs max-w-full lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Left Technical Specs: Strict Monospace Floating Column */}
+              <div className="mt-auto md:mt-0 pb-10 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-6 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s2 space-y-1 font-mono">
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       ACOUSTIC DRIVER
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       <span id="s2-chamber-source" className="inline-block">
                         40<span className="text-xs text-neutral-400 font-normal ml-1">mm Custom</span>
                       </span>
@@ -809,7 +818,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       ACOUSTIC SEAL
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       Airtight
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
@@ -823,10 +832,10 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
             {/* Stage 3: Active Isolation (Post-Assembly: No Lines) */}
             <div
               ref={overlayWavesRef}
-              className="absolute inset-0 flex flex-col lg:flex-row items-start lg:items-center justify-between opacity-0 px-6 sm:px-10 lg:px-12 pointer-events-none transition-opacity duration-300"
+              className="absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between opacity-0 px-6 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Left Editorial Floating Typography */}
-              <div className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[320px] space-y-3 sm:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-24 md:pt-28 lg:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-16 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s3 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
@@ -835,31 +844,31 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                 </div>
 
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s3 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s3 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     Silence the World Around You
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s3 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s3 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     & Hear Pure Sound
                   </h2>
                 </div>
 
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s3 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal max-w-[340px] sm:max-w-[420px] lg:max-w-[380px]">
+                  <p className="reveal-line-s3 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
                     Instantly mute airplane engines, train noise, and loud chatter with one touch. Six smart microphones listen to outside noise and cancel it in real time, so all you hear is crisp, studio-quality music.
                   </p>
                 </div>
               </div>
 
-              {/* Right Technical Specs: Strict Monospace Floating Column / Tablet Bottom Row */}
-              <div className="mt-auto lg:mt-0 pb-12 sm:pb-16 md:pb-20 lg:pb-0 flex flex-row lg:flex-col gap-6 sm:gap-10 md:gap-12 lg:gap-6 font-mono text-xs max-w-full lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Right Technical Specs: Strict Monospace Floating Column */}
+              <div className="mt-auto md:mt-0 pb-10 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-6 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s3 space-y-1 font-mono">
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       ACTIVE NOISE CANCELING
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       -42<span className="text-xs text-neutral-400 font-normal ml-1">dB</span>
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
@@ -873,7 +882,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       STUDIO SOUND CLARITY
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       Master HD
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
@@ -887,10 +896,10 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
             {/* Stage 4: Extended Lifespan (Post-Assembly: No Lines) */}
             <div
               ref={overlayConnectivityRef}
-              className="absolute inset-0 flex flex-col lg:flex-row-reverse items-start lg:items-center justify-between opacity-0 px-6 sm:px-10 lg:px-12 pointer-events-none transition-opacity duration-300"
+              className="absolute inset-0 flex flex-col md:flex-row-reverse items-start md:items-center justify-between opacity-0 px-6 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
-              {/* Right Editorial Floating Typography (text-left lg:text-right) */}
-              <div className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[320px] space-y-3 sm:space-y-4 text-left lg:text-right pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-24 md:pt-28 lg:pt-0">
+              {/* Right Editorial Floating Typography (text-left md:text-right) */}
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-16 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s4 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
                     <span>EXTENDED LIFESPAN</span>
@@ -899,31 +908,31 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                 </div>
 
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s4 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s4 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     65-Hour Battery Life
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s4 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s4 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     & 15-Minute Fast Charge
                   </h2>
                 </div>
 
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s4 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal max-w-[340px] sm:max-w-[420px] lg:max-w-[380px] lg:ml-auto">
+                  <p className="reveal-line-s4 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px] md:ml-auto">
                     Listen for weeks without plugging in. Enjoy up to 65 hours of non-stop music on a single charge. Running low? A quick 15-minute charge gives you 8 full hours of playback before you leave.
                   </p>
                 </div>
               </div>
 
-              {/* Left Technical Specs: Strict Monospace Floating Column / Tablet Bottom Row */}
-              <div className="mt-auto lg:mt-0 pb-12 sm:pb-16 md:pb-20 lg:pb-0 flex flex-row lg:flex-col gap-6 sm:gap-10 md:gap-12 lg:gap-6 font-mono text-xs max-w-full lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Left Technical Specs: Strict Monospace Floating Column */}
+              <div className="mt-auto md:mt-0 pb-10 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-6 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s4 space-y-1 font-mono">
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       PLAYTIME PER CHARGE
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       65<span className="text-xs text-neutral-400 font-normal ml-1">Hours</span>
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
@@ -937,7 +946,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       EMERGENCY FAST CHARGE
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       15<span className="text-xs text-neutral-400 font-normal ml-1">Minutes</span>
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
@@ -951,10 +960,10 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
             {/* Stage 5: Ultra-Link Stream (Post-Assembly: Structured like 03 & 04) */}
             <div
               ref={overlayCompleteRef}
-              className="absolute inset-0 flex flex-col lg:flex-row items-start lg:items-center justify-between opacity-0 px-6 sm:px-10 lg:px-12 pointer-events-none transition-opacity duration-300"
+              className="absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between opacity-0 px-6 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Left Editorial Floating Typography */}
-              <div className="max-w-xs sm:max-w-md md:max-w-lg lg:max-w-[320px] space-y-3 sm:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-24 md:pt-28 lg:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-2.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-16 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s5 inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-neutral-400 uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
@@ -963,31 +972,31 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                 </div>
 
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s5 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s5 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     Instant Multi-Device Link
                   </h2>
                 </div>
                 <div className="overflow-hidden">
-                  <h2 className="reveal-line-s5 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.1]">
+                  <h2 className="reveal-line-s5 text-2xl sm:text-2xl md:text-[22px] lg:text-4xl font-light tracking-tight text-neutral-950 leading-[1.15] lg:leading-[1.1]">
                     & Zero Audio Delay
                   </h2>
                 </div>
 
                 <div className="overflow-hidden">
-                  <p className="reveal-line-s5 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal max-w-[340px] sm:max-w-[420px] lg:max-w-[380px]">
+                  <p className="reveal-line-s5 text-xs sm:text-xs lg:text-sm text-neutral-600 leading-relaxed font-normal max-w-[280px] sm:max-w-[320px] md:max-w-[215px] lg:max-w-[380px]">
                     Stay seamlessly connected to your phone, laptop, and tablet all at once. Take calls and watch movies without reconnecting, while enjoying zero audio delay for gaming and an ultra-steady stream that never drops out.
                   </p>
                 </div>
               </div>
 
-              {/* Right Technical Specs: Strict Monospace Floating Column / Tablet Bottom Row */}
-              <div className="mt-auto lg:mt-0 pb-12 sm:pb-16 md:pb-20 lg:pb-0 flex flex-row lg:flex-col gap-6 sm:gap-10 md:gap-12 lg:gap-6 font-mono text-xs max-w-full lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              {/* Right Technical Specs: Strict Monospace Floating Column */}
+              <div className="mt-auto md:mt-0 pb-10 sm:pb-12 md:pb-0 flex flex-row md:flex-col gap-6 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s5 space-y-1 font-mono">
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       MULTI-DEVICE PAIRING
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       Instant<span className="text-xs text-neutral-400 font-normal ml-1">Switch</span>
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
@@ -1001,7 +1010,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                     <div className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-mono">
                       LOW-LATENCY AUDIO
                     </div>
-                    <div className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
+                    <div className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold tracking-tight text-neutral-950 tabular-nums font-mono">
                       Zero<span className="text-xs text-neutral-400 font-normal ml-1">Lag</span>
                     </div>
                     <div className="text-[10px] text-neutral-500 tracking-wider uppercase font-mono">
