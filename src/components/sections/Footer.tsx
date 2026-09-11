@@ -41,14 +41,14 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
       {/* Final Section ("OWN AUDIFY" CTA): Headset on Left, Descriptions on Right */}
       {showCta && (
         <>
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
             <div
               id="buy-now-cta"
-              className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16 items-center min-h-[75vh] sm:min-h-[80vh] lg:min-h-[85vh] py-16 sm:py-20 lg:py-24"
+              className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 lg:gap-16 items-center min-h-0 md:min-h-[460px] lg:min-h-[85vh] py-10 sm:py-14 md:py-12 lg:py-24"
             >
               {/* Left Column: Transparent Headset Visual */}
-              <div className="lg:col-span-6 flex justify-center lg:justify-start items-center">
-                <div className="relative w-[280px] sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[480px] aspect-[560/696] flex items-center justify-center">
+              <div className="md:col-span-6 flex justify-center md:justify-center lg:justify-start items-center">
+                <div className="relative w-[240px] sm:w-[280px] md:w-[310px] lg:w-[450px] xl:w-[480px] aspect-[560/696] flex items-center justify-center">
                   <Image
                     src="/images/headset.png"
                     alt="Audify Flagship Acoustic Headset"
@@ -61,25 +61,25 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
               </div>
 
               {/* Right Column: Descriptions, Title & Action */}
-              <div className="lg:col-span-6 flex flex-col items-center lg:items-start text-center lg:text-left space-y-5 sm:space-y-6 lg:pl-6 xl:pl-8">
+              <div className="md:col-span-6 flex flex-col items-center md:items-start text-center md:text-left space-y-4 md:space-y-4 lg:space-y-6 md:pl-2 lg:pl-6 xl:pl-8">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-[10px] font-mono tracking-[0.25em] uppercase text-neutral-600">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span>DIRECT FROM AUDIO LABS</span>
                 </div>
 
-                <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-[-0.04em] uppercase text-neutral-950 leading-[0.92]">
+                <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-8xl font-black tracking-[-0.04em] uppercase text-neutral-950 leading-[0.92]">
                   OWN AUDIFY
                 </h2>
 
-                <p className="text-sm sm:text-base md:text-lg text-neutral-600 max-w-lg font-normal leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-sm lg:text-lg text-neutral-600 max-w-lg font-normal leading-relaxed">
                   Engineered in limited production runs. 3-year warranty and 30-day trial included.
                 </p>
 
-                <div className="pt-3 sm:pt-4">
+                <div className="pt-2 sm:pt-3">
                   <Link
                     href="/products"
                     onClick={() => soundEngine.playChime()}
-                    className="group inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-4.5 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 font-bold text-sm sm:text-base uppercase tracking-wider shadow-md hover:shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+                    className="group inline-flex items-center justify-center gap-3 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 font-bold text-xs sm:text-sm lg:text-base uppercase tracking-wider shadow-md hover:shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
                     aria-label="Shop Now"
                   >
                     <span>Shop Now</span>

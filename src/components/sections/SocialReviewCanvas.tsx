@@ -224,8 +224,8 @@ function ReviewCard({
     <div
       className={`shrink-0 rounded-2xl flex flex-col justify-between select-none my-2 sm:my-2.5 transition-shadow ${
         isCenter
-          ? "w-[260px] sm:w-[280px] lg:w-[295px] border border-transparent bg-white p-4 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
-          : "w-[215px] sm:w-[235px] lg:w-[250px] border border-neutral-200/70 bg-white/90 p-3.5 sm:p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
+          ? "w-[240px] sm:w-[250px] md:w-[220px] lg:w-[295px] border border-transparent bg-white p-3.5 sm:p-4 md:p-4 lg:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+          : "w-[200px] sm:w-[215px] md:w-[195px] lg:w-[250px] border border-neutral-200/70 bg-white/90 p-3 sm:p-3.5 md:p-3.5 lg:p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
       }`}
     >
       {/* Author & Platform Header */}
@@ -291,32 +291,38 @@ export default function SocialReviewCanvas() {
   return (
     <section
       id="critical-acclaim"
-      className="relative w-full bg-[#FEFEFE] text-neutral-950 pt-20 sm:pt-28 pb-16 sm:pb-24 overflow-hidden select-none"
+      className="relative w-full bg-[#FEFEFE] text-neutral-950 pt-12 sm:pt-16 md:pt-16 lg:pt-28 pb-12 sm:pb-16 md:pb-16 lg:pb-24 overflow-hidden select-none"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Side: Section Heading and Small Description only */}
-          <div className="lg:col-span-5 flex flex-col space-y-3 sm:space-y-4 lg:pr-6 max-w-2xl">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-neutral-950 leading-[1.08]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 lg:gap-14 items-center">
+          {/* Left Side: Section Heading and Small Description */}
+          <div className="md:col-span-5 flex flex-col space-y-3 sm:space-y-4 md:pr-2 lg:pr-6 max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-6xl font-light tracking-tight text-neutral-950 leading-[1.08]">
               Reviews &amp;{" "}
               <span className="font-semibold text-neutral-950">
                 Ratings
               </span>
             </h2>
 
-            <p className="text-sm sm:text-base text-neutral-500 font-normal leading-relaxed pt-1">
+            <p className="text-xs sm:text-sm md:text-sm lg:text-base text-neutral-500 font-normal leading-relaxed pt-1">
               Real impressions from X, Reddit, and Instagram. Unedited feedback from daily commuters on 8-hour flights, mastering engineers auditing acoustic phase coherence, and creators in the studio.
             </p>
+
+            {/* Social Proof Rating Badge */}
+            <div className="pt-2 sm:pt-3 flex flex-wrap items-center gap-2 font-mono text-xs text-neutral-500">
+              <span className="flex text-amber-500 tracking-wider">★★★★★</span>
+              <span className="font-bold text-neutral-950">4.9 / 5.0</span>
+              <span className="text-neutral-400">• 1,400+ Verified Owners</span>
+            </div>
           </div>
 
-          {/* Right Side: Creative Review Canvas with 3 Columns Running in a Diagonal Path */}
-          {/* Exactly preserving container width and height */}
-          <div className="lg:col-span-7 relative h-[420px] sm:h-[460px] md:h-[500px] lg:h-[530px] w-full rounded-3xl border border-transparent bg-transparent p-2 sm:p-4 overflow-hidden">
-            {/* Rotated Diagonal Canvas Wrapper with 3 Columns */}
-            <div className="absolute -inset-14 sm:-inset-16 md:-inset-20 lg:-inset-16 flex justify-center items-center pointer-events-auto rotate-[9deg] scale-100 sm:scale-105 md:scale-100 lg:scale-105">
-              <div className="flex gap-3 sm:gap-3.5 lg:gap-4 justify-center items-center">
+          {/* Right Side: Creative Review Canvas with Smooth Top/Bottom Gradient Fade */}
+          <div className="md:col-span-7 relative h-[380px] sm:h-[400px] md:h-[420px] lg:h-[530px] w-full rounded-3xl border border-transparent bg-transparent p-2 sm:p-4 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)]">
+            {/* Rotated Canvas Wrapper (2 lanes on tablet, 3 lanes on desktop) */}
+            <div className="absolute -inset-10 sm:-inset-12 md:-inset-14 lg:-inset-16 flex justify-center items-center pointer-events-auto rotate-0 md:rotate-[5deg] lg:rotate-[9deg] scale-100 lg:scale-105">
+              <div className="flex gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4 justify-center items-center">
                 {/* Column 1: Left Lane (drifts up) */}
-                <div className="animate-marquee-up opacity-60 hover:opacity-100 transition-opacity">
+                <div className="animate-marquee-up opacity-70 hover:opacity-100 transition-opacity">
                   {[...track1, ...track1, ...track1, ...track1].map((review, idx) => (
                     <ReviewCard key={`diag-col1-${review.id}-${idx}`} review={review} isCenter={false} />
                   ))}
@@ -329,8 +335,8 @@ export default function SocialReviewCanvas() {
                   ))}
                 </div>
 
-                {/* Column 3: Right Lane (drifts up) */}
-                <div className="animate-marquee-up opacity-60 hover:opacity-100 transition-opacity">
+                {/* Column 3: Right Lane (drifts up) — Hidden on tablet to prevent crowding/cropping, visible on lg */}
+                <div className="hidden lg:block animate-marquee-up opacity-70 hover:opacity-100 transition-opacity">
                   {[...track3, ...track3, ...track3, ...track3].map((review, idx) => (
                     <ReviewCard key={`diag-col3-${review.id}-${idx}`} review={review} isCenter={false} />
                   ))}
