@@ -224,8 +224,8 @@ function ReviewCard({
     <div
       className={`shrink-0 rounded-2xl flex flex-col justify-between select-none my-2 sm:my-2.5 transition-shadow ${
         isCenter
-          ? "w-[240px] sm:w-[250px] md:w-[220px] lg:w-[295px] border border-transparent bg-white p-3.5 sm:p-4 md:p-4 lg:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
-          : "w-[200px] sm:w-[215px] md:w-[195px] lg:w-[250px] border border-neutral-200/70 bg-white/90 p-3 sm:p-3.5 md:p-3.5 lg:p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
+          ? "w-[220px] sm:w-[250px] md:w-[220px] lg:w-[295px] border border-transparent bg-white p-3.5 sm:p-4 md:p-4 lg:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+          : "w-[180px] sm:w-[215px] md:w-[195px] lg:w-[250px] border border-neutral-200/70 bg-white/90 p-3 sm:p-3.5 md:p-3.5 lg:p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
       }`}
     >
       {/* Author & Platform Header */}
@@ -291,9 +291,9 @@ export default function SocialReviewCanvas() {
   return (
     <section
       id="critical-acclaim"
-      className="relative w-full bg-[#FEFEFE] text-neutral-950 pt-12 sm:pt-16 md:pt-16 lg:pt-28 pb-12 sm:pb-16 md:pb-16 lg:pb-24 overflow-hidden select-none"
+      className="relative w-full bg-[#FEFEFE] text-neutral-950 pt-10 sm:pt-16 md:pt-16 lg:pt-28 pb-10 sm:pb-16 md:pb-16 lg:pb-24 overflow-hidden select-none"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 lg:gap-14 items-center">
           {/* Left Side: Section Heading and Small Description */}
           <div className="md:col-span-5 flex flex-col space-y-3 sm:space-y-4 md:pr-2 lg:pr-6 max-w-2xl">

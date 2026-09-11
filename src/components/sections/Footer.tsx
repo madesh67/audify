@@ -41,14 +41,14 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
       {/* Final Section ("OWN AUDIFY" CTA): Headset on Left, Descriptions on Right */}
       {showCta && (
         <>
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
             <div
               id="buy-now-cta"
-              className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 lg:gap-16 items-center min-h-0 md:min-h-[460px] lg:min-h-[85vh] py-10 sm:py-14 md:py-12 lg:py-24"
+              className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 lg:gap-16 items-center min-h-0 md:min-h-[460px] lg:min-h-[85vh] py-8 sm:py-14 md:py-12 lg:py-24"
             >
               {/* Left Column: Transparent Headset Visual */}
               <div className="md:col-span-6 flex justify-center md:justify-center lg:justify-start items-center">
-                <div className="relative w-[240px] sm:w-[280px] md:w-[310px] lg:w-[450px] xl:w-[480px] aspect-[560/696] flex items-center justify-center">
+                <div className="relative w-[220px] sm:w-[280px] md:w-[310px] lg:w-[450px] xl:w-[480px] aspect-[560/696] flex items-center justify-center">
                   <Image
                     src="/images/headset.png"
                     alt="Audify Flagship Acoustic Headset"
@@ -67,7 +67,7 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
                   <span>DIRECT FROM AUDIO LABS</span>
                 </div>
 
-                <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-8xl font-black tracking-[-0.04em] uppercase text-neutral-950 leading-[0.92]">
+                <h2 className="text-3xl sm:text-5xl md:text-5xl lg:text-8xl font-black tracking-[-0.04em] uppercase text-neutral-950 leading-[0.92]">
                   OWN AUDIFY
                 </h2>
 
@@ -79,7 +79,7 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
                   <Link
                     href="/products"
                     onClick={() => soundEngine.playChime()}
-                    className="group inline-flex items-center justify-center gap-3 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 font-bold text-xs sm:text-sm lg:text-base uppercase tracking-wider shadow-md hover:shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+                    className="group inline-flex items-center justify-center gap-3 px-6 sm:px-9 py-3.5 sm:py-4 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 font-bold text-xs sm:text-sm lg:text-base uppercase tracking-wider shadow-md hover:shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
                     aria-label="Shop Now"
                   >
                     <span>Shop Now</span>
@@ -96,9 +96,9 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
       )}
 
       {/* Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-12 relative z-10">
         {/* Middle Navigation & Newsletter Grid */}
-        <div className="pt-16 pb-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+        <div className="pt-12 sm:pt-16 pb-12 sm:pb-16 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
           {/* Brand Info & Newsletter */}
           <div className="md:col-span-5 space-y-6">
             <div className="space-y-3">
@@ -148,7 +148,7 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
           </div>
 
           {/* Quick Links Columns */}
-          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 text-xs font-mono">
+          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 text-xs font-mono">
             <div className="space-y-3">
               <div className="text-[10px] text-neutral-400 uppercase tracking-widest">
                 ARCHITECTURE
@@ -193,9 +193,9 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
         </div>
 
         {/* Bottom Micro Row */}
-        <div className="pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row justify-between items-center text-[11px] font-mono text-neutral-400 gap-4">
+        <div className="pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row justify-between items-center text-[11px] font-mono text-neutral-400 gap-4 text-center sm:text-left">
           <div>© {new Date().getFullYear()} AUDIFY ACOUSTIC LABORATORIES. ALL RIGHTS RESERVED.</div>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap justify-center sm:justify-end items-center gap-3 sm:gap-6">
             <span>STOCKHOLM • SAN FRANCISCO • TOKYO</span>
             <span>60FPS KINETIC ENGINE</span>
           </div>

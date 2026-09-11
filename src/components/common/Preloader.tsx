@@ -275,7 +275,7 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
         className="relative z-10 flex items-center justify-center text-center px-4"
       >
         {/* The Wordmark: [Logo 'A'] + "UDIFY" */}
-        <div className="flex items-center text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase text-neutral-950 tracking-[-0.04em] leading-none">
+        <div className="flex items-center text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase text-neutral-950 tracking-[-0.04em] leading-none">
           {/* Kinetic Monogram 'A' SVG */}
           <svg
             viewBox="330 110 340 360"

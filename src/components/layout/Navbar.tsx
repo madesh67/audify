@@ -39,7 +39,7 @@ export default function Navbar() {
   return (
     <>
       <header className="fixed top-0 inset-x-0 z-50 py-3.5 bg-[#FEFEFE]/85 backdrop-blur-md border-b border-neutral-200/60 shadow-xs pointer-events-none select-none">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex items-center justify-between w-full relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-12 flex items-center justify-between w-full relative">
           {/* Top-Left: Audify Brand Logo (Spectrogram Monogram + Wordmark) */}
           <div className="flex items-center pointer-events-auto">
             {isHome ? (
@@ -48,10 +48,10 @@ export default function Navbar() {
                   soundEngine.playClick(800);
                   scrollTo(0, { duration: 1.2 });
                 }}
-                className="group inline-flex items-center gap-2 sm:gap-2.5 cursor-pointer text-left"
+                className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer text-left"
                 aria-label="AUDIFY Home"
               >
-                <span className="inline-flex items-center text-xl sm:text-2xl md:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
+                <span className="inline-flex items-center text-lg sm:text-2xl md:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
                   <AudifyLogo
                     className="h-[0.92em] w-auto inline-block -translate-y-[0.02em] mr-[0.04em]"
                     chevronColor="#0A0A0A"
@@ -64,10 +64,10 @@ export default function Navbar() {
               <Link
                 href="/"
                 onClick={() => soundEngine.playClick(800)}
-                className="group inline-flex items-center gap-2 sm:gap-2.5 cursor-pointer"
+                className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer"
                 aria-label="AUDIFY Home"
               >
-                <span className="inline-flex items-center text-xl sm:text-2xl md:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
+                <span className="inline-flex items-center text-lg sm:text-2xl md:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
                   <AudifyLogo
                     className="h-[0.92em] w-auto inline-block -translate-y-[0.02em] mr-[0.04em]"
                     chevronColor="#0A0A0A"
@@ -80,12 +80,12 @@ export default function Navbar() {
           </div>
 
           {/* Center: Navigation Links (Shop, About Us) */}
-          <nav className="flex items-center gap-6 sm:gap-9 pointer-events-auto absolute left-1/2 -translate-x-1/2">
+          <nav className="flex items-center gap-3.5 sm:gap-6 md:gap-9 pointer-events-auto absolute left-1/2 -translate-x-1/2">
             {/* Shop Nav Link */}
             <Link
               href="/products"
               onClick={() => soundEngine.playClick(600)}
-              className={`text-xs sm:text-[13px] font-bold uppercase tracking-[0.14em] transition-colors cursor-pointer ${
+              className={`text-xs sm:text-[13px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
                 pathname === "/products" || pathname.startsWith("/products/")
                   ? "text-neutral-950 underline underline-offset-4 font-black"
                   : "text-neutral-700 hover:text-neutral-950"
@@ -99,7 +99,7 @@ export default function Navbar() {
             <Link
               href="/about"
               onClick={() => soundEngine.playClick(600)}
-              className={`text-xs sm:text-[13px] font-bold uppercase tracking-[0.14em] transition-colors cursor-pointer ${
+              className={`text-xs sm:text-[13px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
                 pathname === "/about"
                   ? "text-neutral-950 underline underline-offset-4 font-black"
                   : "text-neutral-700 hover:text-neutral-950"
@@ -111,29 +111,29 @@ export default function Navbar() {
           </nav>
 
           {/* Top-Right: Actions (Account & Cart Logo Button) */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 pointer-events-auto">
+          <div className="flex items-center gap-1 sm:gap-2.5 pointer-events-auto">
             {/* Account Button */}
             <button
               type="button"
               onClick={handleAccountClick}
-              className="relative w-10 h-10 rounded-full flex items-center justify-center text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
+              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
               aria-label="Account"
               title="Account"
             >
-              <CircleUserRound className="w-5 h-5" strokeWidth={1.8} />
+              <CircleUserRound className="w-4.5 h-4.5 sm:w-5 sm:h-5" strokeWidth={1.8} />
             </button>
 
             {/* Cart Logo Button */}
             <button
               type="button"
               onClick={handleCartClick}
-              className="relative w-10 h-10 rounded-full flex items-center justify-center text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
+              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
               aria-label={`Open Cart (${totalCount} items)`}
               title="Cart"
             >
-              <ShoppingCart className="w-5 h-5" strokeWidth={1.8} />
+              <ShoppingCart className="w-4.5 h-4.5 sm:w-5 sm:h-5" strokeWidth={1.8} />
               {totalCount > 0 && (
-                <span className="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-neutral-950 text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-xs">
+                <span className="absolute top-0.5 right-0.5 min-w-[16px] h-[16px] sm:min-w-[17px] sm:h-[17px] px-1 rounded-full bg-neutral-950 text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-xs">
                   {totalCount}
                 </span>
               )}
