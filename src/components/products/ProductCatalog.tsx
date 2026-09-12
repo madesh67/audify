@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { PRODUCTS, Product } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import ProductFilterBar from "@/components/products/ProductFilterBar";
@@ -8,9 +9,33 @@ import { soundEngine } from "@/utils/sound";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductCatalog() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    if (
+      categoryParam &&
+      ["headsets", "earphones", "speakers", "all"].includes(categoryParam)
+    ) {
+      return categoryParam;
+    }
+    return "all";
+  });
+
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
+
+  // Keep state synchronized with URL query params (e.g. from navbar/sidebar clicks)
+  useEffect(() => {
+    if (
+      categoryParam &&
+      ["headsets", "earphones", "speakers", "all"].includes(categoryParam)
+    ) {
+      setSelectedCategory(categoryParam);
+    } else if (!categoryParam) {
+      setSelectedCategory("all");
+    }
+  }, [categoryParam]);
 
   // Global Cart State
   const {
@@ -23,6 +48,44 @@ export default function ProductCatalog() {
     isDrawerOpen: isCartOpen,
     setIsDrawerOpen: setIsCartOpen,
   } = useCart();
+
+  const handleSelectCategory = (cat: string) => {
+    setSelectedCategory(cat);
+    if (typeof window !== "undefined") {
+      const url = cat === "all" ? "/products" : `/products?category=${cat}`;
+      window.history.replaceState(null, "", url);
+    }
+  };
+
+  // Dynamic header metadata reflecting current selected category
+  const categoryMeta = useMemo(() => {
+    switch (selectedCategory) {
+      case "headsets":
+        return {
+          badge: "COLLECTION // OVER-EAR REFERENCE",
+          title: "Headsets",
+          desc: "Flagship over-ear wireless and planar magnetic reference monitoring headsets engineered with cryogenic Grade-5 titanium.",
+        };
+      case "earphones":
+        return {
+          badge: "COLLECTION // IN-EAR MONITORS",
+          title: "Wired Earphones",
+          desc: "Precision in-ear acoustic monitors crafted from acoustic brass, dual dynamic drivers, and high-purity silver-plated balanced copper.",
+        };
+      case "speakers":
+        return {
+          badge: "COLLECTION // PORTABLE ACOUSTICS",
+          title: "Portable Speakers",
+          desc: "High-output spatial audio systems engineered with twin passive radiators, omnidirectional drivers, and lossless wireless transmission.",
+        };
+      default:
+        return {
+          badge: "REFERENCE CATALOG",
+          title: "All Products",
+          desc: "Explore reference over-ear headphones, planar magnetic monitors, and precision acoustic instruments.",
+        };
+    }
+  }, [selectedCategory]);
 
   // Filter & Sort Logic
   const filteredProducts = useMemo(() => {
@@ -62,13 +125,13 @@ export default function ProductCatalog() {
         {/* Page Hero Header */}
         <div className="pb-6 sm:pb-8 md:pb-10 border-b border-neutral-200/70">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-[10px] font-mono tracking-[0.2em] uppercase text-neutral-600 mb-2 sm:mb-3">
-            <span>REFERENCE CATALOG</span>
+            <span>{categoryMeta.badge}</span>
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-[-0.04em] uppercase text-neutral-950">
-            All Products
+            {categoryMeta.title}
           </h1>
           <p className="text-xs sm:text-sm text-neutral-500 font-normal mt-1 sm:mt-2 max-w-md">
-            Explore reference over-ear headphones, planar magnetic monitors, and precision acoustic instruments.
+            {categoryMeta.desc}
           </p>
         </div>
 
@@ -76,7 +139,7 @@ export default function ProductCatalog() {
         <div className="pt-6 sm:pt-10">
           <ProductFilterBar
             selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
+            onSelectCategory={handleSelectCategory}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             sortBy={sortBy}
@@ -98,7 +161,7 @@ export default function ProductCatalog() {
               <button
                 onClick={() => {
                   soundEngine.playClick(600);
-                  setSelectedCategory("all");
+                  handleSelectCategory("all");
                   setSearchQuery("");
                 }}
                 className="px-5 py-2.5 rounded-full bg-neutral-950 text-white text-xs font-semibold uppercase tracking-wider hover:bg-neutral-800 active:scale-[0.98] transition-all duration-200 shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"

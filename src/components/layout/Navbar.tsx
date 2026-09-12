@@ -3,17 +3,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingCart, CircleUserRound } from "lucide-react";
+import { ShoppingCart, CircleUserRound, Menu } from "lucide-react";
 import { soundEngine } from "@/utils/sound";
 import AudifyLogo from "@/components/common/AudifyLogo";
 import { useLenis } from "@/components/layout/SmoothScroll";
 import { useCart } from "@/context/CartContext";
 import CartDrawer from "@/components/products/CartDrawer";
 import AccountModal from "@/components/layout/AccountModal";
+import MobileNavDrawer from "@/components/layout/MobileNavDrawer";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { scrollTo, lenis } = useLenis();
+  const { lenis } = useLenis();
   const {
     items,
     totalCount,
@@ -24,9 +25,25 @@ export default function Navbar() {
     setIsDrawerOpen,
   } = useCart();
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const lastScrollYRef = useRef(0);
   const isHome = pathname === "/";
+
+  // Sync category query parameter from URL for active nav indicators
+  useEffect(() => {
+    const updateCategoryFromUrl = () => {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        setActiveCategory(params.get("category"));
+      }
+    };
+
+    updateCategoryFromUrl();
+    window.addEventListener("popstate", updateCategoryFromUrl);
+    return () => window.removeEventListener("popstate", updateCategoryFromUrl);
+  }, [pathname]);
 
   // Hide header when scrolling forward; only open when scrolling back
   useEffect(() => {
@@ -94,6 +111,11 @@ export default function Navbar() {
     setIsDrawerOpen(true);
   };
 
+  const handleToggleMobileMenu = () => {
+    soundEngine.playClick(600);
+    setIsMobileMenuOpen((prev) => !prev);
+  };
+
   const handleLogoClick = (e: React.MouseEvent) => {
     soundEngine.playClick(800);
     if (isHome) {
@@ -118,28 +140,56 @@ export default function Navbar() {
     }
   };
 
-  const shouldShowHeader = isVisible || isDrawerOpen || isAccountOpen;
+  const handleNavClick = (category: string | null) => {
+    soundEngine.playClick(600);
+    setActiveCategory(category);
+  };
+
+  const shouldShowHeader =
+    isVisible || isDrawerOpen || isAccountOpen || isMobileMenuOpen;
+
+  const isHeadsetsActive =
+    pathname.startsWith("/products") && activeCategory === "headsets";
+  const isEarphonesActive =
+    pathname.startsWith("/products") && activeCategory === "earphones";
+  const isSpeakersActive =
+    pathname.startsWith("/products") && activeCategory === "speakers";
+  const isShopActive =
+    pathname === "/products" && (!activeCategory || activeCategory === "all");
+  const isAboutActive = pathname === "/about";
 
   return (
     <>
       <header
-        className={`fixed top-0 inset-x-0 z-50 py-3.5 bg-[#FEFEFE]/85 backdrop-blur-md border-b border-neutral-200/60 shadow-xs select-none transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 inset-x-0 z-50 py-3 sm:py-3.5 bg-[#FEFEFE]/85 backdrop-blur-md border-b border-neutral-200/60 shadow-xs select-none transition-all duration-300 ease-in-out ${
           shouldShowHeader
-            ? "translate-y-0 opacity-100 pointer-events-none"
+            ? "translate-y-0 opacity-100"
             : "-translate-y-full opacity-0 pointer-events-none"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-12 flex items-center justify-between w-full relative">
-          {/* Top-Left: Audify Brand Logo (Spectrogram Monogram + Wordmark) */}
-          <div className="flex items-center pointer-events-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between w-full relative">
+          {/* Mobile & Tablet: Hamburger Navigation Toggle Button (Hidden on Desktop lg+) */}
+          <div className="flex items-center lg:hidden z-10">
+            <button
+              type="button"
+              onClick={handleToggleMobileMenu}
+              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-neutral-800 hover:text-neutral-950 hover:bg-neutral-100/90 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            >
+              <Menu className="w-5 h-5" strokeWidth={1.8} />
+            </button>
+          </div>
+
+          {/* AUDIFY Brand Logo: Centered on Mobile & Tablet (<lg), Left-aligned on Desktop (lg+) */}
+          <div className="flex items-center absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 z-10">
             {isHome ? (
               <button
                 type="button"
                 onClick={handleLogoClick}
-                className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer text-left"
+                className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer text-left focus-visible:outline-none"
                 aria-label="AUDIFY Home"
               >
-                <span className="inline-flex items-center text-lg sm:text-2xl md:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
+                <span className="inline-flex items-center text-lg sm:text-2xl lg:text-2xl xl:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
                   <AudifyLogo
                     className="h-[0.92em] w-auto inline-block -translate-y-[0.02em] mr-[0.04em]"
                     chevronColor="#0A0A0A"
@@ -152,10 +202,10 @@ export default function Navbar() {
               <Link
                 href="/"
                 onClick={handleLogoClick}
-                className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer"
+                className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer focus-visible:outline-none"
                 aria-label="AUDIFY Home"
               >
-                <span className="inline-flex items-center text-lg sm:text-2xl md:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
+                <span className="inline-flex items-center text-lg sm:text-2xl lg:text-2xl xl:text-3xl font-black tracking-[-0.04em] uppercase text-neutral-950">
                   <AudifyLogo
                     className="h-[0.92em] w-auto inline-block -translate-y-[0.02em] mr-[0.04em]"
                     chevronColor="#0A0A0A"
@@ -167,30 +217,72 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Center: Navigation Links (Shop, About Us) */}
-          <nav className="flex items-center gap-3 sm:gap-6 md:gap-9 pointer-events-auto absolute left-1/2 -translate-x-1/2">
-            {/* Shop Nav Link */}
+          {/* Desktop Navigation Links (Centered, visible only on Desktop lg+) */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2">
+            {/* 1. Headsets */}
+            <Link
+              href="/products?category=headsets"
+              onClick={() => handleNavClick("headsets")}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isHeadsetsActive
+                  ? "text-neutral-950 underline underline-offset-4 font-black"
+                  : "text-neutral-600 hover:text-neutral-950"
+              }`}
+              aria-label="Headsets"
+            >
+              Headsets
+            </Link>
+
+            {/* 2. Wired Earphones */}
+            <Link
+              href="/products?category=earphones"
+              onClick={() => handleNavClick("earphones")}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isEarphonesActive
+                  ? "text-neutral-950 underline underline-offset-4 font-black"
+                  : "text-neutral-600 hover:text-neutral-950"
+              }`}
+              aria-label="Wired Earphones"
+            >
+              Wired Earphones
+            </Link>
+
+            {/* 3. Portable Speaker */}
+            <Link
+              href="/products?category=speakers"
+              onClick={() => handleNavClick("speakers")}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isSpeakersActive
+                  ? "text-neutral-950 underline underline-offset-4 font-black"
+                  : "text-neutral-600 hover:text-neutral-950"
+              }`}
+              aria-label="Portable Speaker"
+            >
+              Portable Speaker
+            </Link>
+
+            {/* 4. Shop (All Products) */}
             <Link
               href="/products"
-              onClick={() => soundEngine.playClick(600)}
-              className={`text-[11px] sm:text-[13px] font-bold uppercase tracking-[0.10em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
-                pathname === "/products" || pathname.startsWith("/products/")
+              onClick={() => handleNavClick("all")}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isShopActive
                   ? "text-neutral-950 underline underline-offset-4 font-black"
-                  : "text-neutral-700 hover:text-neutral-950"
+                  : "text-neutral-600 hover:text-neutral-950"
               }`}
-              aria-label="Shop"
+              aria-label="Shop All Products"
             >
               Shop
             </Link>
 
-            {/* About Us Nav Link */}
+            {/* 5. About Us */}
             <Link
               href="/about"
-              onClick={() => soundEngine.playClick(600)}
-              className={`text-[11px] sm:text-[13px] font-bold uppercase tracking-[0.10em] sm:tracking-[0.14em] transition-colors cursor-pointer ${
-                pathname === "/about"
+              onClick={() => handleNavClick(null)}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isAboutActive
                   ? "text-neutral-950 underline underline-offset-4 font-black"
-                  : "text-neutral-700 hover:text-neutral-950"
+                  : "text-neutral-600 hover:text-neutral-950"
               }`}
               aria-label="About Us"
             >
@@ -199,7 +291,7 @@ export default function Navbar() {
           </nav>
 
           {/* Top-Right: Actions (Account & Cart Logo Button) */}
-          <div className="flex items-center gap-1 sm:gap-2.5 pointer-events-auto">
+          <div className="flex items-center gap-1 sm:gap-2.5 z-10">
             {/* Account Button */}
             <button
               type="button"
@@ -230,6 +322,20 @@ export default function Navbar() {
         </div>
       </header>
 
+      {/* Mobile & Tablet Navigation Sidebar Drawer */}
+      <MobileNavDrawer
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        onOpenAccount={handleAccountClick}
+        onOpenCart={handleCartClick}
+        cartCount={totalCount}
+        pathname={pathname}
+        activeCategory={activeCategory}
+        onSelectCategory={setActiveCategory}
+        isHome={isHome}
+        onLogoClick={handleLogoClick}
+      />
+
       {/* Cart Sidebar Drawer */}
       <CartDrawer
         isOpen={isDrawerOpen}
@@ -248,6 +354,3 @@ export default function Navbar() {
     </>
   );
 }
-
-
-
