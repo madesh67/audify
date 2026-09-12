@@ -686,7 +686,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
                 sourceSelector="#s1-joint-source"
                 sourceSide="left"
               />
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
                 {/* Eyebrow */}
                 <div className="overflow-hidden">
                   <div className="reveal-line-s1 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
@@ -716,7 +716,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               </div>
 
               {/* Right Technical Specs: Clean Responsive Column/Grid */}
-              <div className="mt-auto md:mt-0 pb-14 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              <div className="mt-auto md:mt-0 pb-36 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s1 space-y-0.5 sm:space-y-1 font-mono">
                     <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
@@ -781,7 +781,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               />
 
               {/* Right Editorial Floating Typography (text-left md:text-right) */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
                 {/* Eyebrow */}
                 <div className="overflow-hidden">
                   <div className="reveal-line-s2 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
@@ -811,7 +811,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               </div>
 
               {/* Left Technical Specs */}
-              <div className="mt-auto md:mt-0 pb-14 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              <div className="mt-auto md:mt-0 pb-36 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s2 space-y-0.5 sm:space-y-1 font-mono">
                     <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
@@ -850,7 +850,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               className="absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between opacity-0 px-4 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Left Editorial Floating Typography */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s3 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
@@ -877,7 +877,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               </div>
 
               {/* Right Technical Specs */}
-              <div className="mt-auto md:mt-0 pb-14 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              <div className="mt-auto md:mt-0 pb-36 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s3 space-y-0.5 sm:space-y-1 font-mono">
                     <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
@@ -914,7 +914,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               className="absolute inset-0 flex flex-col md:flex-row-reverse items-start md:items-center justify-between opacity-0 px-4 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Right Editorial Floating Typography (text-left md:text-right) */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 text-left md:text-right pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s4 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span>EXTENDED LIFESPAN</span>
@@ -941,7 +941,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               </div>
 
               {/* Left Technical Specs */}
-              <div className="mt-auto md:mt-0 pb-14 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              <div className="mt-auto md:mt-0 pb-36 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s4 space-y-0.5 sm:space-y-1 font-mono">
                     <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
@@ -978,7 +978,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               className="absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between opacity-0 px-4 sm:px-8 lg:px-12 pointer-events-none transition-opacity duration-300"
             >
               {/* Left Editorial Floating Typography */}
-              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-20 sm:pt-20 md:pt-0">
+              <div className="max-w-xs sm:max-w-sm md:max-w-[215px] lg:max-w-[320px] space-y-1.5 sm:space-y-3 lg:space-y-4 pointer-events-auto backdrop-blur-[1px] pt-14 sm:pt-20 md:pt-0">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s5 inline-flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[11px] tracking-[0.20em] sm:tracking-[0.25em] text-neutral-400 uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 inline-block" />
@@ -1005,7 +1005,7 @@ export default function ScrollCanvas({ onProgressUpdate }: ScrollCanvasProps) {
               </div>
 
               {/* Right Technical Specs */}
-              <div className="mt-auto md:mt-0 pb-14 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
+              <div className="mt-auto md:mt-0 pb-36 sm:pb-12 md:pb-0 grid grid-cols-2 md:flex md:flex-col gap-3 sm:gap-8 md:gap-5 lg:gap-6 font-mono text-xs w-full max-w-full md:max-w-[185px] lg:max-w-[220px] pointer-events-auto backdrop-blur-[1px]">
                 <div className="overflow-hidden">
                   <div className="reveal-line-s5 space-y-0.5 sm:space-y-1 font-mono">
                     <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.25em] text-neutral-400 font-mono truncate">
