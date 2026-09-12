@@ -56,18 +56,24 @@ export default function ProductCatalog() {
   }, [selectedCategory, searchQuery, sortBy]);
 
   return (
-    <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-24 sm:pt-28 md:pt-32 pb-24">
-      {/* Main Container snapped to strict design system guide rails: max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
+    <div className="relative w-full min-h-screen bg-[#FEFEFE] pt-20 sm:pt-28 md:pt-32 pb-24">
+      {/* Main Container snapped to strict design system guide rails */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
         {/* Page Hero Header */}
-        <div className="pb-8 sm:pb-10 border-b border-neutral-200/70">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-[-0.04em] uppercase text-neutral-950">
+        <div className="pb-6 sm:pb-8 md:pb-10 border-b border-neutral-200/70">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200/80 text-[10px] font-mono tracking-[0.2em] uppercase text-neutral-600 mb-2 sm:mb-3">
+            <span>REFERENCE CATALOG</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-[-0.04em] uppercase text-neutral-950">
             All Products
           </h1>
+          <p className="text-xs sm:text-sm text-neutral-500 font-normal mt-1 sm:mt-2 max-w-md">
+            Explore reference over-ear headphones, planar magnetic monitors, and precision acoustic instruments.
+          </p>
         </div>
 
         {/* Filter Bar Controls */}
-        <div className="pt-8 sm:pt-10">
+        <div className="pt-6 sm:pt-10">
           <ProductFilterBar
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
@@ -80,10 +86,10 @@ export default function ProductCatalog() {
         </div>
 
         {/* Product Grid: 1 col mobile, 2 cols tablet, 3 cols desktop */}
-        <div className="pt-10 sm:pt-12">
+        <div className="pt-8 sm:pt-12">
           {filteredProducts.length === 0 ? (
-            <div className="py-20 text-center rounded-3xl bg-neutral-50 border border-neutral-200/80 p-8 space-y-4">
-              <div className="text-base font-semibold text-neutral-900">
+            <div className="py-16 sm:py-20 text-center rounded-3xl bg-neutral-50 border border-neutral-200/80 p-6 sm:p-8 space-y-4">
+              <div className="text-sm sm:text-base font-semibold text-neutral-900">
                 No instruments match your criteria
               </div>
               <p className="text-xs text-neutral-500 max-w-sm mx-auto">
@@ -101,7 +107,7 @@ export default function ProductCatalog() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
