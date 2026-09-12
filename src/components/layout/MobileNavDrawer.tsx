@@ -41,6 +41,22 @@ export default function MobileNavDrawer({
   const touchDeltaX = useRef<number>(0);
   const { lenis } = useLenis();
 
+  // Keep sound state in sync
+  useEffect(() => {
+    if (isOpen) {
+      setSoundEnabled(soundEngine.enabled);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const onSoundChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ enabled: boolean }>;
+      setSoundEnabled(customEvent.detail.enabled);
+    };
+    window.addEventListener("audify:sound-change", onSoundChange);
+    return () => window.removeEventListener("audify:sound-change", onSoundChange);
+  }, []);
+
   // Sync body scroll & Lenis lock
   useEffect(() => {
     if (isOpen) {

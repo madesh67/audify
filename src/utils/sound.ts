@@ -6,7 +6,7 @@
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
-  public enabled: boolean = false;
+  public enabled: boolean = true;
 
   private initCtx() {
     if (typeof window === "undefined") return;
@@ -29,6 +29,13 @@ class SoundEngine {
     if (this.enabled) {
       this.initCtx();
       this.playChime();
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("audify:sound-change", {
+          detail: { enabled: this.enabled },
+        })
+      );
     }
     return this.enabled;
   }

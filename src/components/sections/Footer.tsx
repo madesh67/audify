@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check, Sparkles, Volume2, VolumeX, X } from "lucide-react";
@@ -13,6 +13,15 @@ export default function Footer({ showCta = true }: { showCta?: boolean }) {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [soundActive, setSoundActive] = useState(soundEngine.enabled);
+
+  useEffect(() => {
+    const onSoundChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ enabled: boolean }>;
+      setSoundActive(customEvent.detail.enabled);
+    };
+    window.addEventListener("audify:sound-change", onSoundChange);
+    return () => window.removeEventListener("audify:sound-change", onSoundChange);
+  }, []);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
