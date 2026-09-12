@@ -990,17 +990,17 @@ export const CATEGORIES = [
   { id: "all", label: "All Instruments", count: PRODUCTS.length },
   {
     id: "headsets",
-    label: "Headsets",
+    label: "Headset",
     count: PRODUCTS.filter((p) => p.category === "headsets").length,
   },
   {
     id: "earphones",
-    label: "Wired Earphones",
+    label: "Earphones",
     count: PRODUCTS.filter((p) => p.category === "earphones").length,
   },
   {
     id: "speakers",
-    label: "Portable Speakers",
+    label: "Speakers",
     count: PRODUCTS.filter((p) => p.category === "speakers").length,
   },
 ] as const;

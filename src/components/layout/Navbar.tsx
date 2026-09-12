@@ -219,49 +219,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation Links (Centered, visible only on Desktop lg+) */}
           <nav className="hidden lg:flex items-center gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2">
-            {/* 1. Headsets */}
-            <Link
-              href="/products?category=headsets"
-              onClick={() => handleNavClick("headsets")}
-              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
-                isHeadsetsActive
-                  ? "text-neutral-950 underline underline-offset-4 font-black"
-                  : "text-neutral-600 hover:text-neutral-950"
-              }`}
-              aria-label="Headsets"
-            >
-              Headsets
-            </Link>
-
-            {/* 2. Wired Earphones */}
-            <Link
-              href="/products?category=earphones"
-              onClick={() => handleNavClick("earphones")}
-              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
-                isEarphonesActive
-                  ? "text-neutral-950 underline underline-offset-4 font-black"
-                  : "text-neutral-600 hover:text-neutral-950"
-              }`}
-              aria-label="Wired Earphones"
-            >
-              Wired Earphones
-            </Link>
-
-            {/* 3. Portable Speaker */}
-            <Link
-              href="/products?category=speakers"
-              onClick={() => handleNavClick("speakers")}
-              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
-                isSpeakersActive
-                  ? "text-neutral-950 underline underline-offset-4 font-black"
-                  : "text-neutral-600 hover:text-neutral-950"
-              }`}
-              aria-label="Portable Speaker"
-            >
-              Portable Speaker
-            </Link>
-
-            {/* 4. Shop (All Products) */}
+            {/* 1. Shop */}
             <Link
               href="/products"
               onClick={() => handleNavClick("all")}
@@ -273,6 +231,48 @@ export default function Navbar() {
               aria-label="Shop All Products"
             >
               Shop
+            </Link>
+
+            {/* 2. Headset */}
+            <Link
+              href="/products?category=headsets"
+              onClick={() => handleNavClick("headsets")}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isHeadsetsActive
+                  ? "text-neutral-950 underline underline-offset-4 font-black"
+                  : "text-neutral-600 hover:text-neutral-950"
+              }`}
+              aria-label="Headset"
+            >
+              Headset
+            </Link>
+
+            {/* 3. Earphones */}
+            <Link
+              href="/products?category=earphones"
+              onClick={() => handleNavClick("earphones")}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isEarphonesActive
+                  ? "text-neutral-950 underline underline-offset-4 font-black"
+                  : "text-neutral-600 hover:text-neutral-950"
+              }`}
+              aria-label="Earphones"
+            >
+              Earphones
+            </Link>
+
+            {/* 4. Speakers */}
+            <Link
+              href="/products?category=speakers"
+              onClick={() => handleNavClick("speakers")}
+              className={`text-[12px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer py-1 ${
+                isSpeakersActive
+                  ? "text-neutral-950 underline underline-offset-4 font-black"
+                  : "text-neutral-600 hover:text-neutral-950"
+              }`}
+              aria-label="Speakers"
+            >
+              Speakers
             </Link>
 
             {/* 5. About Us */}

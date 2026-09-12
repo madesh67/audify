@@ -63,19 +63,19 @@ export default function ProductCatalog() {
       case "headsets":
         return {
           badge: "COLLECTION // OVER-EAR REFERENCE",
-          title: "Headsets",
+          title: "Headset",
           desc: "Flagship over-ear wireless and planar magnetic reference monitoring headsets engineered with cryogenic Grade-5 titanium.",
         };
       case "earphones":
         return {
           badge: "COLLECTION // IN-EAR MONITORS",
-          title: "Wired Earphones",
+          title: "Earphones",
           desc: "Precision in-ear acoustic monitors crafted from acoustic brass, dual dynamic drivers, and high-purity silver-plated balanced copper.",
         };
       case "speakers":
         return {
           badge: "COLLECTION // PORTABLE ACOUSTICS",
-          title: "Portable Speakers",
+          title: "Speakers",
           desc: "High-output spatial audio systems engineered with twin passive radiators, omnidirectional drivers, and lossless wireless transmission.",
         };
       default:

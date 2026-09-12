@@ -174,246 +174,230 @@ export default function MobileNavDrawer({
           </button>
         </div>
 
-        {/* Scrollable Nav Content */}
-        <div className="flex-1 overflow-y-auto px-4 py-5 space-y-6">
-          {/* Section: Acoustic Collections (Headsets, Wired Earphones, Portable Speaker) */}
-          <div>
-            <div className="px-3 pb-2 text-[10px] font-mono font-semibold tracking-[0.2em] text-neutral-400 uppercase">
-              Collections
-            </div>
-            <div className="space-y-1">
-              {/* 1. Headsets */}
-              <Link
-                href="/products?category=headsets"
-                onClick={() => handleLinkClick("headsets")}
-                className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
-                  isHeadsetsActive
-                    ? "bg-neutral-950 text-white shadow-xs"
-                    : "text-neutral-900 hover:bg-neutral-100"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                      isHeadsetsActive
-                        ? "bg-neutral-800 text-white"
-                        : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
-                    }`}
-                  >
-                    <Headphones className="w-4.5 h-4.5" strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold tracking-tight">Headsets</div>
-                    <div
-                      className={`text-[11px] ${
-                        isHeadsetsActive ? "text-neutral-300" : "text-neutral-500"
-                      }`}
-                    >
-                      Reference Wireless &amp; Over-Ear
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                      isHeadsetsActive
-                        ? "bg-neutral-800 text-neutral-300"
-                        : "bg-neutral-100 text-neutral-500"
-                    }`}
-                  >
-                    8
-                  </span>
-                  <ChevronRight
-                    className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
-                      isHeadsetsActive ? "text-neutral-300" : "text-neutral-400"
-                    }`}
-                  />
-                </div>
-              </Link>
-
-              {/* 2. Wired Earphones */}
-              <Link
-                href="/products?category=earphones"
-                onClick={() => handleLinkClick("earphones")}
-                className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
-                  isEarphonesActive
-                    ? "bg-neutral-950 text-white shadow-xs"
-                    : "text-neutral-900 hover:bg-neutral-100"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                      isEarphonesActive
-                        ? "bg-neutral-800 text-white"
-                        : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
-                    }`}
-                  >
-                    <AudioLines className="w-4.5 h-4.5" strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold tracking-tight">Wired Earphones</div>
-                    <div
-                      className={`text-[11px] ${
-                        isEarphonesActive ? "text-neutral-300" : "text-neutral-500"
-                      }`}
-                    >
-                      Precision In-Ear Monitors
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                      isEarphonesActive
-                        ? "bg-neutral-800 text-neutral-300"
-                        : "bg-neutral-100 text-neutral-500"
-                    }`}
-                  >
-                    3
-                  </span>
-                  <ChevronRight
-                    className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
-                      isEarphonesActive ? "text-neutral-300" : "text-neutral-400"
-                    }`}
-                  />
-                </div>
-              </Link>
-
-              {/* 3. Portable Speaker */}
-              <Link
-                href="/products?category=speakers"
-                onClick={() => handleLinkClick("speakers")}
-                className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
-                  isSpeakersActive
-                    ? "bg-neutral-950 text-white shadow-xs"
-                    : "text-neutral-900 hover:bg-neutral-100"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                      isSpeakersActive
-                        ? "bg-neutral-800 text-white"
-                        : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
-                    }`}
-                  >
-                    <Speaker className="w-4.5 h-4.5" strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold tracking-tight">Portable Speaker</div>
-                    <div
-                      className={`text-[11px] ${
-                        isSpeakersActive ? "text-neutral-300" : "text-neutral-500"
-                      }`}
-                    >
-                      Spatial High-Output Audio
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                      isSpeakersActive
-                        ? "bg-neutral-800 text-neutral-300"
-                        : "bg-neutral-100 text-neutral-500"
-                    }`}
-                  >
-                    3
-                  </span>
-                  <ChevronRight
-                    className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
-                      isSpeakersActive ? "text-neutral-300" : "text-neutral-400"
-                    }`}
-                  />
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          {/* Section: General Navigation (Shop / All Products, About Us) */}
-          <div>
-            <div className="px-3 pb-2 text-[10px] font-mono font-semibold tracking-[0.2em] text-neutral-400 uppercase">
-              Explore
-            </div>
-            <div className="space-y-1">
-              {/* All Products / Shop */}
-              <Link
-                href="/products"
-                onClick={() => handleLinkClick("all")}
-                className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
+        {/* Scrollable Nav Content — Unified single list without Collections/Explore separation */}
+        <div className="flex-1 overflow-y-auto px-4 py-5 space-y-1.5">
+          {/* 1. Shop */}
+          <Link
+            href="/products"
+            onClick={() => handleLinkClick("all")}
+            className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
+              isShopActive
+                ? "bg-neutral-950 text-white shadow-xs"
+                : "text-neutral-900 hover:bg-neutral-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
                   isShopActive
-                    ? "bg-neutral-950 text-white shadow-xs"
-                    : "text-neutral-900 hover:bg-neutral-100"
+                    ? "bg-neutral-800 text-white"
+                    : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                      isShopActive
-                        ? "bg-neutral-800 text-white"
-                        : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
-                    }`}
-                  >
-                    <LayoutGrid className="w-4.5 h-4.5" strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold tracking-tight">All Products</div>
-                    <div
-                      className={`text-[11px] ${
-                        isShopActive ? "text-neutral-300" : "text-neutral-500"
-                      }`}
-                    >
-                      Complete Acoustic Catalog
-                    </div>
-                  </div>
-                </div>
-                <ChevronRight
-                  className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
-                    isShopActive ? "text-neutral-300" : "text-neutral-400"
+                <LayoutGrid className="w-4.5 h-4.5" strokeWidth={1.8} />
+              </div>
+              <div>
+                <div className="text-sm font-bold tracking-tight">Shop</div>
+                <div
+                  className={`text-[11px] ${
+                    isShopActive ? "text-neutral-300" : "text-neutral-500"
                   }`}
-                />
-              </Link>
-
-              {/* About Us */}
-              <Link
-                href="/about"
-                onClick={() => handleLinkClick(null)}
-                className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
-                  isAboutActive
-                    ? "bg-neutral-950 text-white shadow-xs"
-                    : "text-neutral-900 hover:bg-neutral-100"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                      isAboutActive
-                        ? "bg-neutral-800 text-white"
-                        : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
-                    }`}
-                  >
-                    <Compass className="w-4.5 h-4.5" strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold tracking-tight">About Us</div>
-                    <div
-                      className={`text-[11px] ${
-                        isAboutActive ? "text-neutral-300" : "text-neutral-500"
-                      }`}
-                    >
-                      Philosophy, Sound Lab &amp; Craft
-                    </div>
-                  </div>
+                >
+                  All Acoustic Instruments
                 </div>
-                <ChevronRight
-                  className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
-                    isAboutActive ? "text-neutral-300" : "text-neutral-400"
-                  }`}
-                />
-              </Link>
+              </div>
             </div>
-          </div>
+            <ChevronRight
+              className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
+                isShopActive ? "text-neutral-300" : "text-neutral-400"
+              }`}
+            />
+          </Link>
+
+          {/* 2. Headset */}
+          <Link
+            href="/products?category=headsets"
+            onClick={() => handleLinkClick("headsets")}
+            className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
+              isHeadsetsActive
+                ? "bg-neutral-950 text-white shadow-xs"
+                : "text-neutral-900 hover:bg-neutral-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                  isHeadsetsActive
+                    ? "bg-neutral-800 text-white"
+                    : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
+                }`}
+              >
+                <Headphones className="w-4.5 h-4.5" strokeWidth={1.8} />
+              </div>
+              <div>
+                <div className="text-sm font-bold tracking-tight">Headset</div>
+                <div
+                  className={`text-[11px] ${
+                    isHeadsetsActive ? "text-neutral-300" : "text-neutral-500"
+                  }`}
+                >
+                  Reference Wireless &amp; Over-Ear
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                  isHeadsetsActive
+                    ? "bg-neutral-800 text-neutral-300"
+                    : "bg-neutral-100 text-neutral-500"
+                }`}
+              >
+                8
+              </span>
+              <ChevronRight
+                className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
+                  isHeadsetsActive ? "text-neutral-300" : "text-neutral-400"
+                }`}
+              />
+            </div>
+          </Link>
+
+          {/* 3. Earphones */}
+          <Link
+            href="/products?category=earphones"
+            onClick={() => handleLinkClick("earphones")}
+            className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
+              isEarphonesActive
+                ? "bg-neutral-950 text-white shadow-xs"
+                : "text-neutral-900 hover:bg-neutral-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                  isEarphonesActive
+                    ? "bg-neutral-800 text-white"
+                    : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
+                }`}
+              >
+                <AudioLines className="w-4.5 h-4.5" strokeWidth={1.8} />
+              </div>
+              <div>
+                <div className="text-sm font-bold tracking-tight">Earphones</div>
+                <div
+                  className={`text-[11px] ${
+                    isEarphonesActive ? "text-neutral-300" : "text-neutral-500"
+                  }`}
+                >
+                  Precision In-Ear Monitors
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                  isEarphonesActive
+                    ? "bg-neutral-800 text-neutral-300"
+                    : "bg-neutral-100 text-neutral-500"
+                }`}
+              >
+                3
+              </span>
+              <ChevronRight
+                className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
+                  isEarphonesActive ? "text-neutral-300" : "text-neutral-400"
+                }`}
+              />
+            </div>
+          </Link>
+
+          {/* 4. Speakers */}
+          <Link
+            href="/products?category=speakers"
+            onClick={() => handleLinkClick("speakers")}
+            className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
+              isSpeakersActive
+                ? "bg-neutral-950 text-white shadow-xs"
+                : "text-neutral-900 hover:bg-neutral-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                  isSpeakersActive
+                    ? "bg-neutral-800 text-white"
+                    : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
+                }`}
+              >
+                <Speaker className="w-4.5 h-4.5" strokeWidth={1.8} />
+              </div>
+              <div>
+                <div className="text-sm font-bold tracking-tight">Speakers</div>
+                <div
+                  className={`text-[11px] ${
+                    isSpeakersActive ? "text-neutral-300" : "text-neutral-500"
+                  }`}
+                >
+                  Spatial High-Output Audio
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                  isSpeakersActive
+                    ? "bg-neutral-800 text-neutral-300"
+                    : "bg-neutral-100 text-neutral-500"
+                }`}
+              >
+                3
+              </span>
+              <ChevronRight
+                className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
+                  isSpeakersActive ? "text-neutral-300" : "text-neutral-400"
+                }`}
+              />
+            </div>
+          </Link>
+
+          {/* 5. About Us */}
+          <Link
+            href="/about"
+            onClick={() => handleLinkClick(null)}
+            className={`group flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all cursor-pointer active:scale-[0.99] ${
+              isAboutActive
+                ? "bg-neutral-950 text-white shadow-xs"
+                : "text-neutral-900 hover:bg-neutral-100"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                  isAboutActive
+                    ? "bg-neutral-800 text-white"
+                    : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200/80"
+                }`}
+              >
+                <Compass className="w-4.5 h-4.5" strokeWidth={1.8} />
+              </div>
+              <div>
+                <div className="text-sm font-bold tracking-tight">About Us</div>
+                <div
+                  className={`text-[11px] ${
+                    isAboutActive ? "text-neutral-300" : "text-neutral-500"
+                  }`}
+                >
+                  Philosophy, Sound Lab &amp; Craft
+                </div>
+              </div>
+            </div>
+            <ChevronRight
+              className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${
+                isAboutActive ? "text-neutral-300" : "text-neutral-400"
+              }`}
+            />
+          </Link>
         </div>
 
         {/* Drawer Footer: Minimal Audio Control & Brand Tag */}
