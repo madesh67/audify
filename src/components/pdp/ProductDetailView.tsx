@@ -158,10 +158,10 @@ export default function ProductDetailView({
                             key={v.colorKey}
                             type="button"
                             onClick={() => handleVariantChange(v)}
-                            className={`group relative w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl p-1.5 sm:p-2 border transition-all duration-200 cursor-pointer shrink-0 overflow-hidden ${
+                            className={`group relative w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl p-1 sm:p-1.5 border-2 transition-all duration-200 cursor-pointer shrink-0 overflow-hidden ${
                               isSelected
-                                ? "border-neutral-950 bg-white shadow-xs ring-2 ring-neutral-950 ring-offset-1"
-                                : "border-neutral-200 bg-neutral-50/80 hover:border-neutral-400 hover:bg-white opacity-70 hover:opacity-100"
+                                ? "border-neutral-950 bg-white shadow-xs"
+                                : "border-neutral-200/80 bg-neutral-50/80 hover:border-neutral-400 hover:bg-white opacity-70 hover:opacity-100"
                             }`}
                             aria-label={`Select ${v.name}`}
                             title={v.name}
