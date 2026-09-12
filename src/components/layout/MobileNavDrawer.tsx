@@ -9,8 +9,6 @@ import {
   Speaker,
   LayoutGrid,
   Compass,
-  CircleUserRound,
-  ShoppingCart,
   Volume2,
   VolumeX,
   ChevronRight,
@@ -22,9 +20,6 @@ import { useLenis } from "@/components/layout/SmoothScroll";
 interface MobileNavDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onOpenAccount: () => void;
-  onOpenCart: () => void;
-  cartCount: number;
   pathname: string;
   activeCategory: string | null;
   onSelectCategory: (category: string | null) => void;
@@ -35,9 +30,6 @@ interface MobileNavDrawerProps {
 export default function MobileNavDrawer({
   isOpen,
   onClose,
-  onOpenAccount,
-  onOpenCart,
-  cartCount,
   pathname,
   activeCategory,
   onSelectCategory,
@@ -424,60 +416,29 @@ export default function MobileNavDrawer({
           </div>
         </div>
 
-        {/* Drawer Footer Actions */}
-        <div className="p-4 border-t border-neutral-200/70 bg-neutral-50/70 space-y-3">
-          <div className="grid grid-cols-2 gap-2">
-            {/* Account Quick Button */}
-            <button
-              type="button"
-              onClick={() => {
-                onClose();
-                onOpenAccount();
-              }}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-white border border-neutral-200/80 text-xs font-semibold text-neutral-800 hover:text-neutral-950 hover:border-neutral-300 active:scale-95 transition-all cursor-pointer shadow-2xs"
-            >
-              <CircleUserRound className="w-4 h-4" strokeWidth={1.8} />
-              <span>Account</span>
-            </button>
+        {/* Drawer Footer: Minimal Audio Control & Brand Tag */}
+        <div className="p-4 border-t border-neutral-200/70 bg-neutral-50/70 flex items-center justify-between text-[11px] font-mono text-neutral-500">
+          <button
+            type="button"
+            onClick={handleToggleSound}
+            className="inline-flex items-center gap-1.5 hover:text-neutral-900 transition-colors cursor-pointer"
+          >
+            {soundEnabled ? (
+              <>
+                <Volume2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Audio: Active</span>
+              </>
+            ) : (
+              <>
+                <VolumeX className="w-3.5 h-3.5 text-neutral-400" />
+                <span>Audio: Muted</span>
+              </>
+            )}
+          </button>
 
-            {/* Cart Quick Button */}
-            <button
-              type="button"
-              onClick={() => {
-                onClose();
-                onOpenCart();
-              }}
-              className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-neutral-950 text-white text-xs font-semibold hover:bg-neutral-800 active:scale-95 transition-all cursor-pointer shadow-xs"
-            >
-              <ShoppingCart className="w-4 h-4" strokeWidth={1.8} />
-              <span>Cart ({cartCount})</span>
-            </button>
-          </div>
-
-          {/* Sound Experience & Brand Tag */}
-          <div className="flex items-center justify-between pt-1 text-[11px] font-mono text-neutral-500">
-            <button
-              type="button"
-              onClick={handleToggleSound}
-              className="inline-flex items-center gap-1.5 hover:text-neutral-900 transition-colors cursor-pointer"
-            >
-              {soundEnabled ? (
-                <>
-                  <Volume2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Audio: Active</span>
-                </>
-              ) : (
-                <>
-                  <VolumeX className="w-3.5 h-3.5 text-neutral-400" />
-                  <span>Audio: Muted</span>
-                </>
-              )}
-            </button>
-
-            <span className="text-[10px] tracking-wider uppercase text-neutral-400">
-              Kyoto &bull; Zurich
-            </span>
-          </div>
+          <span className="text-[10px] tracking-wider uppercase text-neutral-400">
+            Kyoto &bull; Zurich
+          </span>
         </div>
       </aside>
     </>

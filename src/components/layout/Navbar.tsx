@@ -326,9 +326,6 @@ export default function Navbar() {
       <MobileNavDrawer
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        onOpenAccount={handleAccountClick}
-        onOpenCart={handleCartClick}
-        cartCount={totalCount}
         pathname={pathname}
         activeCategory={activeCategory}
         onSelectCategory={setActiveCategory}
