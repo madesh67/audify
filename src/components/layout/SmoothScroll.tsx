@@ -7,7 +7,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 interface LenisContextType {
   lenis: Lenis | null;
-  scrollTo: (target: string | number | HTMLElement, options?: { offset?: number; duration?: number }) => void;
+  scrollTo: (
+    target: string | number | HTMLElement,
+    options?: { offset?: number; duration?: number; immediate?: boolean }
+  ) => void;
 }
 
 const LenisContext = createContext<LenisContextType>({
@@ -22,6 +25,11 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Prevent browser from restoring scroll down to an old position
+    if (typeof window !== "undefined" && "scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
     // Respect reduced motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
@@ -65,12 +73,20 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     };
   }, []);
 
-  const scrollTo = (target: string | number | HTMLElement, options?: { offset?: number; duration?: number }) => {
+  const scrollTo = (
+    target: string | number | HTMLElement,
+    options?: { offset?: number; duration?: number; immediate?: boolean }
+  ) => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(target, options);
     } else if (typeof target === "string") {
       const el = document.querySelector(target);
-      el?.scrollIntoView({ behavior: "smooth" });
+      el?.scrollIntoView({ behavior: options?.immediate ? "auto" : "smooth" });
+    } else if (typeof target === "number") {
+      window.scrollTo({
+        top: target,
+        behavior: options?.immediate ? ("instant" as ScrollBehavior) : "smooth",
+      });
     }
   };
 

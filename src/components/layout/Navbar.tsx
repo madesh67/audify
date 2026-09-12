@@ -94,6 +94,30 @@ export default function Navbar() {
     setIsDrawerOpen(true);
   };
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    soundEngine.playClick(800);
+    if (isHome) {
+      e.preventDefault();
+      // Ensure header remains visible at the top
+      setIsVisible(true);
+      lastScrollYRef.current = 0;
+
+      // Instantly reset scroll to top without any reverse scrubbing
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+
+      // Signal Homepage to replay Preloader and reset canvas
+      window.dispatchEvent(new CustomEvent("audify:reset-home"));
+    } else {
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    }
+  };
+
   const shouldShowHeader = isVisible || isDrawerOpen || isAccountOpen;
 
   return (
@@ -110,10 +134,8 @@ export default function Navbar() {
           <div className="flex items-center pointer-events-auto">
             {isHome ? (
               <button
-                onClick={() => {
-                  soundEngine.playClick(800);
-                  scrollTo(0, { duration: 1.2 });
-                }}
+                type="button"
+                onClick={handleLogoClick}
                 className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer text-left"
                 aria-label="AUDIFY Home"
               >
@@ -129,7 +151,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/"
-                onClick={() => soundEngine.playClick(800)}
+                onClick={handleLogoClick}
                 className="group inline-flex items-center gap-1.5 sm:gap-2.5 cursor-pointer"
                 aria-label="AUDIFY Home"
               >

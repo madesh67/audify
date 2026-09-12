@@ -245,15 +245,23 @@ export default function Preloader({ progress, onFinished }: PreloaderProps) {
     return () => clearTimeout(safetyTimer);
   }, [dismiss]);
 
-  // Immediate dismiss on user intent
+  // Dismiss on user intent (with 800ms initial grace period so clicks/taps don't prematurely kill animation)
   useEffect(() => {
+    let userIntentAllowed = false;
+    const intentTimer = setTimeout(() => {
+      userIntentAllowed = true;
+    }, 800);
+
     const handleUserIntent = () => {
+      if (!userIntentAllowed) return;
       dismiss();
     };
-    window.addEventListener("wheel", handleUserIntent, { passive: true, once: true });
-    window.addEventListener("touchstart", handleUserIntent, { passive: true, once: true });
-    window.addEventListener("keydown", handleUserIntent, { once: true });
+
+    window.addEventListener("wheel", handleUserIntent, { passive: true });
+    window.addEventListener("touchstart", handleUserIntent, { passive: true });
+    window.addEventListener("keydown", handleUserIntent);
     return () => {
+      clearTimeout(intentTimer);
       window.removeEventListener("wheel", handleUserIntent);
       window.removeEventListener("touchstart", handleUserIntent);
       window.removeEventListener("keydown", handleUserIntent);
